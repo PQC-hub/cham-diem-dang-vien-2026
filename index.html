@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#b91c1c" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b91c1c'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fde047'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
+  <script>
+    /* Kiểm tra trình duyệt quá cũ (ví dụ Android 5-6, iOS 10): hiện hướng dẫn thay vì để trang chết lặng */
+    (function () {
+      var ok = true;
+      try { new RegExp("\\p{L}", "u"); ok = !!(window.Promise && window.fetch && Array.from && Object.assign && window.Set); } catch (e) { ok = false; }
+      if (!ok) document.addEventListener("DOMContentLoaded", function () { var el = document.getElementById("compat-warning"); if (el) el.style.display = "block"; });
+    })();
+  </script>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
@@ -324,7 +334,7 @@
       color: #000000 !important; line-height: 1.4; font-size: 12.5pt;
     }
 
-    @media (max-width: 1024px) {
+    @media screen and (max-width: 1024px) {
       .pdf-paper, .pdf-paper-landscape { padding: 16px 14px; font-size: 11pt; }
       .party-doc-header { gap: 8px; }
       .party-org-parent { font-size: 10pt !important; }
@@ -336,7 +346,7 @@
       table.pdf-table { font-size: 9.5pt !important; }
       table.pdf-table th, table.pdf-table td { padding: 5px 4px; word-break: break-word; }
     }
-    @media (max-width: 480px) {
+    @media screen and (max-width: 480px) {
       .pdf-paper, .pdf-paper-landscape { padding: 14px 10px; font-size: 10pt; }
       .party-org-parent { font-size: 9pt !important; }
       .party-org-sub { font-size: 9.5pt !important; }
@@ -407,7 +417,7 @@
       input.score-input, input.unit-score-input { width: 52px !important; }
     }
     /* Bảng xem trước/xuất PDF và bảng admin: giữ đủ rộng, cuộn ngang được trên màn nhỏ */
-    @media (max-width: 1024px) {
+    @media screen and (max-width: 1024px) {
       table.pdf-table { min-width: 560px; }
       #admin-summary-table { min-width: 860px; }
     }
@@ -420,6 +430,62 @@
       .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
       .pdf-paper, .pdf-paper-landscape { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; }
     }
+
+    /* ===================== BỔ SUNG TƯƠNG THÍCH iOS / ANDROID / PC ===================== */
+    :root { color-scheme: light; }
+    html.dark-mode { color-scheme: dark; }
+    .btn-warning { background: #b45309; }                      /* tương phản chữ trắng đạt chuẩn AA */
+    .admin-gate-error { color: #dc2626; }
+    html.dark-mode .admin-gate-error { color: #fca5a5; }
+
+    .compat-warning { display: none; background: #fef2f2; border: 2px solid #ef4444; color: #7f1d1d; padding: 14px 16px; margin: 12px; border-radius: 10px; font-weight: 600; line-height: 1.5; }
+    .swipe-hint { display: none; font-size: 0.78rem; color: var(--muted); text-align: center; margin: 0 0 8px; }
+    @media (max-width: 1024px) { .swipe-hint { display: block; } }
+
+    /* Hộp thoại xác nhận riêng (trình duyệt nhúng Zalo/Facebook hay chặn confirm()/alert()) */
+    .dlg-overlay {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; background: rgba(15, 23, 42, 0.6);
+      align-items: center; justify-content: center;
+      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    }
+    .dlg-box { width: 100%; max-width: 420px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
+    .dlg-msg { font-size: 0.98rem; line-height: 1.55; margin-bottom: 16px; white-space: pre-line; }
+    .dlg-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+    body.dlg-open { overflow: hidden; }
+
+    /* Bàn phím ảo đang mở: nhường chỗ, không để thanh điểm cố định đè lên ô đang gõ */
+    body.kb-open .sticky-bar { display: none !important; }
+
+    /* Màn hình cảm ứng: nút ▲▼ đủ lớn để chạm */
+    @media (pointer: coarse) {
+      .spin-arrows { width: 32px; }
+      .spin-btn { height: 22px; }
+    }
+
+    /* Điện thoại dọc: sửa hàng "Tổng điểm" (chữ dính "Tối đa100") và căn thẳng hàng 3 cột điểm */
+    @media (max-width: 700px) {
+      .criteria-table td:nth-child(n+3) { justify-content: flex-start; padding-left: 4px; padding-right: 4px; }
+      .criteria-table td:nth-child(n+3)::before,
+      .criteria-table tr.total-row td:nth-child(2)::before {
+        display: flex; align-items: flex-end; justify-content: center; min-height: 2.4em;
+        font-size: 0.7rem; font-weight: 600; color: var(--muted); line-height: 1.2; text-align: center;
+      }
+      .criteria-table tr.total-row td:nth-child(2) {
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px;
+        border-top: 1px dashed var(--table-border) !important;
+      }
+    }
+
+    /* Màn hình rất hẹp (320-340px): thu gọn lề để ô nhập điểm không bị cắt số */
+    @media (max-width: 340px) {
+      .container { padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
+      .card { padding: 12px 8px; }
+      .criteria-table td:nth-child(n+3) { padding-left: 2px; padding-right: 2px; }
+      .score-stepper-box { padding: 3px 3px 3px 2px; }
+    }
+    @media (pointer: coarse) and (max-width: 340px) { .spin-arrows { width: 28px; } }
+
+    @media print { .dlg-overlay, .compat-warning, #inapp-notice, .swipe-hint { display: none !important; } }
   </style>
   <style id="dynamic-print-page-style">
     @page { size: A4 portrait; margin: 20mm 15mm 20mm 25mm; }
@@ -433,6 +499,8 @@
   </script>
 </head>
 <body>
+  <noscript><div style="padding:16px;background:#fef2f2;color:#7f1d1d;font-weight:600;">Trang này cần bật JavaScript để hoạt động.</div></noscript>
+  <div id="compat-warning" class="compat-warning" role="alert">⚠️ Trình duyệt trên thiết bị này đã quá cũ nên biểu mẫu có thể không chạy đúng. Vui lòng cập nhật Chrome / Safari (hoặc mở trang bằng máy tính, điện thoại khác) rồi thử lại.</div>
 
   <header class="top-banner">
     <div class="banner-inner">
@@ -449,21 +517,26 @@
     <section id="home-section" class="card">
       <div class="card-title">1. Thông tin đảng viên tự đánh giá</div>
 
+      <div id="inapp-notice" class="notice-box" style="display:none;" role="note">
+        ⚠️ Bạn đang mở trang trong ứng dụng khác (Zalo, Facebook, Messenger...). Các nút <strong>In / Lưu PDF</strong> và <strong>Xuất Excel</strong> có thể không hoạt động ở đây.
+        Hãy bấm biểu tượng <strong>⋯</strong> (hoặc <strong>⋮</strong>) → <strong>Mở bằng trình duyệt</strong> (Safari / Chrome) để dùng đầy đủ chức năng.
+      </div>
+
       <div id="home-pending-box" class="pending-box">
         <span id="home-pending-text"></span>
         <button type="button" id="btn-flush-pending" class="btn btn-warning btn-sm">📤 Gửi lại ngay</button>
       </div>
-      <div id="home-error-box" class="inline-error-box"></div>
+      <div id="home-error-box" class="inline-error-box" role="alert"></div>
 
       <div class="form-grid">
         <div class="form-group">
           <label for="fullName">Họ và tên đảng viên <span class="req">*</span></label>
-          <input type="text" id="fullName" autocomplete="name" maxlength="100" placeholder="Ví dụ: Phạm Quang Chinh" />
+          <input type="text" id="fullName" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" maxlength="100" placeholder="Ví dụ: Phạm Quang Chinh" />
         </div>
 
         <div class="form-group">
           <label for="partyCell">Chi bộ sinh hoạt <span class="req">*</span></label>
-          <input type="text" id="partyCell" maxlength="100" placeholder="Ví dụ: Thôn 8 (hoặc Chi bộ Thôn 8)" />
+          <input type="text" id="partyCell" autocapitalize="words" autocorrect="off" spellcheck="false" maxlength="100" placeholder="Ví dụ: Thôn 8 (hoặc Chi bộ Thôn 8)" />
         </div>
 
         <div class="form-group full">
@@ -493,10 +566,10 @@
           🔐 Quản trị Chi ủy / Tổ tổng hợp (<span id="admin-session-hint">Nhập mật khẩu quản trị</span>):
         </div>
         <div class="admin-gate-row">
-          <input type="password" id="admin-pas-input" placeholder="Nhập mật khẩu quản trị" autocomplete="off" />
+          <input type="password" id="admin-pas-input" placeholder="Nhập mật khẩu quản trị" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
           <button type="button" id="btn-admin-login" class="btn btn-secondary">📊 Tổng hợp toàn chi bộ</button>
         </div>
-        <div id="admin-gate-error" class="admin-gate-error"></div>
+        <div id="admin-gate-error" class="admin-gate-error" role="alert"></div>
       </div>
     </section>
 
@@ -511,7 +584,7 @@
         </div>
       </div>
 
-      <div id="admin-msg-box" class="inline-error-box"></div>
+      <div id="admin-msg-box" class="inline-error-box" role="alert"></div>
 
       <div class="admin-stats-grid">
         <div class="stat-card"><div class="stat-label">Tổng số phiếu</div><div class="stat-value" id="adm-stat-total">0</div></div>
@@ -540,6 +613,7 @@
         </div>
       </div>
 
+      <div class="swipe-hint no-print-admin">↔ Vuốt ngang bảng để xem đủ các cột và nút Sửa / Xóa</div>
       <div class="table-wrap">
         <table class="score-table" id="admin-summary-table">
           <thead>
@@ -639,7 +713,7 @@
         </div>
       </div>
 
-      <div id="scoring-error-box" class="inline-error-box"></div>
+      <div id="scoring-error-box" class="inline-error-box" role="alert"></div>
 
       <div class="user-summary-bar">
         <div class="user-summary-info">
@@ -827,6 +901,16 @@
 
   </div>
 
+  <div id="dlg-overlay" class="dlg-overlay" role="presentation">
+    <div class="dlg-box" role="alertdialog" aria-modal="true" aria-labelledby="dlg-msg">
+      <div id="dlg-msg" class="dlg-msg"></div>
+      <div class="dlg-actions">
+        <button type="button" id="dlg-cancel" class="btn btn-secondary">Hủy</button>
+        <button type="button" id="dlg-ok" class="btn btn-info">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
   <div class="sticky-bar" id="sticky-bar">
     <div class="sticky-inner">
       <div class="sticky-score">
@@ -968,10 +1052,12 @@
       adminStale: false,    // true khi bảng admin đang hiện dữ liệu đệm (có thể cũ)
       dirty: false,
       adminRecords: [],
-      busy: false
+      busy: false,
+      submittingId: null
     };
     let subgroupTotals = {};
     let unitSubgroupTotals = {};
+    let renderedRole = null;   // vai trò của bảng điểm đang có trên màn hình (null = chưa có / đã xóa)
     let currentSelfRank = RANKS.T;
     let currentUnitRank = RANKS.T;
 
@@ -1185,9 +1271,10 @@
       ["group1", "group2", "total"].forEach(function (k) { const n = Number(o[k]); o[k] = isNaN(n) ? 0 : n; });
       const ut = Number(o.unitTotal);
       o.unitTotal = (o.unitTotal === undefined || o.unitTotal === "" || isNaN(ut)) ? o.total : ut;
-      o.rankKey = o.rankKey || rankKeyFromText(o.rank);
+      // Mã xếp loại từ máy chủ có thể sai/thiếu: kiểm tra lại để một dòng lỗi không làm vỡ cả bảng Admin
+      if (!Object.prototype.hasOwnProperty.call(RANKS, o.rankKey)) o.rankKey = rankKeyFromText(o.rank);
       o.rank = o.rank || RANKS[o.rankKey].text;
-      o.unitRankKey = o.unitRankKey || (o.unitRank ? rankKeyFromText(o.unitRank) : o.rankKey);
+      if (!Object.prototype.hasOwnProperty.call(RANKS, o.unitRankKey)) o.unitRankKey = o.unitRank ? rankKeyFromText(o.unitRank) : o.rankKey;
       o.unitRank = o.unitRank || RANKS[o.unitRankKey].text;
       o.selfScores = parseArr(o.selfScores);
       o.unitScores = parseArr(o.unitScores);
@@ -1202,9 +1289,72 @@
       home: "home-section", scoring: "scoring-section", preview: "preview-section",
       admin: "admin-section", adminPreview: "admin-preview-section"
     };
+    /* ============================ HỘP THOẠI XÁC NHẬN ============================ */
+    let dlgClose = null;
+    function askDialog(message, opts) {
+      opts = opts || {};
+      return new Promise(function (resolve) {
+        if (dlgClose) dlgClose(false);
+        const ov = $("dlg-overlay"), ok = $("dlg-ok"), cancel = $("dlg-cancel");
+        $("dlg-msg").textContent = message;
+        ok.textContent = opts.okText || "Đồng ý";
+        ok.className = "btn " + (opts.danger ? "btn-danger" : "btn-info");
+        cancel.textContent = opts.cancelText || "Hủy";
+        cancel.style.display = opts.alertOnly ? "none" : "";
+        ov.style.display = "flex";
+        document.body.classList.add("dlg-open");
+        function onKey(e) { if (e.key === "Escape") { e.preventDefault(); done(false); } }
+        function done(v) {
+          ov.style.display = "none";
+          document.body.classList.remove("dlg-open");
+          ok.onclick = null; cancel.onclick = null;
+          document.removeEventListener("keydown", onKey, true);
+          dlgClose = null;
+          resolve(v);
+        }
+        dlgClose = done;
+        ok.onclick = function () { done(true); };
+        cancel.onclick = function () { done(false); };
+        document.addEventListener("keydown", onKey, true);
+        try { ok.focus(); } catch (e) {}
+      });
+    }
+    function askConfirm(message, opts) { return askDialog(message, opts); }
+    function askAlert(message) { return askDialog(message, { alertOnly: true, okText: "Đã hiểu" }); }
+
+    /* ============================ NÚT BACK CỦA ĐIỆN THOẠI ============================
+     * Ứng dụng chỉ có 1 địa chỉ trang nên mặc định nút Back / vuốt cạnh màn hình (iOS) sẽ THOÁT khỏi trang
+     * và mất dữ liệu đang nhập. Dùng 1 "chốt" trong lịch sử để Back = quay lại màn hình trước đó. */
+    let currentScreen = "home";
+    let guardActive = false;
+    let ignorePops = 0;
+    function pushGuard() { try { history.pushState({ pqcGuard: 1 }, ""); guardActive = true; } catch (e) {} }
+    function dropGuard() {
+      if (!guardActive) return;
+      guardActive = false;
+      ignorePops++;
+      try { history.back(); } catch (e) { ignorePops--; }
+    }
+    function goBackOneLevel() {
+      if (currentScreen === "preview") closePreview();
+      else if (currentScreen === "adminPreview") closeAdminLandscapePreview();
+      else if (currentScreen === "scoring") { if (state.adminEditing) leaveAdminEdit(); else backToHome(); }
+      else if (currentScreen === "admin") backToHome();
+    }
+    window.addEventListener("popstate", function () {
+      if (ignorePops > 0) { ignorePops--; return; }
+      if (!guardActive) return;            // đang ở trang gốc: để trình duyệt tự xử lý
+      guardActive = false;
+      if (currentScreen === "home") return;
+      pushGuard();                         // giữ chốt để lần Back kế tiếp vẫn bắt được
+      goBackOneLevel();
+    });
+
     function show(name) {
       Object.keys(SECTIONS).forEach(function (k) { $(SECTIONS[k]).style.display = k === name ? "block" : "none"; });
       $("sticky-bar").style.display = name === "scoring" ? "block" : "none";
+      currentScreen = name;
+      if (name === "home") dropGuard(); else if (!guardActive) pushGuard();
       window.scrollTo(0, 0);
     }
 
@@ -1283,21 +1433,43 @@
       }
     }
 
-    async function flushPending() {
-      if (!hasCloud()) return 0;
+    let flushing = false;
+    let lastFlushError = null;
+
+    // Đọc lại danh sách MỚI NHẤT rồi chỉ sửa đúng 1 phiếu (tránh ghi đè phiếu khác khi đang chờ mạng)
+    function updateMyById(id, fn) {
       const list = getMy();
+      const entry = list.find(function (x) { return x.record && x.record.id === id; });
+      if (entry) { fn(entry); saveMy(list); }
+      return entry;
+    }
+
+    async function flushPending() {
+      if (!hasCloud() || flushing) return 0;
+      flushing = true;
+      lastFlushError = null;
       let ok = 0;
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].sync !== "pending") continue;
-        try {
-          const res = await api("submit", { record: list[i].record, ownerToken: list[i].ownerToken });
-          list[i].sync = "synced";
-          list[i].record.receivedAt = res.receivedAt || list[i].record.receivedAt;
-          ok++;
-        } catch (e) { /* giữ trạng thái pending để thử lại */ }
+      try {
+        const queue = getMy().filter(function (x) { return x.sync === "pending"; });
+        for (let i = 0; i < queue.length; i++) {
+          const item = queue[i];
+          if (state.submittingId && state.submittingId === item.record.id) continue;   // đang gửi tay phiếu này
+          try {
+            const res = await api("submit", { record: item.record, ownerToken: item.ownerToken });
+            updateMyById(item.record.id, function (e) {
+              // chỉ đánh dấu đã gửi nếu phiếu chưa bị sửa/gửi lại trong lúc chờ
+              if (e.record.submittedAt === item.record.submittedAt) {
+                e.sync = "synced";
+                e.record.receivedAt = res.receivedAt || e.record.receivedAt;
+              }
+            });
+            ok++;
+          } catch (e) { lastFlushError = e; /* giữ trạng thái pending để thử lại */ }
+        }
+      } finally {
+        flushing = false;
+        updateHomePending();
       }
-      saveMy(list);
-      updateHomePending();
       return ok;
     }
 
@@ -1402,6 +1574,13 @@
         inp.addEventListener("input", function () { state.unitManual = true; liveClamp(this); state.dirty = true; recalculate(); });
         inp.addEventListener("change", function () { state.unitManual = true; finalClamp(this); state.dirty = true; recalculate(); });
       });
+
+      // Bàn phím máy tính: ↑ / ↓ tăng giảm 0,5 điểm
+      tbody.querySelectorAll("input.score-input, input.unit-score-input").forEach(function (inp) {
+        inp.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); stepScoreInput(this, e.key === "ArrowUp" ? 0.5 : -0.5); }
+        });
+      });
     }
 
     function stepScoreInput(inputEl, delta) {
@@ -1461,8 +1640,6 @@
       const unitRank = getRank(u.total, $("unitOverachieveCheck").checked);
       currentSelfRank = RANKS[selfRank.key];
       currentUnitRank = RANKS[unitRank.key];
-      currentSelfRank.key = selfRank.key;
-      currentUnitRank.key = unitRank.key;
 
       const rankEl = $("rank-display");
       rankEl.textContent = currentSelfRank.text + " (" + s.total + " điểm)";
@@ -1473,7 +1650,7 @@
     }
 
     /* ============================ MỞ BẢNG CHẤM ĐIỂM ============================ */
-    function openScoring(rec) {
+    async function openScoring(rec) {
       showHomeError("");
       setBox("scoring-error-box", "");
       const isAdminEdit = Boolean(rec);
@@ -1499,7 +1676,7 @@
 
       if (isAdminEdit) {
         const okSelf = Array.isArray(rec.selfScores) && rec.selfScores.length === nItems;
-        if (!okSelf && !window.confirm("Phiếu này không có điểm chi tiết từng tiêu chí (hoặc số tiêu chí không khớp mẫu hiện tại). Bảng sẽ hiện điểm tối đa ở mọi mục; nếu lưu, điểm cũ sẽ bị thay thế. Tiếp tục sửa?")) return;
+        if (!okSelf && !(await askConfirm("Phiếu này không có điểm chi tiết từng tiêu chí (hoặc số tiêu chí không khớp mẫu hiện tại). Bảng sẽ hiện điểm tối đa ở mọi mục; nếu lưu, điểm cũ sẽ bị thay thế. Tiếp tục sửa?"))) return;
       }
 
       $("fullName").value = fullName;
@@ -1511,8 +1688,13 @@
       $("display-cell").textContent = formatPartyCellDisplay(partyCellCore);
       $("display-role-label").textContent = config.label;
 
-      state.unitManual = false;
-      renderCriteriaTable(config.items);
+      // Giữ nguyên điểm đã chấm khi người dùng chỉ "quay lại trang chủ rồi tiếp tục" (cùng một biểu mẫu)
+      const rebuilt = isAdminEdit || renderedRole !== state.role || $("criteria-tbody").rows.length === 0;
+      if (rebuilt) {
+        state.unitManual = false;
+        renderCriteriaTable(config.items);
+        renderedRole = state.role;
+      }
 
       if (isAdminEdit) {
         const selfInputs = document.querySelectorAll(".score-input");
@@ -1531,6 +1713,18 @@
       updateAdminEditingUI();
       show("scoring");
       recalculate();
+      if (rebuilt) state.dirty = false;
+    }
+
+    // Sau khi Admin sửa phiếu của người khác: xóa trắng biểu mẫu để không tồn dư tên/điểm của người đó
+    function resetForm() {
+      ["fullName", "partyCell", "positionDetail", "innovationNote"].forEach(function (id) { $(id).value = ""; });
+      $("overachieveCheck").checked = false;
+      $("unitOverachieveCheck").checked = false;
+      selectRole("member");
+      updateBannerOrgName("");
+      renderedRole = null;
+      state.unitManual = false;
       state.dirty = false;
     }
 
@@ -1667,7 +1861,8 @@
       if (state.busy) return;
       if (state.adminEditing) { await saveAdminEdit(); return; }
 
-      if (allScoresAtMax() && !window.confirm("Bạn đang chấm ĐIỂM TỐI ĐA ở tất cả các tiêu chí. Bạn đã rà soát kỹ và xác nhận đúng thực tế?")) return;
+      if (allScoresAtMax() && !(await askConfirm("Bạn đang chấm ĐIỂM TỐI ĐA ở tất cả các tiêu chí. Bạn đã rà soát kỹ và xác nhận đúng thực tế?", { okText: "Đúng, gửi phiếu" }))) return;
+      if (state.busy) return;
 
       const rec = buildCurrentRecord();
       const my = getMy();
@@ -1696,24 +1891,25 @@
       }
 
       state.busy = true;
+      state.submittingId = rec.id;
       btns.forEach(function (b) { b.disabled = true; });
       setSentBanner("info", "⏳ Đang gửi phiếu lên hệ thống Google Sheets của Chi bộ...");
       try {
         const res = await api("submit", { record: rec, ownerToken: entry.ownerToken });
-        entry.sync = "synced";
-        entry.record.receivedAt = res.receivedAt || "";
-        saveMy(my);
+        updateMyById(rec.id, function (e) {
+          if (e.record.submittedAt === rec.submittedAt) { e.sync = "synced"; e.record.receivedAt = res.receivedAt || ""; }
+        });
         state.dirty = false;
         let extra = "";
         if (Number(res.total) !== Number(rec.total) || Number(res.unitTotal) !== Number(rec.unitTotal)) {
           extra = " <br><em>Lưu ý: máy chủ tính lại tổng điểm là " + escapeHtml(res.total) + " / " + escapeHtml(res.unitTotal) + " — vui lòng báo Chi ủy kiểm tra.</em>";
         }
-        setSentBanner("ok", "✅ <strong>Máy chủ đã xác nhận</strong> đã nhận phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + res.total + "/100</strong> | CQ, ĐV đề nghị: <strong>" + res.unitTotal + "/100</strong>) về <strong>" + cell + "</strong>." + extra);
+        setSentBanner("ok", "✅ <strong>Máy chủ đã xác nhận</strong> đã nhận phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + escapeHtml(res.total) + "/100</strong> | CQ, ĐV đề nghị: <strong>" + escapeHtml(res.unitTotal) + "/100</strong>) về <strong>" + cell + "</strong>." + extra);
       } catch (e) {
-        saveMy(my);
         setSentBanner("warn", "⚠️ <strong>Phiếu CHƯA được gửi lên hệ thống</strong> (" + escapeHtml(friendlyError(e)) + "). Phiếu đã được giữ trên thiết bị này; hãy kiểm tra mạng rồi bấm <strong>Gửi lại</strong>. Bạn cũng nên bấm <strong>Lưu PDF / In phiếu</strong> để có bản dự phòng.");
       } finally {
         state.busy = false;
+        state.submittingId = null;
         btns.forEach(function (b) { b.disabled = false; });
         updateHomePending();
       }
@@ -1738,6 +1934,7 @@
         }
         state.dirty = false;
         state.adminEditing = null;
+        resetForm();
         updateAdminEditingUI();
         await openAdminDashboard();
       } catch (e) {
@@ -1751,9 +1948,10 @@
     }
 
     async function leaveAdminEdit() {
-      if (state.dirty && !window.confirm("Bạn có thay đổi CHƯA LƯU. Thoát về bảng tổng hợp và bỏ các thay đổi này?")) return;
+      if (state.dirty && !(await askConfirm("Bạn có thay đổi CHƯA LƯU. Thoát về bảng tổng hợp và bỏ các thay đổi này?", { danger: true, okText: "Bỏ thay đổi" }))) return;
       state.dirty = false;
       state.adminEditing = null;
+      resetForm();
       updateAdminEditingUI();
       await openAdminDashboard();
     }
@@ -1911,16 +2109,16 @@
     }
 
     function openMemberPageForAdminEdit(id) {
-      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi sửa."); return; }
+      if (state.adminStale) { askAlert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi sửa."); return; }
       const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
       if (rec) openScoring(rec);
     }
 
     async function deleteSubmissionRecord(id) {
-      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi xóa."); return; }
+      if (state.adminStale) { await askAlert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi xóa."); return; }
       const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
       const nameLabel = rec ? rec.fullName : "đảng viên này";
-      if (!window.confirm("Xác nhận XÓA VĨNH VIỄN phiếu đánh giá của đồng chí " + nameLabel + "?")) return;
+      if (!(await askConfirm("Xác nhận XÓA VĨNH VIỄN phiếu đánh giá của đồng chí " + nameLabel + "?", { danger: true, okText: "Xóa vĩnh viễn" }))) return;
 
       setBox("admin-msg-box", "");
       try {
@@ -2061,7 +2259,7 @@
         this.disabled = true;
         const n = await flushPending();
         this.disabled = false;
-        if (n === 0) showHomeError("Chưa gửi được. Hãy kiểm tra kết nối mạng rồi thử lại."); else showHomeError("");
+        if (n === 0) showHomeError("Chưa gửi được" + (lastFlushError ? " (" + friendlyError(lastFlushError) + ")" : "") + ". Hãy kiểm tra kết nối mạng rồi thử lại."); else showHomeError("");
       });
 
       $("btn-admin-login").addEventListener("click", verifyAndOpenAdmin);
@@ -2096,6 +2294,21 @@
       });
       window.addEventListener("online", function () { flushPending(); });
       window.addEventListener("orientationchange", function () { setTimeout(function () { if (window.scrollX !== 0) window.scrollTo(0, window.scrollY); }, 120); });
+
+      // Trình duyệt nhúng trong ứng dụng (Zalo, Facebook...): cảnh báo vì In/PDF/Excel thường không chạy
+      if (/Zalo|FBAN|FBAV|FB_IAB|Instagram|MicroMessenger|; wv\)|Line\//i.test(navigator.userAgent || "")) $("inapp-notice").style.display = "block";
+
+      // Điện thoại/máy tính bảng: ẩn thanh điểm cố định khi bàn phím ảo mở
+      const typingSel = "input[type=text],input[type=password],textarea,select";
+      if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
+        document.addEventListener("focusin", function (e) { if (e.target && e.target.matches && e.target.matches(typingSel)) document.body.classList.add("kb-open"); });
+        document.addEventListener("focusout", function () {
+          setTimeout(function () { const a = document.activeElement; if (!(a && a.matches && a.matches(typingSel))) document.body.classList.remove("kb-open"); }, 80);
+        });
+      }
+
+      // Tải lại trang khi lịch sử còn "chốt" cũ: bỏ dấu để Back hoạt động bình thường
+      try { if (history.state && history.state.pqcGuard) history.replaceState(null, ""); } catch (e) {}
 
       if (hasCloud()) flushPending();
     });
