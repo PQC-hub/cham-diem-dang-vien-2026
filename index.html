@@ -375,6 +375,43 @@
 
     .sent-banner { display: none; border-radius: 10px; margin-bottom: 16px; padding: 14px 16px; font-weight: 600; border: 1.5px solid; }
 
+    /* ===== Điện thoại dọc: bảng tiêu chí chuyển sang dạng thẻ, cột tiêu chí chiếm trọn chiều rộng ===== */
+    @media (max-width: 700px) {
+      .criteria-table, .criteria-table tbody { display: block; width: 100%; }
+      .criteria-table thead { display: none; }
+      .criteria-table tr {
+        display: grid; grid-template-columns: 44px repeat(3, minmax(0, 1fr));
+        border: 1px solid var(--table-border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; background: var(--card);
+      }
+      .criteria-table td { border: none !important; padding: 8px 8px; min-width: 0; width: auto !important; }
+      .criteria-table td:nth-child(1) { grid-column: 1; grid-row: 1; text-align: center; font-weight: 700; }
+      .criteria-table td:nth-child(2) { grid-column: 2 / 5; grid-row: 1; text-align: left; line-height: 1.45; }
+      .criteria-table td:nth-child(n+3) {
+        grid-row: 2; text-align: center; border-top: 1px dashed var(--table-border) !important;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+      }
+      .criteria-table td:nth-child(3) { grid-column: 2; }
+      .criteria-table td:nth-child(4) { grid-column: 3; }
+      .criteria-table td:nth-child(5) { grid-column: 4; }
+      .criteria-table td:nth-child(n+3)::before {
+        content: attr(data-label); font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: none; text-align: center; line-height: 1.2;
+      }
+      .criteria-table td:nth-child(1):empty { display: none; }
+      /* hàng tổng: ô đầu (gộp 2 cột) chiếm cả hàng trên */
+      .criteria-table tr.total-row td:nth-child(1) { grid-column: 1 / 5; text-align: right; }
+      .criteria-table tr.total-row td:nth-child(2) { grid-column: 2; grid-row: 2; text-align: center; }
+      .criteria-table tr.total-row td:nth-child(3) { grid-column: 3; }
+      .criteria-table tr.total-row td:nth-child(4) { grid-column: 4; }
+      .criteria-table tr.total-row td:nth-child(n+2)::before { content: attr(data-label); }
+      .criteria-table .score-stepper-box { width: 92px; }
+      input.score-input, input.unit-score-input { width: 52px !important; }
+    }
+    /* Bảng xem trước/xuất PDF và bảng admin: giữ đủ rộng, cuộn ngang được trên màn nhỏ */
+    @media (max-width: 1024px) {
+      table.pdf-table { min-width: 560px; }
+      #admin-summary-table { min-width: 860px; }
+    }
+
     @media print {
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       html, body { width: 100% !important; max-width: 100% !important; background: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
@@ -622,7 +659,7 @@
       </div>
 
       <div class="table-wrap">
-        <table class="score-table">
+        <table class="score-table criteria-table">
           <thead>
             <tr>
               <th class="col-tt">TT</th>
@@ -813,7 +850,7 @@
      *  - Mật khẩu quản trị KHÔNG nằm trong file này; máy chủ kiểm tra.
      * ===================================================================== */
     const CONFIG = {
-      SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxalOF_Vns1J1d7680Hk8W8fRzqs7GMX6nRJEr7bfAoTdXLWAXeQNIGN8Q-ac3GP11n/exec",
+      SCRIPT_URL: "",
       PLACE: "Đạ Huoai",
       PAD_ALL_MONTHS: false,   // false: chỉ tháng 1, 2 thêm số 0 (theo thể thức văn bản); true: mọi tháng < 10
       REQUEST_TIMEOUT_MS: 25000,
@@ -1313,6 +1350,12 @@
       totalTr.innerHTML = '<td colspan="2" style="text-align:right;">TỔNG ĐIỂM = Điểm nhóm I + Điểm nhóm II</td><td class="col-max">100</td>' +
         '<td class="col-input" id="table-grand-total">100</td><td class="col-unit-input" id="unit-table-grand-total">100</td>';
       tbody.appendChild(totalTr);
+
+      // Nhãn cột cho dạng thẻ trên điện thoại
+      Array.from(tbody.rows).forEach(function (row) {
+        const labels = row.classList.contains("total-row") ? [null, "Tối đa", "Tự chấm", "CQ, ĐV đề nghị"] : [null, null, "Tối đa", "Tự chấm", "CQ, ĐV đề nghị"];
+        Array.from(row.cells).forEach(function (cell, i) { if (labels[i]) cell.setAttribute("data-label", labels[i]); });
+      });
 
       const selfInputs = tbody.querySelectorAll(".score-input");
       const unitInputs = tbody.querySelectorAll(".unit-score-input");
