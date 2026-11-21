@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Tự Chấm Điểm, Xếp Loại Chất Lượng Đảng Viên - Đảng ủy xã Đạ Huoai</title>
+  <style>
+    :root {
+      --primary: #b91c1c;
+      --primary-dark: #991b1b;
+      --primary-light: #fef2f2;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --input-bg: #ffffff;
+      --input-border: #cbd5e1;
+      --table-th-bg: #f1f5f9;
+      --table-th-text: #0f172a;
+      --table-border: #cbd5e1;
+      --group-bg: #fee2e2;
+      --group-text: #991b1b;
+      --subgroup-bg: #f1f5f9;
+      --subgroup-text: #1e293b;
+      --total-bg: #dcfce7;
+      --total-text: #14532d;
+      --summary-bg: #fffbeb;
+      --summary-border: #fde68a;
+      --result-bg: #f8fafc;
+      --sticky-bg: #ffffff;
+      --score-color: #1d4ed8;
+      --unit-score-color: #0f766e;
+      --success: #15803d;
+      --info: #1d4ed8;
+    }
+
+    html.dark-mode {
+      --primary: #dc2626;
+      --primary-dark: #991b1b;
+      --primary-light: rgba(220, 38, 38, 0.22);
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --input-bg: #0f172a;
+      --input-border: #475569;
+      --table-th-bg: #0f172a;
+      --table-th-text: #f8fafc;
+      --table-border: #334155;
+      --group-bg: rgba(185, 28, 28, 0.35);
+      --group-text: #fecaca;
+      --subgroup-bg: #273549;
+      --subgroup-text: #f8fafc;
+      --total-bg: rgba(21, 128, 61, 0.32);
+      --total-text: #bbf7d0;
+      --summary-bg: rgba(217, 119, 6, 0.18);
+      --summary-border: #92400e;
+      --result-bg: #0f172a;
+      --sticky-bg: #1e293b;
+      --score-color: #60a5fa;
+      --unit-score-color: #2dd4bf;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html { width: 100%; max-width: 100%; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+    body {
+      width: 100%; max-width: 100%; margin: 0 auto; overflow-x: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg); color: var(--text); line-height: 1.5;
+      padding-bottom: calc(92px + env(safe-area-inset-bottom));
+    }
+
+    .top-banner {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      padding-top: max(14px, env(safe-area-inset-top));
+      padding-bottom: 18px;
+      padding-left: max(14px, env(safe-area-inset-left));
+      padding-right: max(14px, env(safe-area-inset-right));
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    }
+    .banner-inner { width: 100%; max-width: 1120px; margin: 0 auto; position: relative; }
+
+    .single-theme-btn {
+      position: absolute; top: 0; right: 0; width: 40px; height: 40px; border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.5); background: rgba(0, 0, 0, 0.25); color: #fff;
+      font-size: 1.2rem; display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; z-index: 20;
+    }
+    .top-banner .org-name { font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.94; font-weight: 600; padding: 0 46px; }
+    .top-banner h1 { font-size: 1.35rem; margin-top: 8px; font-weight: 700; padding: 0 42px; }
+    .top-banner p { font-size: 0.85rem; margin-top: 4px; opacity: 0.9; }
+
+    @media (max-width: 600px) {
+      .top-banner h1 { font-size: 1.12rem; padding: 0 38px; }
+      .single-theme-btn { width: 36px; height: 36px; font-size: 1.05rem; }
+    }
+
+    .container {
+      width: 100%; max-width: 1120px; margin: 16px auto;
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
+    }
+    .card, #preview-section, #admin-preview-section { width: 100%; max-width: 100%; margin-left: auto; margin-right: auto; }
+    .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06); padding: 20px; margin-bottom: 20px; }
+    @media (max-width: 600px) { .card { padding: 15px 12px; } }
+
+    .card-title {
+      font-size: 1.08rem; font-weight: 700; color: var(--primary); margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      border-bottom: 1px solid var(--border); padding-bottom: 10px;
+    }
+    html.dark-mode .card-title { color: #fca5a5; }
+
+    .inline-error-box {
+      display: none; background: #fef2f2; border: 1.5px solid #ef4444; color: #b91c1c;
+      padding: 11px 14px; border-radius: 8px; font-size: 0.92rem; font-weight: 600; margin-bottom: 14px;
+    }
+    .pending-box {
+      display: none; background: #fef3c7; border: 1.5px solid #f59e0b; color: #78350f;
+      padding: 11px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; margin-bottom: 14px;
+      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .notice-box {
+      background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a8a; padding: 10px 12px;
+      border-radius: 8px; font-size: 0.86rem; margin-bottom: 12px;
+    }
+    html.dark-mode .notice-box { background: rgba(37, 99, 235, 0.16); border-color: #3b82f6; color: #bfdbfe; }
+
+    .admin-edit-banner {
+      display: none; background: #fef3c7; border: 1.5px solid #f59e0b; color: #78350f;
+      padding: 12px 14px; border-radius: 10px; margin-bottom: 14px; font-size: 0.92rem; font-weight: 600;
+      justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; gap: 14px; } }
+    .form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+    label span.req { color: #ef4444; }
+
+    input[type="text"], input[type="password"], select, textarea {
+      width: 100%; max-width: 100%; padding: 11px 12px; border: 1.5px solid var(--input-border);
+      border-radius: 8px; font-size: 16px; color: var(--text); background: var(--input-bg);
+      -webkit-appearance: none; appearance: none; font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.18); }
+
+    .role-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+    @media (max-width: 600px) { .role-options { grid-template-columns: 1fr; } }
+    .role-card {
+      border: 2px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer;
+      touch-action: manipulation; user-select: none; -webkit-user-select: none; background: var(--input-bg); min-width: 0;
+    }
+    .role-card.active { border-color: var(--primary); background: var(--primary-light); }
+    .role-card .role-title { font-weight: 700; font-size: 0.98rem; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    html.dark-mode .role-card .role-title { color: #fca5a5; }
+    .role-card .role-desc { font-size: 0.84rem; color: var(--muted); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 16px; min-height: 44px;
+      border-radius: 8px; font-size: 0.94rem; font-weight: 600; cursor: pointer; touch-action: manipulation;
+      user-select: none; -webkit-user-select: none; -webkit-appearance: none; appearance: none; border: none; font-family: inherit;
+    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: #fff; width: 100%; margin-top: 16px; font-size: 1.02rem; padding: 14px; }
+    .btn-secondary { background: #e2e8f0; color: #1e293b; }
+    html.dark-mode .btn-secondary { background: #334155; color: #f1f5f9; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-info { background: var(--info); color: #fff; }
+    .btn-warning { background: #d97706; color: #fff; }
+    .btn-danger { background: #dc2626; color: #fff; }
+    .btn-sm { padding: 7px 12px; min-height: 36px; font-size: 0.84rem; border-radius: 6px; }
+    .btn-xs { padding: 5px 9px; min-height: 30px; font-size: 0.8rem; border-radius: 5px; }
+
+    .admin-gate-box { margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--border); }
+    .admin-gate-label { font-size: 0.85rem; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+    .admin-gate-row { display: flex; gap: 8px; align-items: stretch; }
+    @media (max-width: 540px) { .admin-gate-row { flex-direction: column; } }
+    .admin-gate-row input { flex: 1; min-height: 44px; min-width: 0; }
+    .admin-gate-error { display: none; color: #ef4444; font-size: 0.85rem; font-weight: 600; margin-top: 6px; }
+
+    #scoring-section, #admin-section, #preview-section, #admin-preview-section { display: none; }
+
+    .user-summary-bar {
+      background: var(--summary-bg); border: 1px solid var(--summary-border); border-radius: 10px; padding: 13px 15px;
+      margin-bottom: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;
+    }
+    .user-summary-info { font-size: 0.92rem; }
+    .user-summary-info strong { color: var(--primary-dark); }
+    html.dark-mode .user-summary-info strong { color: #fcd34d; }
+
+    .unit-sync-bar {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;
+      padding: 9px 12px; border-radius: 8px; background: var(--result-bg); border: 1px solid var(--border); font-size: 0.86rem;
+    }
+
+    .table-wrap, .pdf-table-wrap { width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; }
+
+    table.score-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    table.score-table th, table.score-table td { border: 1px solid var(--table-border); padding: 8px 7px; vertical-align: middle; }
+    table.score-table th { background: var(--table-th-bg); font-weight: 700; text-align: center; color: var(--table-th-text); }
+
+    tr.group-header td { background: var(--group-bg); color: var(--group-text); font-weight: 700; font-size: 0.94rem; }
+    tr.subgroup-header td { background: var(--subgroup-bg); font-weight: 700; color: var(--subgroup-text); }
+    tr.total-row td { background: var(--total-bg); font-weight: 700; font-size: 0.96rem; color: var(--total-text); }
+
+    .col-tt { width: 42px; text-align: center; font-weight: 600; }
+    .col-max { width: 68px; text-align: center; font-weight: 700; color: var(--muted); }
+    .col-input { width: 86px; text-align: center; }
+    .col-unit-input { width: 106px; text-align: center; }
+
+    .subgroup-score-val { color: var(--primary-dark); font-weight: 700; }
+    html.dark-mode .subgroup-score-val { color: #fca5a5; }
+    .subgroup-unit-val { color: var(--unit-score-color); font-weight: 700; }
+
+    .score-stepper-box {
+      display: inline-flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--input-border);
+      border-radius: 8px; background: var(--input-bg); padding: 3px 5px 3px 4px; width: 82px; max-width: 100%;
+    }
+    .score-stepper-box:focus-within { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.16); }
+
+    input.score-input, input.unit-score-input {
+      width: 48px !important; min-width: 0; padding: 4px 2px !important; text-align: center; font-weight: 700;
+      font-size: 16px !important; border: none !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important;
+    }
+    input.score-input { color: var(--score-color); }
+    input.unit-score-input { color: var(--unit-score-color); }
+
+    .spin-arrows { display: flex; flex-direction: column; width: 22px; border-radius: 4px; background: var(--table-th-bg); overflow: hidden; flex-shrink: 0; }
+    .spin-btn {
+      border: none; background: transparent; color: var(--muted); padding: 0; margin: 0; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; height: 15px;
+    }
+    .spin-btn:hover { background: var(--border); color: var(--text); }
+    .spin-btn:active { background: var(--primary); color: #ffffff; }
+
+    select#adm-cell-filter, select#adm-stat-basis {
+      padding-right: 28px !important;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat; background-position: right 8px center; background-size: 13px 13px;
+    }
+
+    @media (max-width: 600px) {
+      .col-input { width: 88px; }
+      .col-unit-input { width: 92px; }
+      .score-stepper-box { width: 80px; }
+      input.score-input, input.unit-score-input { width: 46px !important; }
+    }
+
+    .result-box { margin-top: 20px; border-radius: 10px; padding: 16px; border: 2px solid var(--border); background: var(--result-bg); }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    @media (max-width: 640px) { .result-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 11px 8px; text-align: center; min-width: 0; }
+    .stat-card .stat-label { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+    .stat-card .stat-value { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-top: 2px; }
+    html.dark-mode .stat-card .stat-value { color: #fca5a5; }
+
+    .condition-check {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 12px;
+      display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem;
+    }
+    .condition-check input[type="checkbox"] { width: 20px; height: 20px; min-width: 20px; margin-top: 2px; accent-color: var(--primary); }
+
+    .rank-badge { display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 0.92rem; margin-top: 4px; }
+    .rank-xs { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .rank-tot { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
+    .rank-ht { background: #fef9c3; color: #a16207; border: 1px solid #fde047; }
+    .rank-kht { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .sticky-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: var(--sticky-bg); border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.12); padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); display: none; z-index: 100;
+    }
+    .sticky-inner { width: 100%; max-width: 1120px; margin: 0 auto; display: flex; justify-content: center; align-items: center; text-align: center; gap: 10px; flex-wrap: wrap; }
+    .sticky-score { font-size: 0.9rem; font-weight: 700; }
+    .sticky-score span { color: var(--primary); font-size: 1.08rem; }
+    html.dark-mode .sticky-score span { color: #fca5a5; }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+      .sticky-bar { padding-top: 6px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+      .sticky-inner { flex-wrap: nowrap; }
+      .sticky-score { font-size: 0.82rem; }
+      .top-banner { padding-top: 10px; padding-bottom: 12px; }
+      .top-banner h1 { font-size: 1.1rem; margin-top: 4px; }
+    }
+
+    .admin-stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+    @media (max-width: 640px) { .admin-stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .admin-filter-bar {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px;
+      background: var(--result-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+    }
+    .cloud-status-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; background: #e0f2fe; color: #0369a1; }
+    .badge-mini { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; }
+    .badge-warn { background: #fef3c7; color: #92400e; margin-left: 4px; }
+
+    .preview-toolbar, .centered-action-box {
+      background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 10px; margin-bottom: 16px; display: flex; flex-wrap: wrap;
+      justify-content: center; align-items: center; gap: 10px; border: 1px solid #334155; width: 100%;
+    }
+    .centered-action-box.bottom-box { margin-top: 18px; margin-bottom: 0; }
+    .action-buttons { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .preview-toolbar .action-buttons, .centered-action-box .action-buttons { width: 100%; margin: 0 auto; }
+    .preview-hint { width: 100%; text-align: center; font-size: 0.8rem; opacity: 0.85; }
+
+    .pdf-paper, .pdf-paper-landscape {
+      width: 100%; max-width: 100%; margin: 0 auto; background: #ffffff !important; border: 1px solid #cbd5e1;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); padding: 18mm 18mm; font-family: "Times New Roman", Times, serif;
+      color: #000000 !important; line-height: 1.4; font-size: 12.5pt;
+    }
+
+    @media (max-width: 1024px) {
+      .pdf-paper, .pdf-paper-landscape { padding: 16px 14px; font-size: 11pt; }
+      .party-doc-header { gap: 8px; }
+      .party-org-parent { font-size: 10pt !important; }
+      .party-org-sub { font-size: 10.5pt !important; }
+      .party-motto-title { font-size: 10pt !important; }
+      .party-motto-line { width: 110px; }
+      .party-doc-date { font-size: 10pt !important; }
+      .pdf-doc-title h2 { font-size: 12pt !important; }
+      table.pdf-table { font-size: 9.5pt !important; }
+      table.pdf-table th, table.pdf-table td { padding: 5px 4px; word-break: break-word; }
+    }
+    @media (max-width: 480px) {
+      .pdf-paper, .pdf-paper-landscape { padding: 14px 10px; font-size: 10pt; }
+      .party-org-parent { font-size: 9pt !important; }
+      .party-org-sub { font-size: 9.5pt !important; }
+      .party-motto-title { font-size: 9pt !important; }
+      .party-motto-line { width: 90px; }
+      .party-doc-date { font-size: 9pt !important; }
+      .pdf-doc-title h2 { font-size: 11pt !important; }
+      table.pdf-table { font-size: 8.8pt !important; }
+      table.pdf-table th, table.pdf-table td { padding: 4px 3px; }
+    }
+
+    .party-doc-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+    .party-org-left { text-align: center; width: 47%; }
+    .party-org-parent { font-size: 12pt; text-transform: uppercase; line-height: 1.3; }
+    .party-org-sub { font-size: 12.5pt; font-weight: bold; text-transform: uppercase; line-height: 1.35; margin-top: 2px; }
+    .party-star { font-size: 13pt; font-weight: bold; line-height: 1; margin-top: 4px; }
+    .party-motto-right { text-align: center; width: 51%; }
+    .party-motto-title { font-size: 12.5pt; font-weight: bold; text-transform: uppercase; line-height: 1.3; }
+    .party-motto-line { width: 140px; border-bottom: 1.2px solid #000; margin: 4px auto 8px auto; }
+    .party-doc-date { font-size: 12.5pt; font-style: italic; }
+
+    .pdf-doc-title { text-align: center; margin: 12px 0 14px; }
+    .pdf-doc-title h2 { font-size: 13.5pt; text-transform: uppercase; font-weight: bold; margin-bottom: 4px; line-height: 1.35; }
+    .pdf-doc-title p { font-style: italic; font-size: 12pt; }
+    .pdf-info-block { margin-bottom: 12px; line-height: 1.5; }
+
+    table.pdf-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 11pt; }
+    table.pdf-table thead { display: table-header-group; }
+    table.pdf-table tr { page-break-inside: avoid; }
+    table.pdf-table th, table.pdf-table td { border: 1px solid #000; padding: 5px 6px; vertical-align: middle; line-height: 1.3; color: #000; }
+    table.pdf-table th { text-align: center; font-weight: bold; background: #f3f4f6; }
+
+    .pdf-footer-notes { margin-top: 10px; font-size: 11.5pt; line-height: 1.45; page-break-inside: avoid; }
+    .pdf-signature-row { display: flex; justify-content: space-between; gap: 20px; margin-top: 20px; page-break-inside: avoid; }
+    .pdf-sig-box { text-align: center; width: 48%; line-height: 1.4; }
+
+    .sent-banner { display: none; border-radius: 10px; margin-bottom: 16px; padding: 14px 16px; font-weight: 600; border: 1.5px solid; }
+
+    @media print {
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      html, body { width: 100% !important; max-width: 100% !important; background: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
+      .pdf-table-wrap { overflow: visible !important; }
+      .top-banner, #home-section, #scoring-section, #admin-section, .sticky-bar, .preview-toolbar, .sent-banner, .no-print-footer, .no-print-admin { display: none !important; }
+      .container { max-width: 100% !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }
+      .pdf-paper, .pdf-paper-landscape { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; }
+    }
+  </style>
+  <style id="dynamic-print-page-style">
+    @page { size: A4 portrait; margin: 20mm 15mm 20mm 25mm; }
+  </style>
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem("party_eval_theme") === "dark") document.documentElement.classList.add("dark-mode");
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="top-banner">
+    <div class="banner-inner">
+      <button type="button" id="btn-theme-toggle" class="single-theme-btn" title="Chuyển chế độ màn hình Tối / Sáng" aria-label="Chuyển chế độ màn hình Tối / Sáng">🌙</button>
+      <div class="org-name" id="banner-org-name">Đảng bộ xã Đạ Huoai - Chi bộ ...</div>
+      <h1>PHIẾU TỰ CHẤM ĐIỂM, XẾP LOẠI CHẤT LƯỢNG ĐẢNG VIÊN</h1>
+      <p>(theo tiêu chí Quy định số 366-QĐ/TW)</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- BƯỚC 1: TRANG CHỦ -->
+    <section id="home-section" class="card">
+      <div class="card-title">1. Thông tin đảng viên tự đánh giá</div>
+
+      <div id="home-pending-box" class="pending-box">
+        <span id="home-pending-text"></span>
+        <button type="button" id="btn-flush-pending" class="btn btn-warning btn-sm">📤 Gửi lại ngay</button>
+      </div>
+      <div id="home-error-box" class="inline-error-box"></div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fullName">Họ và tên đảng viên <span class="req">*</span></label>
+          <input type="text" id="fullName" autocomplete="name" maxlength="100" placeholder="Ví dụ: Phạm Quang Chinh" />
+        </div>
+
+        <div class="form-group">
+          <label for="partyCell">Chi bộ sinh hoạt <span class="req">*</span></label>
+          <input type="text" id="partyCell" maxlength="100" placeholder="Ví dụ: Thôn 8 (hoặc Chi bộ Thôn 8)" />
+        </div>
+
+        <div class="form-group full">
+          <label for="positionDetail">Chức vụ cụ thể / Đơn vị công tác (nếu có)</label>
+          <input type="text" id="positionDetail" maxlength="200" placeholder="Ví dụ: Đảng viên / Bí thư Chi bộ / Chi hội trưởng Nông dân..." />
+        </div>
+
+        <div class="form-group full">
+          <label>Chọn nhóm đối tượng áp dụng bảng điểm <span class="req">*</span></label>
+          <div class="role-options">
+            <div class="role-card active" id="card-member" role="button" tabindex="0" aria-pressed="true">
+              <div class="role-title"><span>Đảng viên không giữ chức vụ</span><span id="check-member">✓</span></div>
+              <div class="role-desc">Áp dụng cho đảng viên không làm việc trong hệ thống chính trị (đảng viên tại thôn/tổ dân phố, hưu trí, lao động tự do...).</div>
+            </div>
+            <div class="role-card" id="card-leader" role="button" tabindex="0" aria-pressed="false">
+              <div class="role-title"><span>Đảng viên giữ chức vụ lãnh đạo, cấp ủy</span><span id="check-leader"></span></div>
+              <div class="role-desc">Áp dụng cho Bí thư, Phó Bí thư, Cấp ủy chi bộ và Trưởng các tổ chức chính trị - xã hội.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="btn-start-scoring" class="btn btn-primary">Tiếp tục vào bảng tự chấm điểm →</button>
+
+      <div class="admin-gate-box">
+        <div class="admin-gate-label">
+          🔐 Quản trị Chi ủy / Tổ tổng hợp (<span id="admin-session-hint">Nhập mật khẩu quản trị</span>):
+        </div>
+        <div class="admin-gate-row">
+          <input type="password" id="admin-pas-input" placeholder="Nhập mật khẩu quản trị" autocomplete="off" />
+          <button type="button" id="btn-admin-login" class="btn btn-secondary">📊 Tổng hợp toàn chi bộ</button>
+        </div>
+        <div id="admin-gate-error" class="admin-gate-error"></div>
+      </div>
+    </section>
+
+    <!-- TRANG TỔNG HỢP TOÀN CHI BỘ (ADMIN) -->
+    <section id="admin-section" class="card">
+      <div class="card-title">
+        <span>📊 BẢNG TỔNG HỢP KẾT QUẢ TỰ CHẤM ĐIỂM, XẾP LOẠI TOÀN CHI BỘ</span>
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;" class="no-print-admin">
+          <span id="cloud-status-badge" class="cloud-status-pill">Đang kiểm tra kết nối...</span>
+          <button type="button" id="btn-admin-logout" class="btn btn-danger btn-sm" title="Khóa phiên Admin">🔒 Khóa Admin</button>
+          <button type="button" id="btn-admin-exit" class="btn btn-secondary btn-sm">← Về trang chủ</button>
+        </div>
+      </div>
+
+      <div id="admin-msg-box" class="inline-error-box"></div>
+
+      <div class="admin-stats-grid">
+        <div class="stat-card"><div class="stat-label">Tổng số phiếu</div><div class="stat-value" id="adm-stat-total">0</div></div>
+        <div class="stat-card"><div class="stat-label">Hoàn thành xuất sắc</div><div class="stat-value" style="color:#15803d;" id="adm-stat-xs">0</div></div>
+        <div class="stat-card"><div class="stat-label">Hoàn thành tốt</div><div class="stat-value" style="color:#1d4ed8;" id="adm-stat-tot">0</div></div>
+        <div class="stat-card"><div class="stat-label">Hoàn thành nhiệm vụ</div><div class="stat-value" style="color:#a16207;" id="adm-stat-ht">0</div></div>
+        <div class="stat-card"><div class="stat-label">Không hoàn thành</div><div class="stat-value" style="color:#b91c1c;" id="adm-stat-kht">0</div></div>
+      </div>
+
+      <div class="admin-filter-bar no-print-admin">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <label for="adm-cell-filter" style="white-space:nowrap;">Lọc theo Chi bộ:</label>
+          <select id="adm-cell-filter" style="width:auto; min-width:190px; padding:7px 10px;">
+            <option value="ALL">Tất cả các Chi bộ</option>
+          </select>
+          <label for="adm-stat-basis" style="white-space:nowrap;">Thống kê theo:</label>
+          <select id="adm-stat-basis" style="width:auto; min-width:170px; padding:7px 10px;">
+            <option value="self">Xếp loại tự chấm</option>
+            <option value="unit">Xếp loại CQ, ĐV đề nghị</option>
+          </select>
+          <button type="button" id="btn-adm-refresh" class="btn btn-info btn-sm">🔄 Tải mới</button>
+        </div>
+        <div class="action-buttons">
+          <button type="button" id="btn-adm-preview-a4" class="btn btn-primary btn-sm" style="width:auto; margin:0;">👁️ Xem trước A4 ngang</button>
+          <button type="button" id="btn-adm-export-excel" class="btn btn-success btn-sm">📥 Xuất Excel (.xlsx)</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="score-table" id="admin-summary-table">
+          <thead>
+            <tr>
+              <th style="width:38px;">TT</th>
+              <th>Họ và tên đảng viên</th>
+              <th>Chi bộ</th>
+              <th>Đối tượng / Chức vụ</th>
+              <th style="width:58px;">Nhóm I</th>
+              <th style="width:58px;">Nhóm II</th>
+              <th style="width:70px;">Điểm tự chấm</th>
+              <th style="width:82px;">Điểm CQ, ĐV đề nghị</th>
+              <th>Xếp loại tự chấm</th>
+              <th>Xếp loại CQ, ĐV đề nghị</th>
+              <th style="width:90px;">Ngày nộp</th>
+              <th class="no-print-admin" style="width:120px;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- XEM TRƯỚC TRANG TỔNG HỢP KHỔ A4 NGANG -->
+    <section id="admin-preview-section">
+      <div class="preview-toolbar">
+        <div class="action-buttons">
+          <button type="button" id="btn-close-adm-preview" class="btn btn-secondary btn-sm">← Quay lại danh sách Admin</button>
+          <button type="button" id="btn-print-adm-a4" class="btn btn-info btn-sm">🖨️ In / Lưu PDF (A4 Ngang)</button>
+        </div>
+        <div class="preview-hint">Nếu thiết bị (ví dụ iPhone) in ra khổ dọc, hãy chọn hướng giấy "Ngang" trong hộp thoại in.</div>
+      </div>
+
+      <div class="pdf-paper-landscape" id="admin-pdf-paper">
+        <div class="party-doc-header">
+          <div class="party-org-left">
+            <div class="party-org-parent">ĐẢNG ỦY XÃ ĐẠ HUOAI</div>
+            <div class="party-org-sub" id="adm-pdf-cell-heading">CHI ỦY CHI BỘ ................</div>
+            <div class="party-star">*</div>
+          </div>
+          <div class="party-motto-right">
+            <div class="party-motto-title">ĐẢNG CỘNG SẢN VIỆT NAM</div>
+            <div class="party-motto-line"></div>
+            <div class="party-doc-date" id="adm-pdf-date-top">Đạ Huoai, ngày ... tháng ... năm ...</div>
+          </div>
+        </div>
+
+        <div class="pdf-doc-title">
+          <h2>BẢNG TỔNG HỢP KẾT QUẢ TỰ CHẤM ĐIỂM, XẾP LOẠI CHẤT LƯỢNG ĐẢNG VIÊN</h2>
+          <p id="adm-pdf-subtitle">(Theo tiêu chí Quy định số 366-QĐ/TW)</p>
+        </div>
+
+        <div id="adm-pdf-stats-line" style="margin-bottom:10px; font-size:11pt;"></div>
+
+        <div class="pdf-table-wrap"><table class="pdf-table">
+          <thead>
+            <tr>
+              <th style="width:32px;">TT</th>
+              <th style="width:160px;">Họ và tên đảng viên</th>
+              <th style="width:100px;">Chi bộ</th>
+              <th>Chức vụ / Đối tượng</th>
+              <th style="width:50px;">Nhóm I</th>
+              <th style="width:50px;">Nhóm II</th>
+              <th style="width:62px;">Điểm tự chấm</th>
+              <th style="width:72px;">Điểm CQ, ĐV đề nghị</th>
+              <th style="width:130px;">Xếp loại tự chấm</th>
+              <th style="width:130px;">Xếp loại CQ, ĐV đề nghị</th>
+              <th style="width:76px;">Ngày nộp</th>
+            </tr>
+          </thead>
+          <tbody id="adm-pdf-tbody"></tbody>
+        </table></div>
+
+        <div class="pdf-signature-row" style="margin-top:18px;">
+          <div class="pdf-sig-box">
+            <strong>NGƯỜI LẬP BIỂU</strong><br />
+            <em>(Ký, ghi rõ họ và tên)</em>
+            <div style="height:64px;"></div>
+          </div>
+          <div class="pdf-sig-box">
+            <div style="font-style:italic; margin-bottom:2px;" id="adm-pdf-date-sig">Đạ Huoai, ngày ... tháng ... năm ...</div>
+            <strong>TM. CHI ỦY CHI BỘ</strong><br />
+            <em>(Ký tên, đóng dấu)</em>
+            <div style="height:64px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BƯỚC 2: BẢNG TỰ CHẤM ĐIỂM -->
+    <section id="scoring-section" class="card">
+      <div id="admin-edit-banner" class="admin-edit-banner">
+        <span>🛠️ <strong>Chế độ Quản trị Chi ủy:</strong> Đang chỉnh sửa trực tiếp phiếu của đồng chí <strong id="admin-editing-target"></strong></span>
+        <div class="action-buttons">
+          <button type="button" id="btn-admin-save-return" class="btn btn-success btn-sm">💾 Lưu & Quay lại bảng tổng hợp</button>
+          <button type="button" id="btn-admin-cancel-return" class="btn btn-secondary btn-sm">← Hủy, về bảng tổng hợp</button>
+        </div>
+      </div>
+
+      <div id="scoring-error-box" class="inline-error-box"></div>
+
+      <div class="user-summary-bar">
+        <div class="user-summary-info">
+          <div>Đảng viên: <strong id="display-name"></strong> — Chi bộ: <strong id="display-cell"></strong></div>
+          <div>Biểu mẫu áp dụng: <strong id="display-role-label"></strong></div>
+        </div>
+        <button type="button" id="btn-back-home" class="btn btn-secondary btn-sm">← Đổi thông tin / Chức vụ</button>
+      </div>
+
+      <div class="notice-box">
+        ℹ️ Bảng đang để sẵn <strong>điểm tối đa</strong> ở mọi mục. Hãy rà soát và hạ điểm từng mục cho đúng thực tế trước khi gửi.
+      </div>
+
+      <div class="unit-sync-bar">
+        <span>Cột <strong>Điểm do cơ quan, đơn vị nơi công tác đề nghị</strong> mặc định đồng bộ theo điểm tự chấm (có thể chỉnh riêng từng mục):</span>
+        <button type="button" id="btn-sync-unit-scores" class="btn btn-secondary btn-sm">🔄 Đồng bộ bằng điểm tự chấm</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th class="col-tt">TT</th>
+              <th>TIÊU CHÍ ĐÁNH GIÁ</th>
+              <th class="col-max">Điểm tối đa</th>
+              <th class="col-input">Tự chấm</th>
+              <th class="col-unit-input">Điểm do cơ quan, đơn vị nơi công tác đề nghị</th>
+            </tr>
+          </thead>
+          <tbody id="criteria-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="result-box">
+        <div class="result-grid">
+          <div class="stat-card">
+            <div class="stat-label">Nhóm I (Tự chấm / ĐV đề nghị)</div>
+            <div class="stat-value"><span id="sum-group1">30</span> / <span id="unit-sum-group1" style="color:var(--unit-score-color);">30</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Nhóm II (Tự chấm / ĐV đề nghị)</div>
+            <div class="stat-value"><span id="sum-group2">70</span> / <span id="unit-sum-group2" style="color:var(--unit-score-color);">70</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">TỔNG ĐIỂM TỰ CHẤM</div>
+            <div class="stat-value"><span id="sum-total">100</span> / 100</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">ĐIỂM CQ, ĐV ĐỀ NGHỊ</div>
+            <div class="stat-value" style="color:var(--unit-score-color);"><span id="unit-sum-total">100</span> / 100</div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px;">
+          <label for="innovationNote">Mô hình đổi mới, sáng tạo, cách làm hay (nếu có):</label>
+          <textarea id="innovationNote" rows="2" maxlength="500" placeholder="Nhập ngắn gọn mô hình hoặc thành tích nổi bật trong năm..."></textarea>
+        </div>
+
+        <div class="condition-check">
+          <input type="checkbox" id="overachieveCheck" />
+          <label for="overachieveCheck" style="font-weight:500; cursor:pointer;">
+            <strong>Tự chấm</strong> – Xác nhận điều kiện mức <strong>Hoàn thành xuất sắc nhiệm vụ</strong>: hoàn thành <strong>100%</strong> nhiệm vụ được giao, trong đó có ít nhất <strong>30% số nhiệm vụ hoàn thành vượt mức</strong> (bắt buộc khi tổng điểm từ 90 trở lên).
+          </label>
+        </div>
+        <div class="condition-check">
+          <input type="checkbox" id="unitOverachieveCheck" />
+          <label for="unitOverachieveCheck" style="font-weight:500; cursor:pointer;">
+            <strong>Cơ quan, đơn vị đề nghị</strong> – Xác nhận cùng điều kiện mức <strong>Hoàn thành xuất sắc nhiệm vụ</strong> (do cơ quan, đơn vị xác định, độc lập với ô tự chấm ở trên).
+          </label>
+        </div>
+
+        <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px;">
+          <div>
+            <div style="font-size:0.88rem; font-weight:600; color:var(--muted);">Đề nghị xếp loại chất lượng (Tự chấm):</div>
+            <div id="rank-display" class="rank-badge rank-tot">Hoàn thành tốt nhiệm vụ (100 điểm)</div>
+            <div id="rank-note" style="font-size:0.8rem; color:#b45309; font-weight:600; margin-top:4px;"></div>
+            <div style="font-size:0.86rem; font-weight:600; color:var(--unit-score-color); margin-top:6px;">
+              Cơ quan, đơn vị đề nghị xếp loại: <span id="unit-rank-display"></span>
+            </div>
+          </div>
+
+          <div class="centered-action-box" style="margin-bottom:0;">
+            <div class="action-buttons">
+              <button type="button" id="btn-open-preview-main" class="btn btn-primary btn-sm" style="width:auto; margin-top:0;">📄 Xem trước kết quả tự chấm (PDF)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BƯỚC 3: XEM TRƯỚC PDF & GỬI VỀ CHI BỘ -->
+    <section id="preview-section">
+      <div class="preview-toolbar">
+        <div class="action-buttons">
+          <button type="button" id="btn-close-preview-top" class="btn btn-secondary btn-sm">← Quay lại chỉnh sửa điểm</button>
+          <button type="button" id="btn-print-top" class="btn btn-info btn-sm">🖨️ Lưu PDF / In phiếu</button>
+          <button type="button" id="btn-submit-top" class="btn btn-success btn-sm">✅ Gửi về chi bộ</button>
+          <button type="button" id="btn-back-admin-from-preview-top" class="btn btn-warning btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
+        </div>
+      </div>
+
+      <div id="sent-banner" class="sent-banner"></div>
+
+      <div class="pdf-paper" id="pdf-paper-content">
+        <div class="party-doc-header">
+          <div class="party-org-left">
+            <div class="party-org-parent">ĐẢNG ỦY XÃ ĐẠ HUOAI</div>
+            <div class="party-org-sub" id="pdf-cell-name">CHI ỦY CHI BỘ ................</div>
+            <div class="party-star">*</div>
+          </div>
+          <div class="party-motto-right">
+            <div class="party-motto-title">ĐẢNG CỘNG SẢN VIỆT NAM</div>
+            <div class="party-motto-line"></div>
+            <div class="party-doc-date" id="pdf-date-top">Đạ Huoai, ngày ... tháng ... năm ...</div>
+          </div>
+        </div>
+
+        <div class="pdf-doc-title">
+          <h2>TIÊU CHÍ ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG ĐẢNG VIÊN</h2>
+          <p id="pdf-subtitle"></p>
+        </div>
+
+        <div class="pdf-info-block">
+          <div>- Họ và tên: <strong><span id="pdf-fullname"></span></strong></div>
+          <div>- Chức vụ, đơn vị công tác: <span id="pdf-position"></span></div>
+        </div>
+
+        <div class="pdf-table-wrap"><table class="pdf-table">
+          <thead>
+            <tr>
+              <th style="width:42px;">TT</th>
+              <th>TIÊU CHÍ ĐÁNH GIÁ</th>
+              <th style="width:72px;">Điểm tối đa</th>
+              <th style="width:72px;">Điểm tự chấm</th>
+              <th style="width:105px;">Điểm do cơ quan, đơn vị nơi công tác đề nghị</th>
+            </tr>
+          </thead>
+          <tbody id="pdf-tbody"></tbody>
+        </table></div>
+
+        <div class="pdf-footer-notes">
+          <div style="margin-bottom:8px;">
+            <strong>- Mô hình đổi mới, sáng tạo, mô hình hay (nếu có):</strong>
+            <span id="pdf-innovation">Không có.</span>
+          </div>
+          <div style="margin-bottom:6px;">
+            <strong>- Cá nhân tự đề nghị xếp loại chất lượng:</strong>
+            <strong id="pdf-rank" style="text-transform:uppercase;"></strong>
+          </div>
+          <div style="margin-bottom:6px;">
+            <strong>- Cơ quan, đơn vị nơi công tác đề nghị xếp loại chất lượng:</strong>
+            <strong id="pdf-unit-rank" style="text-transform:uppercase;"></strong>
+          </div>
+          <div style="font-size:11pt; font-style:italic;">
+            (Gồm 04 mức: "Hoàn thành xuất sắc nhiệm vụ", "Hoàn thành tốt nhiệm vụ", "Hoàn thành nhiệm vụ", "Không hoàn thành nhiệm vụ").
+          </div>
+        </div>
+
+        <div class="pdf-signature-row">
+          <div class="pdf-sig-box">
+            <div style="font-style:italic; margin-bottom:4px;" id="pdf-date-sig-left">Đạ Huoai, ngày ... tháng ... năm ...</div>
+            <strong>XÁC NHẬN CỦA CƠ QUAN, ĐƠN VỊ</strong><br />
+            <em>(Ký tên, đóng dấu)</em>
+            <div style="height:72px;"></div>
+          </div>
+          <div class="pdf-sig-box">
+            <div style="font-style:italic; margin-bottom:4px;" id="pdf-date-sig">Đạ Huoai, ngày ... tháng ... năm ...</div>
+            <strong>ĐẢNG VIÊN TỰ ĐÁNH GIÁ</strong><br />
+            <em>(Ký, ghi rõ họ và tên)</em>
+            <div style="height:72px;"></div>
+            <strong id="pdf-sig-name"></strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="centered-action-box bottom-box no-print-footer">
+        <div class="action-buttons">
+          <button type="button" id="btn-close-preview-bottom" class="btn btn-secondary btn-sm">← Quay lại sửa điểm</button>
+          <button type="button" id="btn-print-bottom" class="btn btn-info btn-sm">🖨️ Lưu PDF / In phiếu</button>
+          <button type="button" id="btn-submit-bottom" class="btn btn-success btn-sm">✅ Xác nhận & Gửi về chi bộ</button>
+          <button type="button" id="btn-back-admin-from-preview-bottom" class="btn btn-warning btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="sticky-bar" id="sticky-bar">
+    <div class="sticky-inner">
+      <div class="sticky-score">
+        Tự chấm: <span id="sticky-total">100</span>/100 | CQ, ĐV đề nghị: <span id="sticky-unit-total" style="color:var(--unit-score-color);">100</span>/100 — <strong id="sticky-rank"></strong>
+      </div>
+      <div class="action-buttons">
+        <button type="button" id="btn-admin-save-sticky" class="btn btn-success btn-sm" style="display:none;">💾 Lưu & Về tổng hợp</button>
+        <button type="button" id="btn-open-preview-sticky" class="btn btn-primary btn-sm" style="width:auto; margin:0;">📄 Xem trước (PDF)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    /* =====================================================================
+     *  CẤU HÌNH
+     *  - SCRIPT_URL: dán URL triển khai Apps Script (kết thúc bằng /exec)
+     *    của file Code.gs phiên bản v2. Để trống = chế độ cục bộ (dữ liệu
+     *    chỉ nằm trên thiết bị này, không có mật khẩu bảo vệ).
+     *  - Mật khẩu quản trị KHÔNG nằm trong file này; máy chủ kiểm tra.
+     * ===================================================================== */
+    const CONFIG = {
+      SCRIPT_URL: "",
+      PLACE: "Đạ Huoai",
+      PAD_ALL_MONTHS: false,   // false: chỉ tháng 1, 2 thêm số 0 (theo thể thức văn bản); true: mọi tháng < 10
+      REQUEST_TIMEOUT_MS: 25000,
+      XLSX_URL: "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+    };
+
+    // Ngưỡng xếp loại – ĐỐI CHIẾU với văn bản chính thức của Quy định 366-QĐ/TW
+    const RANK_RULES = { excellent: 90, good: 70, pass: 50 };
+    const RANKS = {
+      XS:  { text: "Hoàn thành xuất sắc nhiệm vụ", cls: "rank-xs",  badge: "background:#dcfce7; color:#15803d;" },
+      T:   { text: "Hoàn thành tốt nhiệm vụ",      cls: "rank-tot", badge: "background:#dbeafe; color:#1d4ed8;" },
+      HT:  { text: "Hoàn thành nhiệm vụ",          cls: "rank-ht",  badge: "background:#fef9c3; color:#a16207;" },
+      KHT: { text: "Không hoàn thành nhiệm vụ",    cls: "rank-kht", badge: "background:#fee2e2; color:#b91c1c;" }
+    };
+
+    const MY_KEY = "party_eval_my_v2";            // phiếu do thiết bị này gửi
+    const CACHE_KEY = "party_eval_admin_cache_v2"; // bộ nhớ đệm bảng tổng hợp (xóa khi khóa Admin)
+    const ADMIN_SESSION_KEY = "party_eval_admin_key_v2";
+    const THEME_KEY = "party_eval_theme";
+
+    const CRITERIA_DATA = {
+      member: {
+        label: "Đảng viên không giữ chức vụ (không làm việc trong hệ thống chính trị)",
+        subtitle: "Đối với đảng viên không làm việc trong hệ thống chính trị",
+        items: [
+          { type: "group", tt: "I", text: "NHÓM TIÊU CHÍ CHUNG (30 ĐIỂM)", max: 30 },
+          { type: "subgroup", id: "1-1", group: 1, tt: "1", text: "Về phẩm chất chính trị, đạo đức, lối sống và ý thức tổ chức kỷ luật", max: 15 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.1", text: "Có lập trường tư tưởng chính trị vững vàng, chấp hành đường lối, chủ trương của Đảng, chính sách, pháp luật của Nhà nước và các quy định nơi lao động, học tập, sinh sống.", max: 5 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.2", text: "Có phẩm chất đạo đức tốt, lối sống trung thực; không vi phạm Quy định về những điều đảng viên không được làm, văn hóa ứng xử nơi cư trú.", max: 5 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.3", text: "Chấp hành các nguyên tắc tổ chức, sinh hoạt đảng, nghiêm túc trong phê bình và tự phê bình; có ý thức trách nhiệm trong xây dựng tổ chức đảng, giữ gìn đoàn kết nội bộ trong chi bộ; có quan hệ tốt với quần chúng nhân dân nơi sinh hoạt và nơi cư trú.", max: 5 },
+
+          { type: "subgroup", id: "1-2", group: 1, tt: "2", text: "Về tự phê bình và phê bình, tự soi, tự sửa, khắc phục hạn chế, khuyết điểm", max: 15 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.1", text: "Chủ động, nghiêm túc thực hiện tự phê bình và phê bình, có tinh thần cầu thị và tiếp thu phản biện.", max: 4 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.2", text: "Có kế hoạch rõ ràng và quyết liệt trong khắc phục hạn chế, khuyết điểm đã được chỉ ra.", max: 4 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.3", text: "Kết quả khắc phục hoàn thành 100% nội dung, có tiến bộ rõ, được tổ chức đánh giá tốt; không để tái diễn tồn tại.", max: 4 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.4", text: "Tự soi, tự sửa trên tinh thần trách nhiệm chính trị cao, không né tránh, không đổ lỗi.", max: 3 },
+
+          { type: "group", tt: "II", text: "KẾT QUẢ THỰC HIỆN NHIỆM VỤ ĐƯỢC GIAO (70 ĐIỂM)", max: 70 },
+          { type: "item", group: 2, tt: "1", text: "Việc thực hiện chức trách, quyền hạn và nghĩa vụ của đảng viên theo quy định của Đảng (tham gia sinh hoạt và đóng đảng phí đầy đủ).", max: 10 },
+          { type: "item", group: 2, tt: "2", text: "Việc hoàn thành các nhiệm vụ chính trị được cấp ủy, chi bộ phân công.", max: 10 },
+          { type: "item", group: 2, tt: "3", text: "Tham gia học tập nghị quyết, các văn bản chỉ đạo của cấp trên đầy đủ.", max: 10 },
+          { type: "item", group: 2, tt: "4", text: "Phát huy vai trò của đảng viên, tích cực phát biểu ý kiến xây dựng chi bộ.", max: 10 },
+          { type: "item", group: 2, tt: "5", text: "Hoàn thành các nhiệm vụ đột xuất, tích cực tham gia các hoạt động của chi bộ và các tổ chức có liên quan tại địa phương giao, phát động, phù hợp với điều kiện và sức khỏe, độ tuổi.", max: 10 },
+          { type: "item", group: 2, tt: "6", text: "Thực hiện việc cài đặt và sử dụng ứng dụng Sổ tay đảng viên điện tử trong sinh hoạt chi bộ.", max: 10 },
+          { type: "item", group: 2, tt: "7", text: "Việc xây dựng và triển khai thực hiện bản cam kết tu dưỡng, rèn luyện, phấn đấu hằng năm theo quy định.", max: 10 }
+        ]
+      },
+
+      leader: {
+        label: "Bí thư, Phó Bí thư, Cấp ủy chi bộ và Trưởng các tổ chức chính trị - xã hội",
+        subtitle: "Đối với chức danh Bí thư, Phó Bí thư, cấp ủy chi bộ và Trưởng các tổ chức chính trị - xã hội",
+        items: [
+          { type: "group", tt: "I", text: "NHÓM TIÊU CHÍ CHUNG (30 ĐIỂM)", max: 30 },
+          { type: "subgroup", id: "1-1", group: 1, tt: "1", text: "Về phẩm chất chính trị, đạo đức, lối sống, thực hiện trách nhiệm nêu gương", max: 10 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.1", text: "Tuyệt đối trung thành với Đảng, với Tổ quốc và nhân dân; kiên định lý tưởng cách mạng, chủ nghĩa Mác - Lênin, tư tưởng Hồ Chí Minh, mục tiêu độc lập dân tộc, chủ nghĩa xã hội và đường lối đổi mới của Đảng.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.2", text: "Có lập trường, quan điểm, bản lĩnh chính trị vững vàng, không dao động trước mọi khó khăn, thách thức; kiên quyết bảo vệ nền tảng tư tưởng, Cương lĩnh, đường lối của Đảng, Hiến pháp và pháp luật của Nhà nước; đấu tranh phản bác các quan điểm sai trái, xuyên tạc; giữ nghiêm kỷ luật phát ngôn.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.3", text: "Có tinh thần yêu nước sâu sắc, tận tụy phục vụ nhân dân, sâu sát cơ sở, luôn hành động vì lợi ích của nhân dân, đặt lợi ích của Đảng, quốc gia, dân tộc, nhân dân, tập thể lên trên lợi ích cá nhân.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.4", text: "Chấp hành nghiêm chủ trương, đường lối, nghị quyết, chỉ thị, quy định, nguyên tắc tổ chức, kỷ luật của Đảng, nhất là nguyên tắc tập trung dân chủ, tự phê bình và phê bình; chấp hành nghiêm pháp luật Nhà nước và quy định của cơ quan, đơn vị.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.5", text: "Tích cực nghiên cứu, học tập các chủ trương, nghị quyết của Đảng, chính sách, pháp luật của Nhà nước; thường xuyên bồi dưỡng, cập nhật kiến thức mới và vận dụng sáng tạo vào thực tiễn.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.6", text: "Có năng lực tư duy và tầm nhìn đáp ứng với yêu cầu thay đổi của tình hình thực tiễn; phát huy tinh thần chủ động, đổi mới, sáng tạo; phấn đấu vì mục tiêu phát triển của cơ quan, đơn vị, đóng góp vào mục tiêu chung của đất nước.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.7", text: "Thường xuyên động viên, giáo dục gia đình chấp hành tốt chủ trương, đường lối của Đảng, chính sách, pháp luật của Nhà nước; có mối quan hệ và gắn bó tốt với địa phương nơi cư trú.", max: 1 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.8", text: "Không tham ô, tham nhũng, tiêu cực, quan liêu, hách dịch, cửa quyền, vụ lợi; không để người thân, người quen lợi dụng chức vụ, quyền hạn để trục lợi. Không có biểu hiện suy thoái, \"tự diễn biến\", \"tự chuyển hóa\" trong nội bộ.", max: 2 },
+          { type: "item", group: 1, subId: "1-1", tt: "1.9", text: "Thực hiện việc kê khai và công khai tài sản, thu nhập theo quy định.", max: 1 },
+
+          { type: "subgroup", id: "1-2", group: 1, tt: "2", text: "Tư duy đổi mới, chiến lược, khát vọng cống hiến, dám nghĩ, dám làm", max: 10 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.1", text: "Có tư duy, tầm nhìn chiến lược; phương pháp làm việc khoa học, nhạy bén chính trị; có năng lực cụ thể hóa trong lãnh đạo, chỉ đạo cơ quan, đơn vị thực hiện và hoàn thành tốt chức năng, nhiệm vụ được giao.", max: 2 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.2", text: "Luôn bám sát thực tiễn, có nhiều cách làm hay, sáng tạo, đạt hiệu quả cao trong lãnh đạo, chỉ đạo, tổ chức thực hiện nhiệm vụ; xây dựng cấp ủy, tổ chức đảng trong sạch vững mạnh, cơ quan, đơn vị vững mạnh toàn diện.", max: 2 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.3", text: "Nói đi đôi với làm, dám nghĩ, dám làm, dám chịu trách nhiệm, dám đột phá vì lợi ích chung. Có khả năng phân tích, dự báo tình hình, phát hiện khó khăn, bất cập; đề xuất giải pháp phù hợp, kịp thời, hiệu quả.", max: 2 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.4", text: "Có khát vọng phấn đấu, cống hiến; có khả năng quy tụ và phát huy được sức mạnh của tập thể, cá nhân trong cơ quan, đơn vị và các cơ quan, đơn vị có liên quan.", max: 2 },
+          { type: "item", group: 1, subId: "1-2", tt: "2.5", text: "Báo cáo đầy đủ, trung thực, cung cấp thông tin chính xác, khách quan về những nội dung liên quan đến việc thực hiện chức trách, nhiệm vụ được giao với cấp trên khi được yêu cầu.", max: 2 },
+
+          { type: "subgroup", id: "1-3", group: 1, tt: "3", text: "Về tự phê bình và phê bình, tự soi, tự sửa, khắc phục hạn chế, khuyết điểm", max: 10 },
+          { type: "item", group: 1, subId: "1-3", tt: "3.1", text: "Chủ động, nghiêm túc thực hiện tự phê bình và phê bình, có tinh thần cầu thị và tiếp thu phản biện.", max: 2.5 },
+          { type: "item", group: 1, subId: "1-3", tt: "3.2", text: "Có kế hoạch rõ ràng và quyết liệt trong khắc phục hạn chế, khuyết điểm đã được chỉ ra.", max: 2.5 },
+          { type: "item", group: 1, subId: "1-3", tt: "3.3", text: "Kết quả khắc phục hoàn thành 100% nội dung, có tiến bộ rõ, được tổ chức đánh giá tốt; không để tái diễn tồn tại.", max: 2.5 },
+          { type: "item", group: 1, subId: "1-3", tt: "3.4", text: "Tự soi, tự sửa trên tinh thần trách nhiệm chính trị cao, không né tránh, không đổ lỗi.", max: 2.5 },
+
+          { type: "group", tt: "II", text: "VỀ THỰC HIỆN CHỨC TRÁCH, NHIỆM VỤ ĐƯỢC GIAO (70 ĐIỂM)", max: 70 },
+          { type: "subgroup", id: "2-1", group: 2, tt: "1", text: "Thực hiện chức trách, nhiệm vụ của Bí thư, Phó Bí thư chi bộ", max: 10 },
+          { type: "item", group: 2, subId: "2-1", tt: "1.1", text: "Tích cực tham gia thảo luận, biểu quyết những vấn đề của cấp ủy và cùng tập thể cấp ủy chịu trách nhiệm về các quyết định đó.", max: 3 },
+          { type: "item", group: 2, subId: "2-1", tt: "1.2", text: "Tích cực, chủ động đề xuất với cấp ủy chi bộ, Ban Thường vụ Đảng ủy, Thường trực Đảng ủy những vấn đề về chủ trương, giải pháp để lãnh đạo, chỉ đạo ngành, lĩnh vực, địa phương kịp thời, hiệu quả.", max: 4 },
+          { type: "item", group: 2, subId: "2-1", tt: "1.3", text: "Thực hiện tốt nhiệm vụ trên lĩnh vực, địa phương được phân công phụ trách; thực hiện có hiệu quả những nhiệm vụ cụ thể khác theo quy chế làm việc của Tỉnh ủy đã đề ra.", max: 3 },
+
+          { type: "subgroup", id: "2-2", group: 2, tt: "2", text: "Kết quả lãnh đạo, chỉ đạo, điều hành hoạt động của cấp ủy; triển khai nghị quyết của cấp trên", max: 10 },
+          { type: "item", group: 2, subId: "2-2", tt: "2.1", text: "Chỉ đạo triển khai quán triệt đầy đủ, kịp thời các chủ trương, chỉ thị, nghị quyết, kết luận… của cấp trên cho cán bộ, đảng viên thuộc phạm vi phụ trách.", max: 2.5 },
+          { type: "item", group: 2, subId: "2-2", tt: "2.2", text: "Chỉ đạo việc cụ thể hóa đầy đủ, kịp thời các chủ trương, chỉ thị, nghị quyết, kết luận… của cấp trên thành các chương trình, đề án, kế hoạch… phù hợp ở cấp mình để tổ chức thực hiện.", max: 2.5 },
+          { type: "item", group: 2, subId: "2-2", tt: "2.3", text: "Chỉ đạo tổ chức thực hiện đầy đủ các buổi họp giao ban theo Quy chế làm việc, có biên bản và kết luận cuộc họp, có thông báo đầy đủ, kịp thời cho cấp dưới theo đúng chế độ quy định.", max: 2.5 },
+          { type: "item", group: 2, subId: "2-2", tt: "2.4", text: "Lãnh đạo, chỉ đạo tổ chức thực hiện kịp thời, đạt kết quả các nhiệm vụ theo yêu cầu đột xuất, cấp bách của cấp trên.", max: 2.5 },
+
+          { type: "subgroup", id: "2-3", group: 2, tt: "3", text: "Lãnh đạo, chỉ đạo, tổ chức thực hiện nhiệm vụ phát triển kinh tế - xã hội và củng cố quốc phòng, an ninh", max: 10 },
+          { type: "item", group: 2, subId: "2-3", tt: "3.1", text: "Lãnh đạo, chỉ đạo nhiệm vụ phát triển kinh tế - xã hội, quốc phòng, an ninh ở địa phương đạt kết quả, hoàn thành các chỉ tiêu chủ yếu trong năm theo kết luận của Tỉnh ủy, cấp ủy xã hằng năm đã xác định.", max: 5 },
+          { type: "item", group: 2, subId: "2-3", tt: "3.2", text: "Có các mô hình kinh tế mới, ngành mũi nhọn hoặc chuyển dịch cơ cấu kinh tế được nhân rộng.", max: 5 },
+
+          { type: "subgroup", id: "2-4", group: 2, tt: "4", text: "Lãnh đạo, chỉ đạo, tổ chức thực hiện nhiệm vụ xây dựng Đảng, xây dựng hệ thống chính trị", max: 40 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.1", text: "Lãnh đạo, chỉ đạo việc xây dựng và thực hiện quy chế trong tất cả các tổ chức đảng, cơ quan, đơn vị trong hệ thống chính trị.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.2", text: "Lãnh đạo, chỉ đạo điều hành tổ chức thực hiện hiệu quả nghị quyết, chỉ thị, kết luận, quy định, hướng dẫn của Trung ương và cấp trên.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.3", text: "Chủ động phát hiện, đề xuất các giải pháp đổi mới, tổng kết thực tiễn phù hợp với đường lối, quan điểm của Đảng và tình hình địa phương.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.4", text: "Tinh gọn bộ máy, tinh giản biên chế theo Nghị quyết số 18-NQ/TW và Nghị quyết số 19-NQ/TW của Trung ương và các kết luận chỉ đạo của Tỉnh ủy, Ban Thường vụ Tỉnh ủy.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.5", text: "Chất lượng đội ngũ cấp ủy chi bộ hoàn thành các nhiệm vụ, chỉ tiêu giao.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.6", text: "Kiểm điểm, đánh giá, xếp loại tổ chức, tập thể, cá nhân theo quy định, hướng dẫn của cấp trên.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.7", text: "Việc phát triển đảng viên hằng năm; thực hiện phần mềm “Sổ tay đảng viên điện tử”; phong trào thi đua xây dựng “chi bộ bốn tốt”.", max: 4 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.8", text: "Công tác dân vận của hệ thống chính trị, nhất là việc giải quyết những vụ việc bức xúc, nổi cộm, dư luận quan tâm; thực hiện quy chế dân chủ ở cơ sở.", max: 3 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.9", text: "Công tác kiểm tra, giám sát và thi hành kỷ luật Đảng.", max: 3 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.10", text: "Chỉ đạo thực hiện đầy đủ, kịp thời việc sơ kết, tổng kết các chỉ thị, nghị quyết, kết luận của Đảng ở các cấp.", max: 3 },
+          { type: "item", group: 2, subId: "2-4", tt: "4.11", text: "Chỉ đạo thực hiện chế độ thông tin, báo cáo định kỳ và đột xuất cho cấp có thẩm quyền bảo đảm kịp thời, chất lượng.", max: 3 }
+        ]
+      }
+    };
+
+    /* ============================ TRẠNG THÁI ============================ */
+    const state = {
+      role: "member",
+      unitManual: false,
+      adminEditing: null,   // bản ghi đang được Admin sửa
+      adminStale: false,    // true khi bảng admin đang hiện dữ liệu đệm (có thể cũ)
+      dirty: false,
+      adminRecords: [],
+      busy: false
+    };
+    let subgroupTotals = {};
+    let unitSubgroupTotals = {};
+    let currentSelfRank = RANKS.T;
+    let currentUnitRank = RANKS.T;
+
+    /* ============================ TIỆN ÍCH CHUNG ============================ */
+    const $ = function (id) { return document.getElementById(id); };
+    const hasCloud = function () { return /^https:\/\/script\.google\.com\//.test(String(CONFIG.SCRIPT_URL || "")); };
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function lsGet(key, fallback) {
+      try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+    }
+    function lsSet(key, val) {
+      try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch (e) { return false; }
+    }
+
+    function randomHex(bytes) {
+      const arr = new Uint8Array(bytes);
+      if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(arr);
+      else for (let i = 0; i < bytes; i++) arr[i] = Math.floor(Math.random() * 256);
+      return Array.from(arr).map(function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+    }
+    const newRecordId = function () { return "R" + Date.now().toString(36) + randomHex(6); };
+    const newOwnerToken = function () { return randomHex(24); };
+
+    function hash36(str) {
+      let h = 5381;
+      for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0;
+      return (h >>> 0).toString(36);
+    }
+
+    function parseScore(v) { return parseFloat(String(v).replace(",", ".")); }
+    function round2(n) { return Math.round(n * 100) / 100; }
+
+    function setBox(id, msg) {
+      const box = $(id);
+      if (!box) return;
+      if (!msg) { box.style.display = "none"; box.textContent = ""; return; }
+      box.textContent = "⚠️ " + msg;
+      box.style.display = "block";
+      try { box.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (e) {}
+    }
+
+    function friendlyError(e) {
+      if (!e) return "Lỗi không xác định.";
+      if (e.name === "AbortError") return "Quá thời gian chờ máy chủ. Vui lòng thử lại.";
+      if (e.name === "TypeError") return "Không kết nối được máy chủ. Hãy kiểm tra mạng.";
+      return e.message || "Lỗi không xác định.";
+    }
+
+    /* ======================= CHUẨN HÓA VĂN BẢN TIẾNG VIỆT =======================
+     * Lưu ý: \b của JavaScript chỉ nhận ký tự ASCII nên không dùng được với tiếng
+     * Việt. Ở đây dùng biên từ theo Unicode: (^|[^\p{L}\p{M}]) ... (?![\p{L}\p{M}]).
+     */
+    function collapseSpaces(s) {
+      return String(s == null ? "" : s).normalize("NFC").replace(/\s+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+    }
+
+    const TYPO_FIXES = [
+      ["hoà", "hòa"], ["uỷ", "ủy"], ["thuỷ", "thủy"], ["xây dưng", "xây dựng"],
+      ["thực hiên", "thực hiện"], ["nhiệm vu", "nhiệm vụ"], ["đảng vien", "đảng viên"], ["khong", "không"]
+    ];
+    const TYPO_RULES = TYPO_FIXES.map(function (p) {
+      return { re: new RegExp("(^|[^\\p{L}\\p{M}])" + p[0] + "(?![\\p{L}\\p{M}])", "giu"), good: p[1] };
+    });
+
+    function upperFirst(w) { return w ? w.charAt(0).toLocaleUpperCase("vi") + w.slice(1) : ""; }
+
+    // Chỉ dùng cho văn bản tự do (mô hình hay, chức vụ) – KHÔNG dùng cho họ tên
+    function fixTypos(text) {
+      let out = collapseSpaces(text);
+      TYPO_RULES.forEach(function (r) {
+        out = out.replace(r.re, function (m, pre) {
+          const matched = m.slice(pre.length);
+          const startsUpper = matched.charAt(0) !== matched.charAt(0).toLocaleLowerCase("vi");
+          return pre + (startsUpper ? upperFirst(r.good) : r.good);
+        });
+      });
+      return out;
+    }
+
+    // Họ tên: chỉ viết hoa khi người nhập gõ toàn chữ thường hoặc toàn chữ in hoa;
+    // nếu đã tự viết hoa đúng (K'Ho, Ya Bhưi...) thì giữ nguyên.
+    function formatPersonName(raw) {
+      const s = collapseSpaces(raw);
+      if (!s) return "";
+      const letters = s.replace(/[^\p{L}]/gu, "");
+      const allLower = letters === letters.toLocaleLowerCase("vi");
+      const allUpper = letters === letters.toLocaleUpperCase("vi");
+      if (!allLower && !allUpper) return s;
+      return s.toLocaleLowerCase("vi").replace(/(^|[\s'’\-])(\p{L})/gu, function (m, p, c) {
+        return p + c.toLocaleUpperCase("vi");
+      });
+    }
+
+    function formatPartyCellCore(raw) {
+      const cleaned = collapseSpaces(raw).replace(/^chi\s*(ủy|uỷ)\s*/i, "").replace(/^chi\s*bộ\s*/i, "").trim();
+      if (!cleaned) return "";
+      return cleaned.split(" ").filter(Boolean).map(upperFirst).join(" ");
+    }
+
+    function formatProperNounsInText(text) {
+      const cleaned = fixTypos(text);
+      if (!cleaned) return "";
+      return cleaned
+        .replace(/(^|[^\p{L}\p{M}])thôn\s+(\S+)/giu, function (m, pre, p1) { return pre + "Thôn " + upperFirst(p1); })
+        .replace(/(^|[^\p{L}\p{M}])tổ dân phố\s+(\S+)/giu, function (m, pre, p1) { return pre + "Tổ dân phố " + upperFirst(p1); })
+        .replace(/(^|[^\p{L}\p{M}])đạ huoai(?![\p{L}\p{M}])/giu, function (m, pre) { return pre + "Đạ Huoai"; });
+    }
+
+    function formatPartyCellHeading(raw) {
+      const core = formatPartyCellCore(raw);
+      return "CHI ỦY CHI BỘ " + (core || String(raw)).toLocaleUpperCase("vi");
+    }
+    function formatPartyCellDisplay(raw) {
+      const core = formatPartyCellCore(raw);
+      return "Chi bộ " + (core || String(raw));
+    }
+
+    /* ============================ NGÀY THÁNG ============================ */
+    function formatDocDate(date) {
+      const d = date.getDate(), m = date.getMonth() + 1, y = date.getFullYear();
+      const ds = d < 10 ? "0" + d : String(d);
+      const padMonth = CONFIG.PAD_ALL_MONTHS ? m < 10 : m <= 2;
+      const ms = padMonth ? "0" + m : String(m);
+      return CONFIG.PLACE + ", ngày " + ds + " tháng " + ms + " năm " + y;
+    }
+    function formatShortDate(iso) {
+      const t = Date.parse(iso);
+      if (isNaN(t)) return "";
+      const d = new Date(t);
+      return ("0" + d.getDate()).slice(-2) + "/" + ("0" + (d.getMonth() + 1)).slice(-2) + "/" + d.getFullYear();
+    }
+    function displayDate(rec) {
+      const s = formatShortDate(rec.submittedAt) || formatShortDate(rec.receivedAt);
+      if (s) return s;
+      return String(rec.date || "").replace(/^[^,]*,\s*/, "");
+    }
+
+    /* ============================ XẾP LOẠI ============================ */
+    function getRank(total, hasOverachieve) {
+      if (total >= RANK_RULES.excellent && hasOverachieve) return { key: "XS", note: "" };
+      if (total >= RANK_RULES.good) {
+        return {
+          key: "T",
+          note: total >= RANK_RULES.excellent ? "Đủ điểm xuất sắc nhưng chưa tích xác nhận điều kiện 30% nhiệm vụ vượt mức." : ""
+        };
+      }
+      if (total >= RANK_RULES.pass) return { key: "HT", note: "" };
+      return { key: "KHT", note: "" };
+    }
+    function rankKeyFromText(text) {
+      const t = String(text || "").toLowerCase();
+      if (t.indexOf("không hoàn thành") !== -1) return "KHT";
+      if (t.indexOf("xuất sắc") !== -1) return "XS";
+      if (t.indexOf("tốt") !== -1) return "T";
+      return "HT";
+    }
+
+    /* ============================ GIAO TIẾP MÁY CHỦ ============================ */
+    function getAdminKey() { try { return sessionStorage.getItem(ADMIN_SESSION_KEY) || ""; } catch (e) { return ""; } }
+    function setAdminKey(key) {
+      try { if (key) sessionStorage.setItem(ADMIN_SESSION_KEY, key); else sessionStorage.removeItem(ADMIN_SESSION_KEY); } catch (e) {}
+      updateAdminGateUI();
+    }
+
+    async function api(action, payload) {
+      if (!hasCloud()) { const err = new Error("Chưa cấu hình máy chủ."); err.code = "NO_CLOUD"; throw err; }
+      const ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      const timer = ctrl ? setTimeout(function () { ctrl.abort(); }, CONFIG.REQUEST_TIMEOUT_MS) : null;
+      try {
+        const res = await fetch(CONFIG.SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(Object.assign({ action: action }, payload || {})),
+          signal: ctrl ? ctrl.signal : undefined,
+          redirect: "follow"
+        });
+        if (!res.ok) throw new Error("Máy chủ trả về lỗi HTTP " + res.status + ".");
+        let json;
+        try { json = await res.json(); } catch (e) { throw new Error("Máy chủ trả về dữ liệu không hợp lệ (kiểm tra lại URL /exec và quyền truy cập 'Bất kỳ ai')."); }
+        if (!json || json.ok !== true) {
+          const err = new Error((json && json.error) || "Lỗi máy chủ.");
+          err.code = json && json.code;
+          throw err;
+        }
+        return json;
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
+    }
+
+    /* ============================ DỮ LIỆU CỤC BỘ ============================ */
+    function getMy() { const v = lsGet(MY_KEY, []); return Array.isArray(v) ? v : []; }
+    function saveMy(list) { return lsSet(MY_KEY, list); }
+
+    function parseArr(v) {
+      if (Array.isArray(v)) return v.map(Number);
+      if (typeof v === "string" && v) { try { const a = JSON.parse(v); return Array.isArray(a) ? a.map(Number) : null; } catch (e) { return null; } }
+      return null;
+    }
+
+    function normalizeRecord(r) {
+      const o = Object.assign({}, r);
+      o.fullName = String(o.fullName || "");
+      o.partyCell = String(o.partyCell || "");
+      o.id = o.id ? String(o.id) : "LEG-" + hash36([o.fullName, o.partyCell, o.timestamp || o.submittedAt || o.date || ""].join("|"));
+      ["group1", "group2", "total"].forEach(function (k) { const n = Number(o[k]); o[k] = isNaN(n) ? 0 : n; });
+      const ut = Number(o.unitTotal);
+      o.unitTotal = (o.unitTotal === undefined || o.unitTotal === "" || isNaN(ut)) ? o.total : ut;
+      o.rankKey = o.rankKey || rankKeyFromText(o.rank);
+      o.rank = o.rank || RANKS[o.rankKey].text;
+      o.unitRankKey = o.unitRankKey || (o.unitRank ? rankKeyFromText(o.unitRank) : o.rankKey);
+      o.unitRank = o.unitRank || RANKS[o.unitRankKey].text;
+      o.selfScores = parseArr(o.selfScores);
+      o.unitScores = parseArr(o.unitScores);
+      o.submittedAt = o.submittedAt || o.timestamp || "";
+      o.overachieve = o.overachieve === true || o.overachieve === "true";
+      o.unitOverachieve = o.unitOverachieve === undefined ? o.overachieve : (o.unitOverachieve === true || o.unitOverachieve === "true");
+      return o;
+    }
+
+    /* ============================ GIAO DIỆN CHUNG ============================ */
+    const SECTIONS = {
+      home: "home-section", scoring: "scoring-section", preview: "preview-section",
+      admin: "admin-section", adminPreview: "admin-preview-section"
+    };
+    function show(name) {
+      Object.keys(SECTIONS).forEach(function (k) { $(SECTIONS[k]).style.display = k === name ? "block" : "none"; });
+      $("sticky-bar").style.display = name === "scoring" ? "block" : "none";
+      window.scrollTo(0, 0);
+    }
+
+    function setDarkMode(isDark) {
+      document.documentElement.classList.toggle("dark-mode", isDark);
+      const btn = $("btn-theme-toggle");
+      if (btn) {
+        btn.textContent = isDark ? "☀️" : "🌙";
+        btn.title = isDark ? "Chuyển sang màn hình Sáng (Trắng)" : "Chuyển sang màn hình Tối (Đen)";
+      }
+      try { localStorage.setItem(THEME_KEY, isDark ? "dark" : "light"); } catch (e) {}
+    }
+
+    function setPrintPageOrientation(orientation) {
+      const styleEl = $("dynamic-print-page-style");
+      if (!styleEl) return;
+      styleEl.textContent = orientation === "landscape"
+        ? "@page { size: A4 landscape; margin: 12mm 12mm 12mm 12mm; }"
+        : "@page { size: A4 portrait; margin: 20mm 15mm 20mm 25mm; }";
+    }
+
+    function selectRole(role) {
+      state.role = role === "leader" ? "leader" : "member";
+      const isMember = state.role === "member";
+      $("card-member").classList.toggle("active", isMember);
+      $("card-leader").classList.toggle("active", !isMember);
+      $("card-member").setAttribute("aria-pressed", isMember ? "true" : "false");
+      $("card-leader").setAttribute("aria-pressed", isMember ? "false" : "true");
+      $("check-member").textContent = isMember ? "✓" : "";
+      $("check-leader").textContent = isMember ? "" : "✓";
+    }
+
+    function updateBannerOrgName(rawCell) {
+      const core = formatPartyCellCore(rawCell);
+      $("banner-org-name").textContent = core ? "Đảng bộ xã Đạ Huoai - Chi bộ " + core : "Đảng bộ xã Đạ Huoai - Chi bộ ...";
+    }
+
+    function updateAdminGateUI() {
+      const pasInput = $("admin-pas-input"), hint = $("admin-session-hint"), loginBtn = $("btn-admin-login");
+      if (!pasInput || !hint || !loginBtn) return;
+      if (!hasCloud()) {
+        pasInput.style.display = "none";
+        hint.innerHTML = "Chế độ cục bộ: dữ liệu chỉ nằm trên thiết bị này, <strong>chưa có mật khẩu bảo vệ</strong>";
+        loginBtn.textContent = "📊 Xem tổng hợp trên thiết bị này";
+        loginBtn.className = "btn btn-secondary";
+      } else if (getAdminKey()) {
+        pasInput.style.display = "none";
+        hint.innerHTML = '✅ <strong>Đã xác thực quyền Chi ủy trong phiên này</strong>';
+        loginBtn.textContent = "📊 Vào trang Tổng hợp toàn chi bộ";
+        loginBtn.className = "btn btn-info";
+      } else {
+        pasInput.style.display = "block";
+        hint.textContent = "Nhập mật khẩu quản trị 1 lần trong phiên làm việc";
+        loginBtn.textContent = "📊 Tổng hợp toàn chi bộ";
+        loginBtn.className = "btn btn-secondary";
+      }
+    }
+
+    function updateAdminEditingUI() {
+      const editing = Boolean(state.adminEditing);
+      $("admin-edit-banner").style.display = editing ? "flex" : "none";
+      $("btn-admin-save-sticky").style.display = editing ? "inline-flex" : "none";
+      $("btn-back-admin-from-preview-top").style.display = editing ? "inline-flex" : "none";
+      $("btn-back-admin-from-preview-bottom").style.display = editing ? "inline-flex" : "none";
+    }
+
+    function updateHomePending() {
+      const n = getMy().filter(function (x) { return x.sync === "pending"; }).length;
+      const box = $("home-pending-box");
+      if (!box) return;
+      if (n > 0 && hasCloud()) {
+        $("home-pending-text").textContent = "📌 Có " + n + " phiếu đã lưu trên máy nhưng CHƯA gửi lên hệ thống.";
+        box.style.display = "flex";
+      } else {
+        box.style.display = "none";
+      }
+    }
+
+    async function flushPending() {
+      if (!hasCloud()) return 0;
+      const list = getMy();
+      let ok = 0;
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].sync !== "pending") continue;
+        try {
+          const res = await api("submit", { record: list[i].record, ownerToken: list[i].ownerToken });
+          list[i].sync = "synced";
+          list[i].record.receivedAt = res.receivedAt || list[i].record.receivedAt;
+          ok++;
+        } catch (e) { /* giữ trạng thái pending để thử lại */ }
+      }
+      saveMy(list);
+      updateHomePending();
+      return ok;
+    }
+
+    /* ============================ BẢNG CHẤM ĐIỂM ============================ */
+    function showHomeError(msg) { setBox("home-error-box", msg); }
+
+    function renderCriteriaTable(items) {
+      const tbody = $("criteria-tbody");
+      tbody.innerHTML = "";
+      let itemIndex = 0;
+      const arrowUp = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>';
+      const arrowDown = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+
+      function stepper(cls, item, idx, ariaLabel) {
+        return '<div class="score-stepper-box">' +
+          '<input type="text" inputmode="decimal" autocomplete="off" value="' + item.max + '" ' +
+          'data-idx="' + idx + '" data-group="' + item.group + '" data-subid="' + (item.subId || "") + '" data-max="' + item.max + '" ' +
+          'class="' + cls + '" aria-label="' + ariaLabel + ' mục ' + escapeHtml(item.tt) + '" />' +
+          '<div class="spin-arrows">' +
+          '<button type="button" class="spin-btn spin-up" aria-label="Tăng 0.5 điểm" tabindex="-1">' + arrowUp + '</button>' +
+          '<button type="button" class="spin-btn spin-down" aria-label="Giảm 0.5 điểm" tabindex="-1">' + arrowDown + '</button>' +
+          '</div></div>';
+      }
+
+      items.forEach(function (item) {
+        const tr = document.createElement("tr");
+        const text = escapeHtml(item.text);
+        if (item.type === "group") {
+          const g = item.tt === "I" ? 1 : 2;
+          tr.className = "group-header";
+          tr.innerHTML = '<td class="col-tt">' + item.tt + '</td><td>' + text + '</td><td class="col-max">' + item.max +
+            '</td><td class="col-input" id="group-subtotal-' + g + '">' + item.max +
+            '</td><td class="col-unit-input" id="unit-group-subtotal-' + g + '">' + item.max + '</td>';
+        } else if (item.type === "subgroup") {
+          tr.className = "subgroup-header";
+          tr.innerHTML = '<td class="col-tt">' + item.tt + '</td><td>' + text + '</td><td class="col-max">' + item.max +
+            '</td><td class="col-input subgroup-score-val" id="subgroup-subtotal-' + item.id + '">' + item.max +
+            '</td><td class="col-unit-input subgroup-unit-val" id="unit-subgroup-subtotal-' + item.id + '">' + item.max + '</td>';
+        } else {
+          const idx = itemIndex++;
+          tr.innerHTML = '<td class="col-tt">' + escapeHtml(item.tt) + '</td><td>' + text + '</td><td class="col-max">' + item.max +
+            '</td><td class="col-input">' + stepper("score-input", item, idx, "Điểm tự chấm") +
+            '</td><td class="col-unit-input">' + stepper("unit-score-input", item, idx, "Điểm cơ quan, đơn vị đề nghị") + '</td>';
+        }
+        tbody.appendChild(tr);
+      });
+
+      const totalTr = document.createElement("tr");
+      totalTr.className = "total-row";
+      totalTr.innerHTML = '<td colspan="2" style="text-align:right;">TỔNG ĐIỂM = Điểm nhóm I + Điểm nhóm II</td><td class="col-max">100</td>' +
+        '<td class="col-input" id="table-grand-total">100</td><td class="col-unit-input" id="unit-table-grand-total">100</td>';
+      tbody.appendChild(totalTr);
+
+      const selfInputs = tbody.querySelectorAll(".score-input");
+      const unitInputs = tbody.querySelectorAll(".unit-score-input");
+
+      tbody.querySelectorAll(".spin-up").forEach(function (btn) {
+        btn.addEventListener("click", function (e) { e.preventDefault(); stepScoreInput(this.closest(".score-stepper-box").querySelector("input"), 0.5); });
+      });
+      tbody.querySelectorAll(".spin-down").forEach(function (btn) {
+        btn.addEventListener("click", function (e) { e.preventDefault(); stepScoreInput(this.closest(".score-stepper-box").querySelector("input"), -0.5); });
+      });
+
+      function liveClamp(inp) {
+        let raw = inp.value.replace(/[^\d.,]/g, "");
+        if (raw !== inp.value) inp.value = raw;
+        const v = parseScore(raw);
+        if (!isNaN(v)) {
+          const max = parseFloat(inp.dataset.max);
+          if (v > max) inp.value = max;
+        }
+      }
+      function finalClamp(inp) {
+        const max = parseFloat(inp.dataset.max);
+        let v = parseScore(inp.value);
+        if (isNaN(v) || v < 0) v = 0;
+        if (v > max) v = max;
+        inp.value = String(round2(v));
+      }
+
+      selfInputs.forEach(function (inp) {
+        inp.addEventListener("focus", function () { try { this.select(); } catch (e) {} });
+        inp.addEventListener("input", function () {
+          liveClamp(this);
+          if (!state.unitManual) { const u = unitInputs[parseInt(this.dataset.idx, 10)]; if (u) u.value = this.value; }
+          state.dirty = true; recalculate();
+        });
+        inp.addEventListener("change", function () {
+          finalClamp(this);
+          if (!state.unitManual) { const u = unitInputs[parseInt(this.dataset.idx, 10)]; if (u) u.value = this.value; }
+          state.dirty = true; recalculate();
+        });
+      });
+      unitInputs.forEach(function (inp) {
+        inp.addEventListener("focus", function () { try { this.select(); } catch (e) {} });
+        inp.addEventListener("input", function () { state.unitManual = true; liveClamp(this); state.dirty = true; recalculate(); });
+        inp.addEventListener("change", function () { state.unitManual = true; finalClamp(this); state.dirty = true; recalculate(); });
+      });
+    }
+
+    function stepScoreInput(inputEl, delta) {
+      if (!inputEl) return;
+      const max = parseFloat(inputEl.dataset.max);
+      const cur = parseScore(inputEl.value);
+      const base = isNaN(cur) ? max : cur;
+      let next = round2(base + delta);
+      if (next > max) next = max;
+      if (next < 0) next = 0;
+      inputEl.value = String(next);
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function syncUnitScoresFromSelf() {
+      const selfInputs = document.querySelectorAll(".score-input");
+      const unitInputs = document.querySelectorAll(".unit-score-input");
+      selfInputs.forEach(function (inp, idx) { if (unitInputs[idx]) unitInputs[idx].value = inp.value; });
+      state.unitManual = false;
+      state.dirty = true;
+      recalculate();
+    }
+
+    function computeTotals(selector) {
+      let g1 = 0, g2 = 0;
+      const subs = {};
+      document.querySelectorAll(selector).forEach(function (inp) {
+        const v = parseScore(inp.value);
+        const val = isNaN(v) ? 0 : v;
+        if (inp.dataset.group === "1") g1 += val; else g2 += val;
+        const sid = inp.dataset.subid;
+        if (sid) subs[sid] = (subs[sid] || 0) + val;
+      });
+      Object.keys(subs).forEach(function (k) { subs[k] = round2(subs[k]); });
+      g1 = round2(g1); g2 = round2(g2);
+      return { g1: g1, g2: g2, total: round2(g1 + g2), subs: subs };
+    }
+
+    function recalculate() {
+      const s = computeTotals(".score-input");
+      const u = computeTotals(".unit-score-input");
+      subgroupTotals = s.subs;
+      unitSubgroupTotals = u.subs;
+
+      Object.keys(s.subs).forEach(function (k) { const c = $("subgroup-subtotal-" + k); if (c) c.textContent = s.subs[k]; });
+      Object.keys(u.subs).forEach(function (k) { const c = $("unit-subgroup-subtotal-" + k); if (c) c.textContent = u.subs[k]; });
+
+      $("sum-group1").textContent = s.g1; $("sum-group2").textContent = s.g2; $("sum-total").textContent = s.total;
+      $("unit-sum-group1").textContent = u.g1; $("unit-sum-group2").textContent = u.g2; $("unit-sum-total").textContent = u.total;
+      $("sticky-total").textContent = s.total; $("sticky-unit-total").textContent = u.total;
+
+      const setText = function (id, v) { const c = $(id); if (c) c.textContent = v; };
+      setText("group-subtotal-1", s.g1); setText("group-subtotal-2", s.g2); setText("table-grand-total", s.total);
+      setText("unit-group-subtotal-1", u.g1); setText("unit-group-subtotal-2", u.g2); setText("unit-table-grand-total", u.total);
+
+      const selfRank = getRank(s.total, $("overachieveCheck").checked);
+      const unitRank = getRank(u.total, $("unitOverachieveCheck").checked);
+      currentSelfRank = RANKS[selfRank.key];
+      currentUnitRank = RANKS[unitRank.key];
+      currentSelfRank.key = selfRank.key;
+      currentUnitRank.key = unitRank.key;
+
+      const rankEl = $("rank-display");
+      rankEl.textContent = currentSelfRank.text + " (" + s.total + " điểm)";
+      rankEl.className = "rank-badge " + currentSelfRank.cls;
+      $("rank-note").textContent = selfRank.note;
+      $("unit-rank-display").textContent = currentUnitRank.text + " (" + u.total + " điểm)";
+      $("sticky-rank").textContent = currentSelfRank.text;
+    }
+
+    /* ============================ MỞ BẢNG CHẤM ĐIỂM ============================ */
+    function openScoring(rec) {
+      showHomeError("");
+      setBox("scoring-error-box", "");
+      const isAdminEdit = Boolean(rec);
+
+      if (isAdminEdit) {
+        $("fullName").value = rec.fullName || "";
+        $("partyCell").value = formatPartyCellCore(rec.partyCell || "");
+        $("positionDetail").value = rec.position || "";
+        $("innovationNote").value = rec.innovation || "";
+        $("overachieveCheck").checked = Boolean(rec.overachieve);
+        $("unitOverachieveCheck").checked = Boolean(rec.unitOverachieve);
+        selectRole(rec.roleKey ? rec.roleKey : (/bí thư|cấp ủy/i.test(rec.role || "") ? "leader" : "member"));
+        $("admin-editing-target").textContent = rec.fullName || "";
+      }
+
+      const fullName = formatPersonName($("fullName").value);
+      const partyCellCore = formatPartyCellCore($("partyCell").value);
+      if (!fullName) { showHomeError("Vui lòng nhập Họ và tên đảng viên trước khi tiếp tục!"); $("fullName").focus(); return; }
+      if (!partyCellCore) { showHomeError("Vui lòng nhập Chi bộ sinh hoạt trước khi tiếp tục!"); $("partyCell").focus(); return; }
+
+      const config = CRITERIA_DATA[state.role];
+      const nItems = config.items.filter(function (i) { return i.type === "item"; }).length;
+
+      if (isAdminEdit) {
+        const okSelf = Array.isArray(rec.selfScores) && rec.selfScores.length === nItems;
+        if (!okSelf && !window.confirm("Phiếu này không có điểm chi tiết từng tiêu chí (hoặc số tiêu chí không khớp mẫu hiện tại). Bảng sẽ hiện điểm tối đa ở mọi mục; nếu lưu, điểm cũ sẽ bị thay thế. Tiếp tục sửa?")) return;
+      }
+
+      $("fullName").value = fullName;
+      $("partyCell").value = partyCellCore;
+      updateBannerOrgName(partyCellCore);
+      state.adminEditing = isAdminEdit ? rec : null;
+
+      $("display-name").textContent = fullName;
+      $("display-cell").textContent = formatPartyCellDisplay(partyCellCore);
+      $("display-role-label").textContent = config.label;
+
+      state.unitManual = false;
+      renderCriteriaTable(config.items);
+
+      if (isAdminEdit) {
+        const selfInputs = document.querySelectorAll(".score-input");
+        const unitInputs = document.querySelectorAll(".unit-score-input");
+        const hasSelf = Array.isArray(rec.selfScores) && rec.selfScores.length === selfInputs.length;
+        const hasUnit = Array.isArray(rec.unitScores) && rec.unitScores.length === unitInputs.length;
+        if (hasSelf) selfInputs.forEach(function (inp, i) { inp.value = String(rec.selfScores[i]); });
+        if (hasUnit) {
+          unitInputs.forEach(function (inp, i) { inp.value = String(rec.unitScores[i]); });
+          state.unitManual = rec.unitScores.some(function (v, i) { return v !== rec.selfScores[i]; });
+        } else if (hasSelf) {
+          unitInputs.forEach(function (inp, i) { inp.value = String(rec.selfScores[i]); });
+        }
+      }
+
+      updateAdminEditingUI();
+      show("scoring");
+      recalculate();
+      state.dirty = false;
+    }
+
+    function backToHome() {
+      state.adminEditing = null;
+      updateAdminEditingUI();
+      updateAdminGateUI();
+      updateHomePending();
+      show("home");
+    }
+
+    /* ============================ XEM TRƯỚC PDF ============================ */
+    function openPreview() {
+      setPrintPageOrientation("portrait");
+      updateAdminEditingUI();
+      const fullName = formatPersonName($("fullName").value);
+      const partyCellCore = formatPartyCellCore($("partyCell").value);
+      const positionDetail = formatProperNounsInText($("positionDetail").value);
+      let innovation = formatProperNounsInText($("innovationNote").value);
+      if (innovation && !/[.!?]$/.test(innovation)) innovation += ".";
+
+      const config = CRITERIA_DATA[state.role];
+      const defaultPos = state.role === "member" ? "Đảng viên" : "Cấp ủy / Cán bộ chủ chốt chi bộ";
+      const dateStr = formatDocDate(new Date());
+      const cellDisplay = formatPartyCellDisplay(partyCellCore);
+
+      $("pdf-cell-name").textContent = formatPartyCellHeading(partyCellCore);
+      $("pdf-date-top").textContent = dateStr;
+      $("pdf-date-sig").textContent = dateStr;
+      $("pdf-date-sig-left").textContent = dateStr;
+      $("pdf-subtitle").textContent = config.subtitle;
+      $("pdf-fullname").textContent = fullName;
+      $("pdf-position").textContent = (positionDetail || defaultPos) + " - " + cellDisplay;
+      $("pdf-sig-name").textContent = fullName;
+      $("pdf-innovation").textContent = innovation || "Không có.";
+
+      const s = computeTotals(".score-input");
+      const u = computeTotals(".unit-score-input");
+      $("pdf-rank").textContent = currentSelfRank.text + " (" + s.total + "/100 điểm)";
+      $("pdf-unit-rank").textContent = currentUnitRank.text + " (" + u.total + "/100 điểm)";
+
+      const selfInputs = document.querySelectorAll(".score-input");
+      const unitInputs = document.querySelectorAll(".unit-score-input");
+      const tbody = $("pdf-tbody");
+      tbody.innerHTML = "";
+      let idx = 0;
+      const center = 'style="text-align:center;"';
+
+      config.items.forEach(function (item) {
+        const tr = document.createElement("tr");
+        const text = escapeHtml(item.text);
+        if (item.type === "group") {
+          tr.style.fontWeight = "bold"; tr.style.backgroundColor = "#f3f4f6";
+          tr.innerHTML = '<td ' + center + '>' + item.tt + '</td><td>' + text + '</td><td ' + center + '>' + item.max +
+            '</td><td ' + center + '>' + (item.tt === "I" ? s.g1 : s.g2) + '</td><td ' + center + '>' + (item.tt === "I" ? u.g1 : u.g2) + '</td>';
+        } else if (item.type === "subgroup") {
+          tr.style.fontWeight = "bold";
+          tr.innerHTML = '<td ' + center + '>' + item.tt + '</td><td>' + text + '</td><td ' + center + '>' + item.max +
+            '</td><td ' + center + '>' + (subgroupTotals[item.id] !== undefined ? subgroupTotals[item.id] : 0) +
+            '</td><td ' + center + '>' + (unitSubgroupTotals[item.id] !== undefined ? unitSubgroupTotals[item.id] : 0) + '</td>';
+        } else {
+          const v = selfInputs[idx] ? (selfInputs[idx].value || "0") : "0";
+          const uv = unitInputs[idx] ? (unitInputs[idx].value || "0") : "0";
+          idx++;
+          tr.innerHTML = '<td ' + center + '>' + escapeHtml(item.tt) + '</td><td>' + text + '</td><td ' + center + '>' + item.max +
+            '</td><td style="text-align:center; font-weight:bold;">' + escapeHtml(v) +
+            '</td><td style="text-align:center; font-weight:bold;">' + escapeHtml(uv) + '</td>';
+        }
+        tbody.appendChild(tr);
+      });
+
+      const totalTr = document.createElement("tr");
+      totalTr.style.fontWeight = "bold"; totalTr.style.backgroundColor = "#f3f4f6";
+      totalTr.innerHTML = '<td colspan="2" style="text-align:right;">TỔNG ĐIỂM = Điểm nhóm I + Điểm nhóm II</td><td ' + center + '>100</td><td ' + center + '>' + s.total + '</td><td ' + center + '>' + u.total + '</td>';
+      tbody.appendChild(totalTr);
+
+      $("sent-banner").style.display = "none";
+      show("preview");
+    }
+
+    function closePreview() { show("scoring"); }
+
+    /* ============================ GỬI PHIẾU ============================ */
+    function buildCurrentRecord() {
+      const editing = state.adminEditing;
+      const nowIso = new Date().toISOString();
+      const s = computeTotals(".score-input");
+      const u = computeTotals(".unit-score-input");
+      const selfRank = getRank(s.total, $("overachieveCheck").checked);
+      const unitRank = getRank(u.total, $("unitOverachieveCheck").checked);
+      const positionDetail = formatProperNounsInText($("positionDetail").value);
+
+      return {
+        id: editing ? editing.id : "",
+        fullName: formatPersonName($("fullName").value),
+        partyCell: formatPartyCellDisplay($("partyCell").value),
+        position: positionDetail || (state.role === "member" ? "Đảng viên" : "Cấp ủy / Cán bộ chủ chốt"),
+        roleKey: state.role,
+        role: CRITERIA_DATA[state.role].label,
+        group1: s.g1, group2: s.g2, total: s.total, unitTotal: u.total,
+        rankKey: selfRank.key, rank: RANKS[selfRank.key].text,
+        unitRankKey: unitRank.key, unitRank: RANKS[unitRank.key].text,
+        innovation: formatProperNounsInText($("innovationNote").value),
+        overachieve: $("overachieveCheck").checked,
+        unitOverachieve: $("unitOverachieveCheck").checked,
+        selfScores: Array.from(document.querySelectorAll(".score-input")).map(function (i) { const v = parseScore(i.value); return isNaN(v) ? 0 : v; }),
+        unitScores: Array.from(document.querySelectorAll(".unit-score-input")).map(function (i) { const v = parseScore(i.value); return isNaN(v) ? 0 : v; }),
+        // Admin sửa phiếu: giữ nguyên ngày nộp gốc
+        submittedAt: editing ? (editing.submittedAt || nowIso) : nowIso,
+        receivedAt: editing ? editing.receivedAt : undefined
+      };
+    }
+
+    function allScoresAtMax() {
+      const inputs = document.querySelectorAll(".score-input");
+      return inputs.length > 0 && Array.from(inputs).every(function (i) { return parseScore(i.value) === parseFloat(i.dataset.max); });
+    }
+
+    function setSentBanner(kind, html) {
+      const b = $("sent-banner");
+      const palette = {
+        info: ["#e0f2fe", "#0284c7", "#0c4a6e"],
+        ok: ["#dcfce7", "#22c55e", "#14532d"],
+        warn: ["#fef3c7", "#f59e0b", "#78350f"],
+        err: ["#fee2e2", "#ef4444", "#7f1d1d"]
+      }[kind];
+      b.style.background = palette[0]; b.style.borderColor = palette[1]; b.style.color = palette[2];
+      b.innerHTML = html;
+      b.style.display = "block";
+      window.scrollTo(0, 0);
+    }
+
+    async function submitToPartyCell() {
+      if (state.busy) return;
+      if (state.adminEditing) { await saveAdminEdit(); return; }
+
+      if (allScoresAtMax() && !window.confirm("Bạn đang chấm ĐIỂM TỐI ĐA ở tất cả các tiêu chí. Bạn đã rà soát kỹ và xác nhận đúng thực tế?")) return;
+
+      const rec = buildCurrentRecord();
+      const my = getMy();
+      let entry = my.find(function (x) { return x.record.fullName === rec.fullName && x.record.partyCell === rec.partyCell; });
+      if (entry) {
+        rec.id = entry.record.id;
+      } else {
+        rec.id = newRecordId();
+        entry = { ownerToken: newOwnerToken(), sync: "pending", record: rec };
+        my.push(entry);
+      }
+      entry.record = rec;
+      entry.sync = "pending";
+      if (!saveMy(my)) {
+        setSentBanner("err", "⚠️ Không lưu được phiếu trên thiết bị (bộ nhớ trình duyệt bị chặn hoặc đầy). Hãy dùng nút <strong>Lưu PDF / In phiếu</strong> để giữ bản của mình.");
+        if (!hasCloud()) return;
+      }
+
+      const name = escapeHtml(rec.fullName), cell = escapeHtml(rec.partyCell);
+      const btns = [$("btn-submit-top"), $("btn-submit-bottom")];
+
+      if (!hasCloud()) {
+        state.dirty = false;
+        setSentBanner("warn", "✅ Đã lưu phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + rec.total + "/100</strong> | CQ, ĐV đề nghị: <strong>" + rec.unitTotal + "/100</strong>) <u>trên thiết bị này</u>. <em>Chưa cấu hình máy chủ Google Sheets (CONFIG.SCRIPT_URL) nên phiếu chưa được gửi về chi bộ.</em>");
+        return;
+      }
+
+      state.busy = true;
+      btns.forEach(function (b) { b.disabled = true; });
+      setSentBanner("info", "⏳ Đang gửi phiếu lên hệ thống Google Sheets của Chi bộ...");
+      try {
+        const res = await api("submit", { record: rec, ownerToken: entry.ownerToken });
+        entry.sync = "synced";
+        entry.record.receivedAt = res.receivedAt || "";
+        saveMy(my);
+        state.dirty = false;
+        let extra = "";
+        if (Number(res.total) !== Number(rec.total) || Number(res.unitTotal) !== Number(rec.unitTotal)) {
+          extra = " <br><em>Lưu ý: máy chủ tính lại tổng điểm là " + escapeHtml(res.total) + " / " + escapeHtml(res.unitTotal) + " — vui lòng báo Chi ủy kiểm tra.</em>";
+        }
+        setSentBanner("ok", "✅ <strong>Máy chủ đã xác nhận</strong> đã nhận phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + res.total + "/100</strong> | CQ, ĐV đề nghị: <strong>" + res.unitTotal + "/100</strong>) về <strong>" + cell + "</strong>." + extra);
+      } catch (e) {
+        saveMy(my);
+        setSentBanner("warn", "⚠️ <strong>Phiếu CHƯA được gửi lên hệ thống</strong> (" + escapeHtml(friendlyError(e)) + "). Phiếu đã được giữ trên thiết bị này; hãy kiểm tra mạng rồi bấm <strong>Gửi lại</strong>. Bạn cũng nên bấm <strong>Lưu PDF / In phiếu</strong> để có bản dự phòng.");
+      } finally {
+        state.busy = false;
+        btns.forEach(function (b) { b.disabled = false; });
+        updateHomePending();
+      }
+    }
+
+    /* ============================ ADMIN: SỬA PHIẾU ============================ */
+    async function saveAdminEdit() {
+      if (state.busy || !state.adminEditing) return;
+      setBox("scoring-error-box", "");
+      const rec = buildCurrentRecord();
+      const base = state.adminEditing;
+      state.busy = true;
+      const btns = [$("btn-admin-save-return"), $("btn-admin-save-sticky"), $("btn-submit-top"), $("btn-submit-bottom")];
+      btns.forEach(function (b) { b.disabled = true; });
+      try {
+        if (hasCloud()) {
+          await api("submit", { key: getAdminKey(), record: rec, baseVersion: base.updatedAt || "" });
+        } else {
+          const my = getMy();
+          const idx = my.findIndex(function (x) { return x.record.id === rec.id; });
+          if (idx >= 0) { my[idx].record = rec; saveMy(my); }
+        }
+        state.dirty = false;
+        state.adminEditing = null;
+        updateAdminEditingUI();
+        await openAdminDashboard();
+      } catch (e) {
+        show("scoring");
+        if (e.code === "AUTH" || e.code === "LOCKED") { setBox("scoring-error-box", friendlyError(e) + " Hãy khóa Admin rồi đăng nhập lại."); }
+        else setBox("scoring-error-box", "Chưa lưu được lên máy chủ: " + friendlyError(e) + " (Các thay đổi vẫn còn trên màn hình, hãy thử lại.)");
+      } finally {
+        state.busy = false;
+        btns.forEach(function (b) { b.disabled = false; });
+      }
+    }
+
+    async function leaveAdminEdit() {
+      if (state.dirty && !window.confirm("Bạn có thay đổi CHƯA LƯU. Thoát về bảng tổng hợp và bỏ các thay đổi này?")) return;
+      state.dirty = false;
+      state.adminEditing = null;
+      updateAdminEditingUI();
+      await openAdminDashboard();
+    }
+
+    /* ============================ ADMIN: ĐĂNG NHẬP / TẢI ============================ */
+    async function verifyAndOpenAdmin() {
+      const err = $("admin-gate-error");
+      err.style.display = "none";
+      if (!hasCloud() || getAdminKey()) { await openAdminDashboard(); return; }
+
+      const key = $("admin-pas-input").value.trim().replace(/^\/pas\s*/i, "");
+      if (!key) { err.textContent = "⚠️ Vui lòng nhập mật khẩu quản trị."; err.style.display = "block"; return; }
+
+      const btn = $("btn-admin-login");
+      btn.disabled = true;
+      try {
+        await api("auth", { key: key });
+        $("admin-pas-input").value = "";
+        setAdminKey(key);
+        await openAdminDashboard();
+      } catch (e) {
+        err.textContent = "⚠️ " + friendlyError(e);
+        err.style.display = "block";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function logoutAdmin() {
+      setAdminKey("");
+      try { localStorage.removeItem(CACHE_KEY); } catch (e) {}
+      state.adminRecords = [];
+    }
+
+    async function openAdminDashboard() {
+      state.adminEditing = null;
+      updateAdminEditingUI();
+      show("admin");
+      await loadAdminData();
+    }
+
+    async function loadAdminData() {
+      const badge = $("cloud-status-badge");
+      setBox("admin-msg-box", "");
+      state.adminStale = false;
+
+      if (!hasCloud()) {
+        state.adminRecords = getMy().map(function (x) { return Object.assign(normalizeRecord(x.record), { _pending: x.sync === "pending" }); });
+        badge.textContent = "⚪ Chế độ cục bộ (" + state.adminRecords.length + " phiếu trên thiết bị này)";
+        renderAdminTable();
+        return;
+      }
+
+      badge.textContent = "⏳ Đang tải từ Google Sheets...";
+      try {
+        const res = await api("list", { key: getAdminKey() });
+        const cloud = (res.data || []).map(normalizeRecord);
+        const cloudIds = {};
+        cloud.forEach(function (r) { cloudIds[r.id] = true; });
+        const pendingLocal = getMy()
+          .filter(function (x) { return x.sync === "pending" && !cloudIds[x.record.id]; })
+          .map(function (x) { return Object.assign(normalizeRecord(x.record), { _pending: true }); });
+        state.adminRecords = cloud.concat(pendingLocal);
+        lsSet(CACHE_KEY, { at: Date.now(), data: cloud });
+        badge.textContent = "🟢 Đã đồng bộ Google Sheets (" + cloud.length + " phiếu" + (pendingLocal.length ? ", +" + pendingLocal.length + " chưa gửi" : "") + ")";
+      } catch (e) {
+        if (e.code === "AUTH" || e.code === "LOCKED" || e.code === "NOSETUP") {
+          logoutAdmin();
+          backToHome();
+          const g = $("admin-gate-error");
+          g.textContent = "⚠️ " + friendlyError(e);
+          g.style.display = "block";
+          return;
+        }
+        const cache = lsGet(CACHE_KEY, null);
+        state.adminRecords = cache && Array.isArray(cache.data) ? cache.data.map(normalizeRecord) : [];
+        state.adminStale = true;
+        badge.textContent = "🟠 Không tải được – đang hiện dữ liệu lưu tạm (có thể cũ)";
+        setBox("admin-msg-box", "Không tải được dữ liệu mới từ máy chủ: " + friendlyError(e) + " Chức năng Sửa/Xóa tạm khóa cho tới khi tải thành công.");
+      }
+      renderAdminTable();
+    }
+
+    function getFilteredAdminRecords() {
+      const sel = $("adm-cell-filter");
+      const f = sel ? (sel.value || "ALL") : "ALL";
+      return f === "ALL" ? state.adminRecords : state.adminRecords.filter(function (r) { return r.partyCell === f; });
+    }
+
+    function countRanks(records, basis) {
+      const c = { XS: 0, T: 0, HT: 0, KHT: 0 };
+      records.forEach(function (r) { c[basis === "unit" ? r.unitRankKey : r.rankKey]++; });
+      return c;
+    }
+
+    function renderAdminTable() {
+      const all = state.adminRecords;
+      const filterSelect = $("adm-cell-filter");
+      const currentFilter = filterSelect.value || "ALL";
+      const cells = Array.from(new Set(all.map(function (r) { return r.partyCell; }))).filter(Boolean).sort();
+      filterSelect.innerHTML = '<option value="ALL">Tất cả các Chi bộ (' + all.length + " phiếu)</option>";
+      cells.forEach(function (c) {
+        const opt = document.createElement("option");
+        opt.value = c; opt.textContent = c;
+        if (c === currentFilter) opt.selected = true;
+        filterSelect.appendChild(opt);
+      });
+
+      const filtered = getFilteredAdminRecords();
+      const c = countRanks(filtered, $("adm-stat-basis").value);
+      $("adm-stat-total").textContent = filtered.length;
+      $("adm-stat-xs").textContent = c.XS; $("adm-stat-tot").textContent = c.T;
+      $("adm-stat-ht").textContent = c.HT; $("adm-stat-kht").textContent = c.KHT;
+
+      const dupCount = {};
+      all.forEach(function (r) { const k = (r.fullName + "|" + r.partyCell).toLocaleLowerCase("vi"); dupCount[k] = (dupCount[k] || 0) + 1; });
+
+      const tbody = $("admin-tbody");
+      tbody.innerHTML = "";
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding:20px; color:var(--muted);">Chưa có phiếu tự đánh giá nào được gửi về hệ thống.</td></tr>';
+        return;
+      }
+
+      filtered.forEach(function (rec, idx) {
+        const dup = dupCount[(rec.fullName + "|" + rec.partyCell).toLocaleLowerCase("vi")] > 1;
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          '<td style="text-align:center;">' + (idx + 1) + '</td>' +
+          '<td><strong>' + escapeHtml(rec.fullName) + '</strong>' +
+            (dup ? '<span class="badge-mini badge-warn" title="Có từ 2 phiếu cùng họ tên và chi bộ">Trùng tên</span>' : "") +
+            (rec._pending ? '<span class="badge-mini badge-warn" title="Phiếu còn ở thiết bị này, chưa lên máy chủ">Chưa đồng bộ</span>' : "") + '</td>' +
+          '<td>' + escapeHtml(rec.partyCell) + '</td>' +
+          '<td>' + escapeHtml(rec.position || rec.role) + '</td>' +
+          '<td style="text-align:center;">' + escapeHtml(rec.group1) + '</td>' +
+          '<td style="text-align:center;">' + escapeHtml(rec.group2) + '</td>' +
+          '<td style="text-align:center; font-weight:700;">' + escapeHtml(rec.total) + '</td>' +
+          '<td style="text-align:center; font-weight:700; color:var(--unit-score-color);">' + escapeHtml(rec.unitTotal) + '</td>' +
+          '<td><span class="badge-mini" style="' + RANKS[rec.rankKey].badge + '">' + escapeHtml(rec.rank) + '</span></td>' +
+          '<td><span class="badge-mini" style="' + RANKS[rec.unitRankKey].badge + '">' + escapeHtml(rec.unitRank) + '</span></td>' +
+          '<td style="text-align:center; font-size:0.82rem;">' + escapeHtml(displayDate(rec)) + '</td>' +
+          '<td class="no-print-admin" style="text-align:center; white-space:nowrap;">' +
+            '<button type="button" class="btn btn-warning btn-xs btn-edit-rec" data-id="' + escapeHtml(rec.id) + '" title="Mở phiếu cá nhân để sửa">✏️ Sửa</button> ' +
+            '<button type="button" class="btn btn-danger btn-xs btn-del-rec" data-id="' + escapeHtml(rec.id) + '" title="Xóa phiếu này">🗑️ Xóa</button>' +
+          '</td>';
+        tbody.appendChild(tr);
+      });
+
+      tbody.querySelectorAll(".btn-edit-rec").forEach(function (btn) {
+        btn.addEventListener("click", function (e) { e.preventDefault(); openMemberPageForAdminEdit(this.getAttribute("data-id")); });
+      });
+      tbody.querySelectorAll(".btn-del-rec").forEach(function (btn) {
+        btn.addEventListener("click", function (e) { e.preventDefault(); deleteSubmissionRecord(this.getAttribute("data-id")); });
+      });
+    }
+
+    function openMemberPageForAdminEdit(id) {
+      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi sửa."); return; }
+      const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
+      if (rec) openScoring(rec);
+    }
+
+    async function deleteSubmissionRecord(id) {
+      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi xóa."); return; }
+      const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
+      const nameLabel = rec ? rec.fullName : "đảng viên này";
+      if (!window.confirm("Xác nhận XÓA VĨNH VIỄN phiếu đánh giá của đồng chí " + nameLabel + "?")) return;
+
+      setBox("admin-msg-box", "");
+      try {
+        if (hasCloud() && !(rec && rec._pending)) await api("delete", { key: getAdminKey(), id: String(id) });
+        const my = getMy().filter(function (x) { return x.record.id !== String(id); });
+        saveMy(my);
+        state.adminRecords = state.adminRecords.filter(function (r) { return r.id !== String(id); });
+        if (hasCloud()) {
+          const cache = lsGet(CACHE_KEY, null);
+          if (cache && Array.isArray(cache.data)) { cache.data = cache.data.filter(function (r) { return String(r.id) !== String(id); }); lsSet(CACHE_KEY, cache); }
+        }
+        renderAdminTable();
+      } catch (e) {
+        if (e.code === "NOT_FOUND") { await loadAdminData(); return; }
+        setBox("admin-msg-box", "Chưa xóa được trên máy chủ: " + friendlyError(e));
+      }
+    }
+
+    /* ============================ ADMIN: XEM TRƯỚC A4 NGANG ============================ */
+    function openAdminLandscapePreview() {
+      setPrintPageOrientation("landscape");
+      const filterVal = $("adm-cell-filter").value || "ALL";
+      const filtered = getFilteredAdminRecords();
+      const dateStr = formatDocDate(new Date());
+
+      $("adm-pdf-cell-heading").textContent = filterVal === "ALL" ? "BAN THƯỜNG VỤ ĐẢNG ỦY XÃ" : formatPartyCellHeading(filterVal);
+      $("adm-pdf-date-top").textContent = dateStr;
+      $("adm-pdf-date-sig").textContent = dateStr;
+      $("adm-pdf-subtitle").textContent = filterVal === "ALL"
+        ? "Tổng hợp toàn Đảng bộ xã Đạ Huoai (Theo Quy định số 366-QĐ/TW)"
+        : "Đơn vị: " + filterVal + " (Theo Quy định số 366-QĐ/TW)";
+
+      const basis = $("adm-stat-basis").value;
+      const c = countRanks(filtered, basis);
+      $("adm-pdf-stats-line").innerHTML =
+        "<strong>Tổng số đảng viên:</strong> " + filtered.length + " đồng chí &nbsp;|&nbsp; " +
+        "<em>(Thống kê theo " + (basis === "unit" ? "xếp loại CQ, ĐV đề nghị" : "xếp loại tự chấm") + ")</em> &nbsp;|&nbsp; " +
+        "<strong>Hoàn thành xuất sắc:</strong> " + c.XS + " &nbsp;|&nbsp; " +
+        "<strong>Hoàn thành tốt:</strong> " + c.T + " &nbsp;|&nbsp; " +
+        "<strong>Hoàn thành nhiệm vụ:</strong> " + c.HT + " &nbsp;|&nbsp; " +
+        "<strong>Không hoàn thành:</strong> " + c.KHT;
+
+      const tbody = $("adm-pdf-tbody");
+      tbody.innerHTML = "";
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:14px;">Chưa có dữ liệu tổng hợp.</td></tr>';
+      } else {
+        filtered.forEach(function (rec, idx) {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            '<td style="text-align:center;">' + (idx + 1) + '</td>' +
+            '<td><strong>' + escapeHtml(rec.fullName) + '</strong></td>' +
+            '<td>' + escapeHtml(rec.partyCell) + '</td>' +
+            '<td>' + escapeHtml(rec.position || rec.role) + '</td>' +
+            '<td style="text-align:center;">' + escapeHtml(rec.group1) + '</td>' +
+            '<td style="text-align:center;">' + escapeHtml(rec.group2) + '</td>' +
+            '<td style="text-align:center; font-weight:bold;">' + escapeHtml(rec.total) + '</td>' +
+            '<td style="text-align:center; font-weight:bold;">' + escapeHtml(rec.unitTotal) + '</td>' +
+            '<td>' + escapeHtml(rec.rank) + '</td>' +
+            '<td>' + escapeHtml(rec.unitRank) + '</td>' +
+            '<td style="text-align:center;">' + escapeHtml(displayDate(rec)) + '</td>';
+          tbody.appendChild(tr);
+        });
+      }
+      show("adminPreview");
+    }
+    function closeAdminLandscapePreview() { show("admin"); }
+
+    /* ============================ ADMIN: XUẤT EXCEL ============================ */
+    function loadScriptOnce(url) {
+      return new Promise(function (resolve, reject) {
+        if (window.XLSX) { resolve(); return; }
+        const s = document.createElement("script");
+        s.src = url; s.onload = function () { resolve(); }; s.onerror = function () { reject(new Error("load")); };
+        document.head.appendChild(s);
+      });
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+    }
+
+    function csvCell(v) {
+      let s = String(v == null ? "" : v);
+      if (/^[=+\-@]/.test(s)) s = "'" + s;
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+
+    async function exportAdminExcel() {
+      const rows = getFilteredAdminRecords();
+      const header = ["TT", "Họ và tên", "Chi bộ", "Đối tượng / Chức vụ", "Nhóm I", "Nhóm II", "Điểm tự chấm", "Điểm CQ, ĐV đề nghị", "Xếp loại tự chấm", "Xếp loại CQ, ĐV đề nghị", "Ngày nộp"];
+      const aoa = [header].concat(rows.map(function (r, i) {
+        return [i + 1, r.fullName, r.partyCell, r.position || r.role, r.group1, r.group2, r.total, r.unitTotal, r.rank, r.unitRank, displayDate(r)];
+      }));
+      const stamp = new Date().toISOString().slice(0, 10);
+      try {
+        await loadScriptOnce(CONFIG.XLSX_URL);
+        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+        ws["!cols"] = [{ wch: 5 }, { wch: 26 }, { wch: 16 }, { wch: 30 }, { wch: 8 }, { wch: 8 }, { wch: 10 }, { wch: 12 }, { wch: 28 }, { wch: 28 }, { wch: 12 }];
+        const wb = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(wb, ws, "TongHop");
+        window.XLSX.writeFile(wb, "Tong_hop_xep_loai_dang_vien_" + stamp + ".xlsx");
+      } catch (e) {
+        // Không tải được thư viện (mất mạng) → xuất CSV UTF-8 mở được bằng Excel
+        const csv = "\ufeff" + aoa.map(function (row) { return row.map(csvCell).join(","); }).join("\r\n");
+        downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), "Tong_hop_xep_loai_dang_vien_" + stamp + ".csv");
+        setBox("admin-msg-box", "Không tải được thư viện xuất .xlsx (có thể đang mất mạng) nên đã xuất tệp .csv thay thế.");
+      }
+    }
+
+    /* ============================ KHỞI TẠO ============================ */
+    document.addEventListener("DOMContentLoaded", function () {
+      setDarkMode(document.documentElement.classList.contains("dark-mode"));
+      updateAdminGateUI();
+      updateHomePending();
+      selectRole("member");
+
+      $("btn-theme-toggle").addEventListener("click", function () { setDarkMode(!document.documentElement.classList.contains("dark-mode")); });
+      $("partyCell").addEventListener("input", function () { updateBannerOrgName(this.value); });
+
+      ["card-member", "card-leader"].forEach(function (id) {
+        const role = id === "card-member" ? "member" : "leader";
+        $(id).addEventListener("click", function () { selectRole(role); });
+        $(id).addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectRole(role); } });
+      });
+
+      $("btn-start-scoring").addEventListener("click", function () { openScoring(null); });
+      $("btn-back-home").addEventListener("click", backToHome);
+      $("btn-sync-unit-scores").addEventListener("click", syncUnitScoresFromSelf);
+      $("overachieveCheck").addEventListener("change", function () { state.dirty = true; recalculate(); });
+      $("unitOverachieveCheck").addEventListener("change", function () { state.dirty = true; recalculate(); });
+      $("innovationNote").addEventListener("input", function () { state.dirty = true; });
+      $("btn-flush-pending").addEventListener("click", async function () {
+        this.disabled = true;
+        const n = await flushPending();
+        this.disabled = false;
+        if (n === 0) showHomeError("Chưa gửi được. Hãy kiểm tra kết nối mạng rồi thử lại."); else showHomeError("");
+      });
+
+      $("btn-admin-login").addEventListener("click", verifyAndOpenAdmin);
+      $("admin-pas-input").addEventListener("keydown", function (e) { if (e.key === "Enter") verifyAndOpenAdmin(); });
+      $("btn-admin-logout").addEventListener("click", function () { logoutAdmin(); backToHome(); });
+      $("btn-admin-exit").addEventListener("click", backToHome);
+      $("adm-cell-filter").addEventListener("change", renderAdminTable);
+      $("adm-stat-basis").addEventListener("change", renderAdminTable);
+      $("btn-adm-refresh").addEventListener("click", loadAdminData);
+      $("btn-adm-preview-a4").addEventListener("click", openAdminLandscapePreview);
+      $("btn-adm-export-excel").addEventListener("click", exportAdminExcel);
+      $("btn-close-adm-preview").addEventListener("click", closeAdminLandscapePreview);
+      $("btn-print-adm-a4").addEventListener("click", function () { setPrintPageOrientation("landscape"); window.print(); });
+
+      $("btn-admin-save-return").addEventListener("click", saveAdminEdit);
+      $("btn-admin-save-sticky").addEventListener("click", saveAdminEdit);
+      $("btn-admin-cancel-return").addEventListener("click", leaveAdminEdit);
+      $("btn-back-admin-from-preview-top").addEventListener("click", leaveAdminEdit);
+      $("btn-back-admin-from-preview-bottom").addEventListener("click", leaveAdminEdit);
+
+      $("btn-open-preview-main").addEventListener("click", openPreview);
+      $("btn-open-preview-sticky").addEventListener("click", openPreview);
+      $("btn-close-preview-top").addEventListener("click", closePreview);
+      $("btn-close-preview-bottom").addEventListener("click", closePreview);
+      $("btn-print-top").addEventListener("click", function () { setPrintPageOrientation("portrait"); window.print(); });
+      $("btn-print-bottom").addEventListener("click", function () { setPrintPageOrientation("portrait"); window.print(); });
+      $("btn-submit-top").addEventListener("click", submitToPartyCell);
+      $("btn-submit-bottom").addEventListener("click", submitToPartyCell);
+
+      window.addEventListener("beforeunload", function (e) {
+        if (state.dirty) { e.preventDefault(); e.returnValue = ""; }
+      });
+      window.addEventListener("online", function () { flushPending(); });
+      window.addEventListener("orientationchange", function () { setTimeout(function () { if (window.scrollX !== 0) window.scrollTo(0, window.scrollY); }, 120); });
+
+      if (hasCloud()) flushPending();
+    });
+  </script>
+</body>
+</html>
