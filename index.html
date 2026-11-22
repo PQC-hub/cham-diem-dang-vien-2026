@@ -466,10 +466,8 @@
     <div class="banner-inner">
       <button type="button" id="btn-theme-toggle" class="single-theme-btn" title="Chuyển chế độ màn hình Tối / Sáng" aria-label="Chuyển chế độ màn hình Tối / Sáng">🌙</button>
       <div class="org-name" id="banner-org-name">Đảng bộ xã Đạ Huoai - Chi bộ ...</div>
-      <h1>PHIẾU TỰ CHẤM ĐIỂM, XẾP LOẠI CHẤT LƯỢNG ĐẢNG VIÊN NĂM 2026</h1>
+      <h1>PHIẾU TỰ CHẤM ĐIỂM, XẾP LOẠI CHẤT LƯỢNG ĐẢNG VIÊN</h1>
       <p>(theo tiêu chí Quy định số 366-QĐ/TW)</p>
-      <p>Góp ý gửi về phqchg@gmail.com</p>
-
     </div>
   </header>
 
@@ -852,7 +850,7 @@
 
         <div class="pdf-signature-row">
           <div class="pdf-sig-box">
-            <div style="font-style:italic; margin-bottom:4px;" id="pdf-date-sig-left">Đạ Huoai, ngày ... tháng ... năm ...</div>
+            <div style="font-style:italic; margin-bottom:4px;" id="pdf-date-sig-left">Đạ Huoai, ngày ...... tháng ...... năm ......</div>
             <strong>XÁC NHẬN CỦA CƠ QUAN, ĐƠN VỊ</strong><br />
             <em>(Ký tên, đóng dấu)</em>
             <div style="height:72px;"></div>
@@ -1645,7 +1643,7 @@
       $("pdf-cell-name").textContent = formatPartyCellHeading(partyCellCore);
       $("pdf-date-top").textContent = dateStr;
       $("pdf-date-sig").textContent = dateStr;
-      $("pdf-date-sig-left").textContent = dateStr;
+      /* Ô xác nhận của cơ quan, đơn vị: để trống ngày tháng để cơ quan tự ghi */
       $("pdf-subtitle").textContent = config.subtitle;
       $("pdf-fullname").textContent = fullName;
       $("pdf-position").textContent = (positionDetail || defaultPos) + " - " + cellDisplay;
