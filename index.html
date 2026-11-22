@@ -481,6 +481,13 @@
         <span id="home-pending-text"></span>
         <button type="button" id="btn-flush-pending" class="btn btn-warning btn-sm">📤 Gửi lại ngay</button>
       </div>
+      <div id="home-edit-banner" style="display:none; background:#fef3c7; border:2px solid #f59e0b; border-radius:10px; padding:12px 14px; margin-bottom:12px; color:#78350f; font-size:0.95rem;">
+        <strong>🛠 Admin đang sửa phiếu của <span id="home-edit-target"></span>.</strong> Chỉnh Họ tên / Chi bộ / Chức vụ bên dưới, rồi bấm <strong>"Lưu thông tin"</strong>, hoặc <strong>"Tiếp tục"</strong> để quay lại bảng điểm.
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+          <button type="button" id="btn-home-save-edit" class="btn btn-success btn-sm">💾 LƯU THÔNG TIN & VỀ TỔNG HỢP</button>
+          <button type="button" id="btn-home-cancel-edit" class="btn btn-change-info btn-sm">✖ Hủy, về tổng hợp (không lưu)</button>
+        </div>
+      </div>
       <div id="home-error-box" class="inline-error-box"></div>
 
       <div class="form-grid">
@@ -1012,6 +1019,7 @@
 
     /* ============================ TRẠNG THÁI ============================ */
     const state = {
+      editingHold: null,
       role: "member",
       unitManual: false,
       adminEditing: null,   // bản ghi đang được Admin sửa
@@ -1565,6 +1573,10 @@
       showHomeError("");
       setBox("scoring-error-box", "");
       const isAdminEdit = Boolean(rec);
+      const hold = (!isAdminEdit && state.editingHold) ? state.editingHold : null;
+      const prevSelf = hold ? Array.from(document.querySelectorAll(".score-input")).map(function (i) { return i.value; }) : null;
+      const prevUnit = hold ? Array.from(document.querySelectorAll(".unit-score-input")).map(function (i) { return i.value; }) : null;
+      const holdRole = state.role;
 
       if (isAdminEdit) {
         $("fullName").value = rec.fullName || "";
@@ -1593,7 +1605,9 @@
       $("fullName").value = fullName;
       $("partyCell").value = partyCellCore;
       updateBannerOrgName(partyCellCore);
-      state.adminEditing = isAdminEdit ? rec : null;
+      state.adminEditing = isAdminEdit ? rec : hold;
+      state.editingHold = null;
+      if (state.adminEditing) $("admin-editing-target").textContent = fullName;
 
       $("display-name").textContent = fullName;
       $("display-cell").textContent = formatPartyCellDisplay(partyCellCore);
@@ -1616,14 +1630,22 @@
         }
       }
 
+      if (hold && prevSelf) {
+        const si = document.querySelectorAll(".score-input"), ui = document.querySelectorAll(".unit-score-input");
+        if (prevSelf.length === si.length) si.forEach(function (inp, i) { inp.value = prevSelf[i]; });
+        if (prevUnit.length === ui.length) { ui.forEach(function (inp, i) { inp.value = prevUnit[i]; }); state.unitManual = prevUnit.some(function (v, i) { return v !== prevSelf[i]; }); }
+      }
       updateAdminEditingUI();
       show("scoring");
       recalculate();
-      state.dirty = false;
+      state.dirty = Boolean(hold);
     }
 
     function backToHome() {
+      state.editingHold = state.adminEditing || null;
       state.adminEditing = null;
+      if (state.editingHold) $("home-edit-target").textContent = state.editingHold.fullName || "";
+      $("home-edit-banner").style.display = state.editingHold ? "block" : "none";
       updateAdminEditingUI();
       updateAdminGateUI();
       updateHomePending();
@@ -1879,6 +1901,8 @@
 
     async function openAdminDashboard() {
       state.adminEditing = null;
+      state.editingHold = null;
+      $("home-edit-banner").style.display = "none";
       updateAdminEditingUI();
       show("admin");
       await loadAdminData();
@@ -2148,6 +2172,21 @@
       });
 
       $("btn-start-scoring").addEventListener("click", function () { openScoring(null); });
+      $("btn-home-cancel-edit").addEventListener("click", function () { state.dirty = false; openAdminDashboard(); });
+      $("btn-home-save-edit").addEventListener("click", async function () {
+        const hold = state.editingHold; if (!hold) return;
+        const fullName = formatPersonName($("fullName").value), cell = formatPartyCellCore($("partyCell").value);
+        if (!fullName) { showHomeError("Vui lòng nhập Họ và tên."); return; }
+        if (!cell) { showHomeError("Vui lòng nhập Chi bộ sinh hoạt."); return; }
+        const roleNow = state.role;
+        const holdRole = hold.roleKey ? hold.roleKey : (/bí thư|cấp ủy/i.test(hold.role || "") ? "leader" : "member");
+        if (roleNow !== holdRole) { showHomeError("Bạn đã đổi nhóm đối tượng nên phải chấm lại: bấm \"Tiếp tục vào bảng tự chấm điểm\" rồi lưu ở cuối bảng."); return; }
+        if (!document.querySelectorAll(".score-input").length) { showHomeError("Chưa có bảng điểm để lưu, hãy bấm \"Tiếp tục\"."); return; }
+        showHomeError("");
+        $("partyCell").value = cell; $("fullName").value = fullName;
+        state.adminEditing = hold; state.editingHold = null;
+        await saveAdminEdit();
+      });
       $("btn-back-home").addEventListener("click", backToHome);
       $("btn-back-home-bottom").addEventListener("click", backToHome);
       $("btn-sync-unit-scores").addEventListener("click", syncUnitScoresFromSelf);
