@@ -1334,6 +1334,11 @@
       $("btn-back-home-bottom").style.display = editing ? "none" : "inline-flex";
       $("btn-back-admin-from-preview-top").style.display = editing ? "inline-flex" : "none";
       $("btn-back-admin-from-preview-bottom").style.display = editing ? "inline-flex" : "none";
+      /* Khi admin đang sửa phiếu: nút gửi trở thành nút LƯU THAY ĐỔI; nút về tổng hợp = hủy, không lưu */
+      $("btn-submit-top").textContent = editing ? "💾 LƯU THAY ĐỔI" : "✅ Gửi về chi bộ";
+      $("btn-submit-bottom").textContent = editing ? "💾 XÁC NHẬN & LƯU THAY ĐỔI" : "✅ Xác nhận & Gửi về chi bộ";
+      $("btn-back-admin-from-preview-top").textContent = editing ? "✖ Hủy, về tổng hợp (không lưu)" : "📊 Về bảng tổng hợp Admin";
+      $("btn-back-admin-from-preview-bottom").textContent = editing ? "✖ Hủy, về tổng hợp (không lưu)" : "📊 Về bảng tổng hợp Admin";
     }
 
     function updateHomePending() {
@@ -1823,6 +1828,7 @@
         state.adminEditing = null;
         updateAdminEditingUI();
         await openAdminDashboard();
+        window.alert("✅ Đã lưu thay đổi phiếu của " + rec.fullName + " (" + rec.total + "/100 điểm).");
       } catch (e) {
         show("scoring");
         if (e.code === "AUTH" || e.code === "LOCKED") { setBox("scoring-error-box", friendlyError(e) + " Hãy khóa Admin rồi đăng nhập lại."); }
