@@ -3,16 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#b91c1c" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23b91c1c'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23fde047'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
-  <script>
-    /* Kiểm tra trình duyệt quá cũ (ví dụ Android 5-6, iOS 10): hiện hướng dẫn thay vì để trang chết lặng */
-    (function () {
-      var ok = true;
-      try { new RegExp("\\p{L}", "u"); ok = !!(window.Promise && window.fetch && Array.from && Object.assign && window.Set); } catch (e) { ok = false; }
-      if (!ok) document.addEventListener("DOMContentLoaded", function () { var el = document.getElementById("compat-warning"); if (el) el.style.display = "block"; });
-    })();
-  </script>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="format-detection" content="telephone=no" />
@@ -190,6 +180,9 @@
     .btn-info { background: var(--info); color: #fff; }
     .btn-warning { background: #d97706; color: #fff; }
     .btn-danger { background: #dc2626; color: #fff; }
+    .btn-change-info { background: #fbbf24; color: #1f1300; font-weight: 800; border: 2px solid #b45309; box-shadow: 0 2px 6px rgba(180, 83, 9, 0.35); letter-spacing: .2px; }
+    .btn-change-info:hover { background: #f59e0b; }
+    html.dark-mode .btn-change-info { background: #f59e0b; color: #1f1300; border-color: #fde68a; }
     .btn-sm { padding: 7px 12px; min-height: 36px; font-size: 0.84rem; border-radius: 6px; }
     .btn-xs { padding: 5px 9px; min-height: 30px; font-size: 0.8rem; border-radius: 5px; }
 
@@ -283,6 +276,24 @@
     }
     .condition-check input[type="checkbox"] { width: 20px; height: 20px; min-width: 20px; margin-top: 2px; accent-color: var(--primary); }
 
+
+    .rank-tiles-title { font-size: 0.88rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-align: center; }
+    .rank-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 8px; }
+    @media (max-width: 700px) { .rank-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 380px) { .rank-tiles { grid-template-columns: 1fr; } }
+    .rank-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; padding: 12px 8px 10px; border: 2px solid var(--border); border-radius: 10px; background: var(--card); min-width: 0; opacity: 0.62; transition: opacity .15s, border-color .15s, background .15s; }
+    .rank-tile .rt-box { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--input-border); background: var(--input-bg); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; line-height: 1; color: #fff; }
+    .rank-tile .rt-name { font-size: 0.88rem; font-weight: 700; line-height: 1.3; }
+    .rank-tile .rt-range { font-size: 0.76rem; color: var(--muted); }
+    .rank-tile .rt-unit { display: none; font-size: 0.72rem; font-weight: 700; color: var(--unit-score-color); border: 1px solid var(--unit-score-color); border-radius: 999px; padding: 1px 8px; }
+    .rank-tile.on { opacity: 1; }
+    .rank-tile.on .rt-box::before { content: "\2713"; }
+    .rank-tile.on-unit .rt-unit { display: inline-block; }
+    .rank-tile.rt-xs.on { border-color: #16a34a; background: rgba(34,197,94,.13); } .rank-tile.rt-xs.on .rt-box { background: #16a34a; border-color: #16a34a; }
+    .rank-tile.rt-t.on { border-color: #2563eb; background: rgba(59,130,246,.13); } .rank-tile.rt-t.on .rt-box { background: #2563eb; border-color: #2563eb; }
+    .rank-tile.rt-ht.on { border-color: #ca8a04; background: rgba(234,179,8,.16); } .rank-tile.rt-ht.on .rt-box { background: #ca8a04; border-color: #ca8a04; }
+    .rank-tile.rt-kht.on { border-color: #dc2626; background: rgba(239,68,68,.13); } .rank-tile.rt-kht.on .rt-box { background: #dc2626; border-color: #dc2626; }
+    .rank-tiles-note { font-size: 0.78rem; color: var(--muted); text-align: center; margin-bottom: 14px; }
     .rank-badge { display: inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 700; font-size: 0.92rem; margin-top: 4px; }
     .rank-xs { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
     .rank-tot { background: #dbeafe; color: #1d4ed8; border: 1px solid #93c5fd; }
@@ -334,7 +345,7 @@
       color: #000000 !important; line-height: 1.4; font-size: 12.5pt;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media (max-width: 1024px) {
       .pdf-paper, .pdf-paper-landscape { padding: 16px 14px; font-size: 11pt; }
       .party-doc-header { gap: 8px; }
       .party-org-parent { font-size: 10pt !important; }
@@ -346,7 +357,7 @@
       table.pdf-table { font-size: 9.5pt !important; }
       table.pdf-table th, table.pdf-table td { padding: 5px 4px; word-break: break-word; }
     }
-    @media screen and (max-width: 480px) {
+    @media (max-width: 480px) {
       .pdf-paper, .pdf-paper-landscape { padding: 14px 10px; font-size: 10pt; }
       .party-org-parent { font-size: 9pt !important; }
       .party-org-sub { font-size: 9.5pt !important; }
@@ -385,43 +396,6 @@
 
     .sent-banner { display: none; border-radius: 10px; margin-bottom: 16px; padding: 14px 16px; font-weight: 600; border: 1.5px solid; }
 
-    /* ===== Điện thoại dọc: bảng tiêu chí chuyển sang dạng thẻ, cột tiêu chí chiếm trọn chiều rộng ===== */
-    @media (max-width: 700px) {
-      .criteria-table, .criteria-table tbody { display: block; width: 100%; }
-      .criteria-table thead { display: none; }
-      .criteria-table tr {
-        display: grid; grid-template-columns: 44px repeat(3, minmax(0, 1fr));
-        border: 1px solid var(--table-border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; background: var(--card);
-      }
-      .criteria-table td { border: none !important; padding: 8px 8px; min-width: 0; width: auto !important; }
-      .criteria-table td:nth-child(1) { grid-column: 1; grid-row: 1; text-align: center; font-weight: 700; }
-      .criteria-table td:nth-child(2) { grid-column: 2 / 5; grid-row: 1; text-align: left; line-height: 1.45; }
-      .criteria-table td:nth-child(n+3) {
-        grid-row: 2; text-align: center; border-top: 1px dashed var(--table-border) !important;
-        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-      }
-      .criteria-table td:nth-child(3) { grid-column: 2; }
-      .criteria-table td:nth-child(4) { grid-column: 3; }
-      .criteria-table td:nth-child(5) { grid-column: 4; }
-      .criteria-table td:nth-child(n+3)::before {
-        content: attr(data-label); font-size: 0.7rem; font-weight: 600; color: var(--muted); text-transform: none; text-align: center; line-height: 1.2;
-      }
-      .criteria-table td:nth-child(1):empty { display: none; }
-      /* hàng tổng: ô đầu (gộp 2 cột) chiếm cả hàng trên */
-      .criteria-table tr.total-row td:nth-child(1) { grid-column: 1 / 5; text-align: right; }
-      .criteria-table tr.total-row td:nth-child(2) { grid-column: 2; grid-row: 2; text-align: center; }
-      .criteria-table tr.total-row td:nth-child(3) { grid-column: 3; }
-      .criteria-table tr.total-row td:nth-child(4) { grid-column: 4; }
-      .criteria-table tr.total-row td:nth-child(n+2)::before { content: attr(data-label); }
-      .criteria-table .score-stepper-box { width: 92px; }
-      input.score-input, input.unit-score-input { width: 52px !important; }
-    }
-    /* Bảng xem trước/xuất PDF và bảng admin: giữ đủ rộng, cuộn ngang được trên màn nhỏ */
-    @media screen and (max-width: 1024px) {
-      table.pdf-table { min-width: 560px; }
-      #admin-summary-table { min-width: 860px; }
-    }
-
     @media print {
       * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       html, body { width: 100% !important; max-width: 100% !important; background: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
@@ -431,61 +405,49 @@
       .pdf-paper, .pdf-paper-landscape { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; }
     }
 
-    /* ===================== BỔ SUNG TƯƠNG THÍCH iOS / ANDROID / PC ===================== */
-    :root { color-scheme: light; }
-    html.dark-mode { color-scheme: dark; }
-    .btn-warning { background: #b45309; }                      /* tương phản chữ trắng đạt chuẩn AA */
-    .admin-gate-error { color: #dc2626; }
-    html.dark-mode .admin-gate-error { color: #fca5a5; }
-
-    .compat-warning { display: none; background: #fef2f2; border: 2px solid #ef4444; color: #7f1d1d; padding: 14px 16px; margin: 12px; border-radius: 10px; font-weight: 600; line-height: 1.5; }
-    .swipe-hint { display: none; font-size: 0.78rem; color: var(--muted); text-align: center; margin: 0 0 8px; }
-    @media (max-width: 1024px) { .swipe-hint { display: block; } }
-
-    /* Hộp thoại xác nhận riêng (trình duyệt nhúng Zalo/Facebook hay chặn confirm()/alert()) */
-    .dlg-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; background: rgba(15, 23, 42, 0.6);
-      align-items: center; justify-content: center;
-      padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
-    }
-    .dlg-box { width: 100%; max-width: 420px; background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); }
-    .dlg-msg { font-size: 0.98rem; line-height: 1.55; margin-bottom: 16px; white-space: pre-line; }
-    .dlg-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-    body.dlg-open { overflow: hidden; }
-
-    /* Bàn phím ảo đang mở: nhường chỗ, không để thanh điểm cố định đè lên ô đang gõ */
-    body.kb-open .sticky-bar { display: none !important; }
-
-    /* Màn hình cảm ứng: nút ▲▼ đủ lớn để chạm */
-    @media (pointer: coarse) {
-      .spin-arrows { width: 32px; }
-      .spin-btn { height: 22px; }
-    }
-
-    /* Điện thoại dọc: sửa hàng "Tổng điểm" (chữ dính "Tối đa100") và căn thẳng hàng 3 cột điểm */
+    /* ===== Bố cục điện thoại: mỗi tiêu chí là một thẻ, cột nội dung rộng toàn chiều ngang ===== */
     @media (max-width: 700px) {
-      .criteria-table td:nth-child(n+3) { justify-content: flex-start; padding-left: 4px; padding-right: 4px; }
-      .criteria-table td:nth-child(n+3)::before,
-      .criteria-table tr.total-row td:nth-child(2)::before {
-        display: flex; align-items: flex-end; justify-content: center; min-height: 2.4em;
-        font-size: 0.7rem; font-weight: 600; color: var(--muted); line-height: 1.2; text-align: center;
+      table.criteria-table, table.criteria-table tbody { display: block; width: 100%; }
+      table.criteria-table thead { display: none; }
+      table.criteria-table tr {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-areas: "tt tt tt" "text text text" "max self unit";
+        gap: 6px 8px; border: 1px solid var(--table-border); border-radius: 10px;
+        padding: 10px; margin-bottom: 10px; background: var(--card);
       }
-      .criteria-table tr.total-row td:nth-child(2) {
-        display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px;
-        border-top: 1px dashed var(--table-border) !important;
-      }
+      table.criteria-table tr.group-header { background: var(--group-bg); }
+      table.criteria-table tr.subgroup-header { background: var(--subgroup-bg); }
+      table.criteria-table tr.total-row { background: var(--total-bg); grid-template-areas: "text text text" "max self unit"; }
+      table.criteria-table td { display: block; border: none !important; padding: 0 !important; width: auto !important; min-width: 0; background: transparent !important; }
+      table.criteria-table td[data-label]::before { content: attr(data-label); display: block; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 3px; }
+      table.criteria-table td.col-tt { grid-area: tt; text-align: left; font-weight: 700; color: var(--primary); font-size: 0.82rem; }
+      table.criteria-table td.col-tt::before { content: "Mục "; }
+      table.criteria-table td.col-text { grid-area: text; line-height: 1.5; font-size: 0.93rem; }
+      table.criteria-table tr.total-row td.col-text { text-align: left !important; }
+      table.criteria-table td.col-max { grid-area: max; text-align: center; }
+      table.criteria-table td.col-input { grid-area: self; text-align: center; }
+      table.criteria-table td.col-unit-input { grid-area: unit; text-align: center; }
+      table.criteria-table .score-stepper-box { width: 100%; }
+      table.criteria-table input.score-input, table.criteria-table input.unit-score-input { width: 100% !important; flex: 1; min-width: 0; }
+      .pdf-table-wrap table.pdf-table { min-width: 640px; }
+    }
+    @media (max-width: 1100px) {
+      .pdf-paper-landscape .pdf-table-wrap table.pdf-table { min-width: 900px; }
+    }
+    @media print {
+      .pdf-table-wrap table.pdf-table { min-width: 0 !important; }
     }
 
-    /* Màn hình rất hẹp (320-340px): thu gọn lề để ô nhập điểm không bị cắt số */
-    @media (max-width: 340px) {
-      .container { padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
-      .card { padding: 12px 8px; }
-      .criteria-table td:nth-child(n+3) { padding-left: 2px; padding-right: 2px; }
-      .score-stepper-box { padding: 3px 3px 3px 2px; }
+    table.pdf-table.adm-table { table-layout: fixed; width: 100%; }
+    table.pdf-table.adm-table th, table.pdf-table.adm-table td { overflow-wrap: anywhere; word-break: normal; }
+    .pw-wrap { position: relative; flex: 1; min-width: 0; display: flex; }
+    .pw-wrap input { padding-right: 48px; }
+    .pw-toggle {
+      position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px;
+      border: none; background: transparent; color: var(--muted); border-radius: 8px; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; touch-action: manipulation;
     }
-    @media (pointer: coarse) and (max-width: 340px) { .spin-arrows { width: 28px; } }
-
-    @media print { .dlg-overlay, .compat-warning, #inapp-notice, .swipe-hint { display: none !important; } }
+    .pw-toggle:hover, .pw-toggle[aria-pressed="true"] { color: var(--primary); }
   </style>
   <style id="dynamic-print-page-style">
     @page { size: A4 portrait; margin: 20mm 15mm 20mm 25mm; }
@@ -499,8 +461,6 @@
   </script>
 </head>
 <body>
-  <noscript><div style="padding:16px;background:#fef2f2;color:#7f1d1d;font-weight:600;">Trang này cần bật JavaScript để hoạt động.</div></noscript>
-  <div id="compat-warning" class="compat-warning" role="alert">⚠️ Trình duyệt trên thiết bị này đã quá cũ nên biểu mẫu có thể không chạy đúng. Vui lòng cập nhật Chrome / Safari (hoặc mở trang bằng máy tính, điện thoại khác) rồi thử lại.</div>
 
   <header class="top-banner">
     <div class="banner-inner">
@@ -517,26 +477,21 @@
     <section id="home-section" class="card">
       <div class="card-title">1. Thông tin đảng viên tự đánh giá</div>
 
-      <div id="inapp-notice" class="notice-box" style="display:none;" role="note">
-        ⚠️ Bạn đang mở trang trong ứng dụng khác (Zalo, Facebook, Messenger...). Các nút <strong>In / Lưu PDF</strong> và <strong>Xuất Excel</strong> có thể không hoạt động ở đây.
-        Hãy bấm biểu tượng <strong>⋯</strong> (hoặc <strong>⋮</strong>) → <strong>Mở bằng trình duyệt</strong> (Safari / Chrome) để dùng đầy đủ chức năng.
-      </div>
-
       <div id="home-pending-box" class="pending-box">
         <span id="home-pending-text"></span>
         <button type="button" id="btn-flush-pending" class="btn btn-warning btn-sm">📤 Gửi lại ngay</button>
       </div>
-      <div id="home-error-box" class="inline-error-box" role="alert"></div>
+      <div id="home-error-box" class="inline-error-box"></div>
 
       <div class="form-grid">
         <div class="form-group">
           <label for="fullName">Họ và tên đảng viên <span class="req">*</span></label>
-          <input type="text" id="fullName" autocomplete="name" autocapitalize="words" autocorrect="off" spellcheck="false" maxlength="100" placeholder="Ví dụ: Phạm Quang Chinh" />
+          <input type="text" id="fullName" autocomplete="name" maxlength="100" placeholder="Ví dụ: Phạm Quang Chinh" />
         </div>
 
         <div class="form-group">
           <label for="partyCell">Chi bộ sinh hoạt <span class="req">*</span></label>
-          <input type="text" id="partyCell" autocapitalize="words" autocorrect="off" spellcheck="false" maxlength="100" placeholder="Ví dụ: Thôn 8 (hoặc Chi bộ Thôn 8)" />
+          <input type="text" id="partyCell" maxlength="100" placeholder="Ví dụ: Thôn 8 (hoặc Chi bộ Thôn 8)" />
         </div>
 
         <div class="form-group full">
@@ -566,10 +521,13 @@
           🔐 Quản trị Chi ủy / Tổ tổng hợp (<span id="admin-session-hint">Nhập mật khẩu quản trị</span>):
         </div>
         <div class="admin-gate-row">
-          <input type="password" id="admin-pas-input" placeholder="Nhập mật khẩu quản trị" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+          <div class="pw-wrap" id="admin-pas-wrap">
+            <input type="password" id="admin-pas-input" placeholder="Nhập mật khẩu quản trị" autocomplete="off" />
+            <button type="button" id="btn-pw-toggle" class="pw-toggle" aria-label="Hiện mật khẩu" aria-pressed="false" title="Hiện mật khẩu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
           <button type="button" id="btn-admin-login" class="btn btn-secondary">📊 Tổng hợp toàn chi bộ</button>
         </div>
-        <div id="admin-gate-error" class="admin-gate-error" role="alert"></div>
+        <div id="admin-gate-error" class="admin-gate-error"></div>
       </div>
     </section>
 
@@ -580,11 +538,11 @@
         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;" class="no-print-admin">
           <span id="cloud-status-badge" class="cloud-status-pill">Đang kiểm tra kết nối...</span>
           <button type="button" id="btn-admin-logout" class="btn btn-danger btn-sm" title="Khóa phiên Admin">🔒 Khóa Admin</button>
-          <button type="button" id="btn-admin-exit" class="btn btn-secondary btn-sm">← Về trang chủ</button>
+          <button type="button" id="btn-admin-exit" class="btn btn-change-info btn-sm">← Về trang chủ</button>
         </div>
       </div>
 
-      <div id="admin-msg-box" class="inline-error-box" role="alert"></div>
+      <div id="admin-msg-box" class="inline-error-box"></div>
 
       <div class="admin-stats-grid">
         <div class="stat-card"><div class="stat-label">Tổng số phiếu</div><div class="stat-value" id="adm-stat-total">0</div></div>
@@ -613,7 +571,6 @@
         </div>
       </div>
 
-      <div class="swipe-hint no-print-admin">↔ Vuốt ngang bảng để xem đủ các cột và nút Sửa / Xóa</div>
       <div class="table-wrap">
         <table class="score-table" id="admin-summary-table">
           <thead>
@@ -635,13 +592,21 @@
           <tbody id="admin-tbody"></tbody>
         </table>
       </div>
+
+      <div class="centered-action-box bottom-box no-print-admin">
+        <div class="action-buttons">
+          <button type="button" id="btn-admin-exit-bottom" class="btn btn-change-info btn-sm">← VỀ TRANG CHỦ</button>
+          <button type="button" id="btn-adm-refresh-bottom" class="btn btn-info btn-sm">🔄 Tải mới</button>
+          <button type="button" id="btn-admin-logout-bottom" class="btn btn-danger btn-sm">🔒 Khóa Admin</button>
+        </div>
+      </div>
     </section>
 
     <!-- XEM TRƯỚC TRANG TỔNG HỢP KHỔ A4 NGANG -->
     <section id="admin-preview-section">
       <div class="preview-toolbar">
         <div class="action-buttons">
-          <button type="button" id="btn-close-adm-preview" class="btn btn-secondary btn-sm">← Quay lại danh sách Admin</button>
+          <button type="button" id="btn-close-adm-preview" class="btn btn-change-info btn-sm">← Quay lại danh sách Admin</button>
           <button type="button" id="btn-print-adm-a4" class="btn btn-info btn-sm">🖨️ In / Lưu PDF (A4 Ngang)</button>
         </div>
         <div class="preview-hint">Nếu thiết bị (ví dụ iPhone) in ra khổ dọc, hãy chọn hướng giấy "Ngang" trong hộp thoại in.</div>
@@ -651,7 +616,7 @@
         <div class="party-doc-header">
           <div class="party-org-left">
             <div class="party-org-parent">ĐẢNG ỦY XÃ ĐẠ HUOAI</div>
-            <div class="party-org-sub" id="adm-pdf-cell-heading">CHI ỦY CHI BỘ ................</div>
+            <div class="party-org-sub" id="adm-pdf-cell-heading">CHI BỘ ................</div>
             <div class="party-star">*</div>
           </div>
           <div class="party-motto-right">
@@ -668,20 +633,23 @@
 
         <div id="adm-pdf-stats-line" style="margin-bottom:10px; font-size:11pt;"></div>
 
-        <div class="pdf-table-wrap"><table class="pdf-table">
+        <div class="pdf-table-wrap"><table class="pdf-table adm-table">
+          <colgroup>
+            <col style="width:4%"><col style="width:15%"><col style="width:11%"><col style="width:15%"><col style="width:5.5%"><col style="width:5.5%"><col style="width:6%"><col style="width:7%"><col style="width:12%"><col style="width:11%"><col style="width:8%">
+          </colgroup>
           <thead>
             <tr>
-              <th style="width:32px;">TT</th>
-              <th style="width:160px;">Họ và tên đảng viên</th>
-              <th style="width:100px;">Chi bộ</th>
+              <th>TT</th>
+              <th>Họ và tên đảng viên</th>
+              <th>Chi bộ</th>
               <th>Chức vụ / Đối tượng</th>
-              <th style="width:50px;">Nhóm I</th>
-              <th style="width:50px;">Nhóm II</th>
-              <th style="width:62px;">Điểm tự chấm</th>
-              <th style="width:72px;">Điểm CQ, ĐV đề nghị</th>
-              <th style="width:130px;">Xếp loại tự chấm</th>
-              <th style="width:130px;">Xếp loại CQ, ĐV đề nghị</th>
-              <th style="width:76px;">Ngày nộp</th>
+              <th>Nhóm I</th>
+              <th>Nhóm II</th>
+              <th>Điểm tự chấm</th>
+              <th>Điểm CQ, ĐV đề nghị</th>
+              <th>Xếp loại tự chấm</th>
+              <th>Xếp loại CQ, ĐV đề nghị</th>
+              <th>Ngày nộp</th>
             </tr>
           </thead>
           <tbody id="adm-pdf-tbody"></tbody>
@@ -701,6 +669,13 @@
           </div>
         </div>
       </div>
+
+      <div class="centered-action-box bottom-box no-print-footer">
+        <div class="action-buttons">
+          <button type="button" id="btn-close-adm-preview-bottom" class="btn btn-change-info btn-sm">← QUAY LẠI DANH SÁCH ADMIN</button>
+          <button type="button" id="btn-print-adm-a4-bottom" class="btn btn-info btn-sm">🖨️ In / Lưu PDF (A4 Ngang)</button>
+        </div>
+      </div>
     </section>
 
     <!-- BƯỚC 2: BẢNG TỰ CHẤM ĐIỂM -->
@@ -709,18 +684,18 @@
         <span>🛠️ <strong>Chế độ Quản trị Chi ủy:</strong> Đang chỉnh sửa trực tiếp phiếu của đồng chí <strong id="admin-editing-target"></strong></span>
         <div class="action-buttons">
           <button type="button" id="btn-admin-save-return" class="btn btn-success btn-sm">💾 Lưu & Quay lại bảng tổng hợp</button>
-          <button type="button" id="btn-admin-cancel-return" class="btn btn-secondary btn-sm">← Hủy, về bảng tổng hợp</button>
+          <button type="button" id="btn-admin-cancel-return" class="btn btn-change-info btn-sm">← Hủy, về bảng tổng hợp</button>
         </div>
       </div>
 
-      <div id="scoring-error-box" class="inline-error-box" role="alert"></div>
+      <div id="scoring-error-box" class="inline-error-box"></div>
 
       <div class="user-summary-bar">
         <div class="user-summary-info">
           <div>Đảng viên: <strong id="display-name"></strong> — Chi bộ: <strong id="display-cell"></strong></div>
           <div>Biểu mẫu áp dụng: <strong id="display-role-label"></strong></div>
         </div>
-        <button type="button" id="btn-back-home" class="btn btn-secondary btn-sm">← Đổi thông tin / Chức vụ</button>
+        <button type="button" id="btn-back-home" class="btn btn-change-info btn-sm">← Đổi thông tin / Chức vụ</button>
       </div>
 
       <div class="notice-box">
@@ -772,18 +747,16 @@
           <textarea id="innovationNote" rows="2" maxlength="500" placeholder="Nhập ngắn gọn mô hình hoặc thành tích nổi bật trong năm..."></textarea>
         </div>
 
-        <div class="condition-check">
-          <input type="checkbox" id="overachieveCheck" />
-          <label for="overachieveCheck" style="font-weight:500; cursor:pointer;">
-            <strong>Tự chấm</strong> – Xác nhận điều kiện mức <strong>Hoàn thành xuất sắc nhiệm vụ</strong>: hoàn thành <strong>100%</strong> nhiệm vụ được giao, trong đó có ít nhất <strong>30% số nhiệm vụ hoàn thành vượt mức</strong> (bắt buộc khi tổng điểm từ 90 trở lên).
-          </label>
+        <input type="checkbox" id="overachieveCheck" checked hidden aria-hidden="true" tabindex="-1" />
+        <input type="checkbox" id="unitOverachieveCheck" checked hidden aria-hidden="true" tabindex="-1" />
+        <div class="rank-tiles-title">Mức xếp loại tương ứng với điểm (tự động chọn theo tổng điểm):</div>
+        <div class="rank-tiles" id="rank-tiles" role="radiogroup" aria-label="Mức xếp loại chất lượng">
+          <div class="rank-tile rt-xs" data-rk="XS" role="radio" aria-checked="false"><span class="rt-box"></span><span class="rt-name">Hoàn thành xuất sắc nhiệm vụ</span><span class="rt-range">từ 90 điểm</span><span class="rt-unit">CQ, ĐV đề nghị</span></div>
+          <div class="rank-tile rt-t" data-rk="T" role="radio" aria-checked="false"><span class="rt-box"></span><span class="rt-name">Hoàn thành tốt nhiệm vụ</span><span class="rt-range">từ 70 đến dưới 90 điểm</span><span class="rt-unit">CQ, ĐV đề nghị</span></div>
+          <div class="rank-tile rt-ht" data-rk="HT" role="radio" aria-checked="false"><span class="rt-box"></span><span class="rt-name">Hoàn thành nhiệm vụ</span><span class="rt-range">từ 50 đến dưới 70 điểm</span><span class="rt-unit">CQ, ĐV đề nghị</span></div>
+          <div class="rank-tile rt-kht" data-rk="KHT" role="radio" aria-checked="false"><span class="rt-box"></span><span class="rt-name">Không hoàn thành nhiệm vụ</span><span class="rt-range">dưới 50 điểm</span><span class="rt-unit">CQ, ĐV đề nghị</span></div>
         </div>
-        <div class="condition-check">
-          <input type="checkbox" id="unitOverachieveCheck" />
-          <label for="unitOverachieveCheck" style="font-weight:500; cursor:pointer;">
-            <strong>Cơ quan, đơn vị đề nghị</strong> – Xác nhận cùng điều kiện mức <strong>Hoàn thành xuất sắc nhiệm vụ</strong> (do cơ quan, đơn vị xác định, độc lập với ô tự chấm ở trên).
-          </label>
-        </div>
+        <div class="rank-tiles-note">Đảng viên tự chấm điểm nào thì tự nhận mức tương ứng theo quy định chung; mức xuất sắc được hiểu là đã hoàn thành 100% nhiệm vụ, trong đó có ít nhất 30% nhiệm vụ vượt mức.</div>
 
         <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px;">
           <div>
@@ -798,6 +771,9 @@
           <div class="centered-action-box" style="margin-bottom:0;">
             <div class="action-buttons">
               <button type="button" id="btn-open-preview-main" class="btn btn-primary btn-sm" style="width:auto; margin-top:0;">📄 Xem trước kết quả tự chấm (PDF)</button>
+              <button type="button" id="btn-back-home-bottom" class="btn btn-change-info btn-sm">✏️ ĐỔI THÔNG TIN / CHỨC VỤ</button>
+              <button type="button" id="btn-admin-cancel-bottom" class="btn btn-change-info btn-sm" style="display:none;">← HỦY, VỀ BẢNG TỔNG HỢP</button>
+              <button type="button" id="btn-admin-save-bottom" class="btn btn-success btn-sm" style="display:none;">💾 Lưu & Quay lại bảng tổng hợp</button>
             </div>
           </div>
         </div>
@@ -808,10 +784,10 @@
     <section id="preview-section">
       <div class="preview-toolbar">
         <div class="action-buttons">
-          <button type="button" id="btn-close-preview-top" class="btn btn-secondary btn-sm">← Quay lại chỉnh sửa điểm</button>
+          <button type="button" id="btn-close-preview-top" class="btn btn-change-info btn-sm">← Quay lại chỉnh sửa điểm</button>
           <button type="button" id="btn-print-top" class="btn btn-info btn-sm">🖨️ Lưu PDF / In phiếu</button>
           <button type="button" id="btn-submit-top" class="btn btn-success btn-sm">✅ Gửi về chi bộ</button>
-          <button type="button" id="btn-back-admin-from-preview-top" class="btn btn-warning btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
+          <button type="button" id="btn-back-admin-from-preview-top" class="btn btn-change-info btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
         </div>
       </div>
 
@@ -891,24 +867,14 @@
 
       <div class="centered-action-box bottom-box no-print-footer">
         <div class="action-buttons">
-          <button type="button" id="btn-close-preview-bottom" class="btn btn-secondary btn-sm">← Quay lại sửa điểm</button>
+          <button type="button" id="btn-close-preview-bottom" class="btn btn-change-info btn-sm">← Quay lại sửa điểm</button>
           <button type="button" id="btn-print-bottom" class="btn btn-info btn-sm">🖨️ Lưu PDF / In phiếu</button>
           <button type="button" id="btn-submit-bottom" class="btn btn-success btn-sm">✅ Xác nhận & Gửi về chi bộ</button>
-          <button type="button" id="btn-back-admin-from-preview-bottom" class="btn btn-warning btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
+          <button type="button" id="btn-back-admin-from-preview-bottom" class="btn btn-change-info btn-sm" style="display:none;">📊 Về bảng tổng hợp Admin</button>
         </div>
       </div>
     </section>
 
-  </div>
-
-  <div id="dlg-overlay" class="dlg-overlay" role="presentation">
-    <div class="dlg-box" role="alertdialog" aria-modal="true" aria-labelledby="dlg-msg">
-      <div id="dlg-msg" class="dlg-msg"></div>
-      <div class="dlg-actions">
-        <button type="button" id="dlg-cancel" class="btn btn-secondary">Hủy</button>
-        <button type="button" id="dlg-ok" class="btn btn-info">Đồng ý</button>
-      </div>
-    </div>
   </div>
 
   <div class="sticky-bar" id="sticky-bar">
@@ -1052,12 +1018,10 @@
       adminStale: false,    // true khi bảng admin đang hiện dữ liệu đệm (có thể cũ)
       dirty: false,
       adminRecords: [],
-      busy: false,
-      submittingId: null
+      busy: false
     };
     let subgroupTotals = {};
     let unitSubgroupTotals = {};
-    let renderedRole = null;   // vai trò của bảng điểm đang có trên màn hình (null = chưa có / đã xóa)
     let currentSelfRank = RANKS.T;
     let currentUnitRank = RANKS.T;
 
@@ -1271,10 +1235,9 @@
       ["group1", "group2", "total"].forEach(function (k) { const n = Number(o[k]); o[k] = isNaN(n) ? 0 : n; });
       const ut = Number(o.unitTotal);
       o.unitTotal = (o.unitTotal === undefined || o.unitTotal === "" || isNaN(ut)) ? o.total : ut;
-      // Mã xếp loại từ máy chủ có thể sai/thiếu: kiểm tra lại để một dòng lỗi không làm vỡ cả bảng Admin
-      if (!Object.prototype.hasOwnProperty.call(RANKS, o.rankKey)) o.rankKey = rankKeyFromText(o.rank);
+      o.rankKey = o.rankKey || rankKeyFromText(o.rank);
       o.rank = o.rank || RANKS[o.rankKey].text;
-      if (!Object.prototype.hasOwnProperty.call(RANKS, o.unitRankKey)) o.unitRankKey = o.unitRank ? rankKeyFromText(o.unitRank) : o.rankKey;
+      o.unitRankKey = o.unitRankKey || (o.unitRank ? rankKeyFromText(o.unitRank) : o.rankKey);
       o.unitRank = o.unitRank || RANKS[o.unitRankKey].text;
       o.selfScores = parseArr(o.selfScores);
       o.unitScores = parseArr(o.unitScores);
@@ -1289,72 +1252,9 @@
       home: "home-section", scoring: "scoring-section", preview: "preview-section",
       admin: "admin-section", adminPreview: "admin-preview-section"
     };
-    /* ============================ HỘP THOẠI XÁC NHẬN ============================ */
-    let dlgClose = null;
-    function askDialog(message, opts) {
-      opts = opts || {};
-      return new Promise(function (resolve) {
-        if (dlgClose) dlgClose(false);
-        const ov = $("dlg-overlay"), ok = $("dlg-ok"), cancel = $("dlg-cancel");
-        $("dlg-msg").textContent = message;
-        ok.textContent = opts.okText || "Đồng ý";
-        ok.className = "btn " + (opts.danger ? "btn-danger" : "btn-info");
-        cancel.textContent = opts.cancelText || "Hủy";
-        cancel.style.display = opts.alertOnly ? "none" : "";
-        ov.style.display = "flex";
-        document.body.classList.add("dlg-open");
-        function onKey(e) { if (e.key === "Escape") { e.preventDefault(); done(false); } }
-        function done(v) {
-          ov.style.display = "none";
-          document.body.classList.remove("dlg-open");
-          ok.onclick = null; cancel.onclick = null;
-          document.removeEventListener("keydown", onKey, true);
-          dlgClose = null;
-          resolve(v);
-        }
-        dlgClose = done;
-        ok.onclick = function () { done(true); };
-        cancel.onclick = function () { done(false); };
-        document.addEventListener("keydown", onKey, true);
-        try { ok.focus(); } catch (e) {}
-      });
-    }
-    function askConfirm(message, opts) { return askDialog(message, opts); }
-    function askAlert(message) { return askDialog(message, { alertOnly: true, okText: "Đã hiểu" }); }
-
-    /* ============================ NÚT BACK CỦA ĐIỆN THOẠI ============================
-     * Ứng dụng chỉ có 1 địa chỉ trang nên mặc định nút Back / vuốt cạnh màn hình (iOS) sẽ THOÁT khỏi trang
-     * và mất dữ liệu đang nhập. Dùng 1 "chốt" trong lịch sử để Back = quay lại màn hình trước đó. */
-    let currentScreen = "home";
-    let guardActive = false;
-    let ignorePops = 0;
-    function pushGuard() { try { history.pushState({ pqcGuard: 1 }, ""); guardActive = true; } catch (e) {} }
-    function dropGuard() {
-      if (!guardActive) return;
-      guardActive = false;
-      ignorePops++;
-      try { history.back(); } catch (e) { ignorePops--; }
-    }
-    function goBackOneLevel() {
-      if (currentScreen === "preview") closePreview();
-      else if (currentScreen === "adminPreview") closeAdminLandscapePreview();
-      else if (currentScreen === "scoring") { if (state.adminEditing) leaveAdminEdit(); else backToHome(); }
-      else if (currentScreen === "admin") backToHome();
-    }
-    window.addEventListener("popstate", function () {
-      if (ignorePops > 0) { ignorePops--; return; }
-      if (!guardActive) return;            // đang ở trang gốc: để trình duyệt tự xử lý
-      guardActive = false;
-      if (currentScreen === "home") return;
-      pushGuard();                         // giữ chốt để lần Back kế tiếp vẫn bắt được
-      goBackOneLevel();
-    });
-
     function show(name) {
       Object.keys(SECTIONS).forEach(function (k) { $(SECTIONS[k]).style.display = k === name ? "block" : "none"; });
       $("sticky-bar").style.display = name === "scoring" ? "block" : "none";
-      currentScreen = name;
-      if (name === "home") dropGuard(); else if (!guardActive) pushGuard();
       window.scrollTo(0, 0);
     }
 
@@ -1392,21 +1292,33 @@
       $("banner-org-name").textContent = core ? "Đảng bộ xã Đạ Huoai - Chi bộ " + core : "Đảng bộ xã Đạ Huoai - Chi bộ ...";
     }
 
+    const EYE_ON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    const EYE_OFF = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+    function setPwVisible(show) {
+      const inp = $("admin-pas-input"), btn = $("btn-pw-toggle");
+      if (!inp || !btn) return;
+      inp.type = show ? "text" : "password";
+      btn.setAttribute("aria-pressed", show ? "true" : "false");
+      btn.setAttribute("aria-label", show ? "Ẩn mật khẩu" : "Hiện mật khẩu");
+      btn.title = show ? "Ẩn mật khẩu" : "Hiện mật khẩu";
+      btn.innerHTML = show ? EYE_OFF : EYE_ON;
+    }
+
     function updateAdminGateUI() {
-      const pasInput = $("admin-pas-input"), hint = $("admin-session-hint"), loginBtn = $("btn-admin-login");
-      if (!pasInput || !hint || !loginBtn) return;
+      const pasInput = $("admin-pas-input"), wrap = $("admin-pas-wrap"), hint = $("admin-session-hint"), loginBtn = $("btn-admin-login");
+      if (!pasInput || !wrap || !hint || !loginBtn) return;
       if (!hasCloud()) {
-        pasInput.style.display = "none";
+        wrap.style.display = "none"; setPwVisible(false);
         hint.innerHTML = "Chế độ cục bộ: dữ liệu chỉ nằm trên thiết bị này, <strong>chưa có mật khẩu bảo vệ</strong>";
         loginBtn.textContent = "📊 Xem tổng hợp trên thiết bị này";
         loginBtn.className = "btn btn-secondary";
       } else if (getAdminKey()) {
-        pasInput.style.display = "none";
+        wrap.style.display = "none"; setPwVisible(false);
         hint.innerHTML = '✅ <strong>Đã xác thực quyền Chi ủy trong phiên này</strong>';
         loginBtn.textContent = "📊 Vào trang Tổng hợp toàn chi bộ";
         loginBtn.className = "btn btn-info";
       } else {
-        pasInput.style.display = "block";
+        wrap.style.display = "flex"; setPwVisible(false);
         hint.textContent = "Nhập mật khẩu quản trị 1 lần trong phiên làm việc";
         loginBtn.textContent = "📊 Tổng hợp toàn chi bộ";
         loginBtn.className = "btn btn-secondary";
@@ -1417,6 +1329,9 @@
       const editing = Boolean(state.adminEditing);
       $("admin-edit-banner").style.display = editing ? "flex" : "none";
       $("btn-admin-save-sticky").style.display = editing ? "inline-flex" : "none";
+      $("btn-admin-cancel-bottom").style.display = editing ? "inline-flex" : "none";
+      $("btn-admin-save-bottom").style.display = editing ? "inline-flex" : "none";
+      $("btn-back-home-bottom").style.display = editing ? "none" : "inline-flex";
       $("btn-back-admin-from-preview-top").style.display = editing ? "inline-flex" : "none";
       $("btn-back-admin-from-preview-bottom").style.display = editing ? "inline-flex" : "none";
     }
@@ -1433,48 +1348,41 @@
       }
     }
 
-    let flushing = false;
-    let lastFlushError = null;
-
-    // Đọc lại danh sách MỚI NHẤT rồi chỉ sửa đúng 1 phiếu (tránh ghi đè phiếu khác khi đang chờ mạng)
-    function updateMyById(id, fn) {
-      const list = getMy();
-      const entry = list.find(function (x) { return x.record && x.record.id === id; });
-      if (entry) { fn(entry); saveMy(list); }
-      return entry;
-    }
-
     async function flushPending() {
-      if (!hasCloud() || flushing) return 0;
-      flushing = true;
-      lastFlushError = null;
+      if (!hasCloud()) return 0;
+      const list = getMy();
       let ok = 0;
-      try {
-        const queue = getMy().filter(function (x) { return x.sync === "pending"; });
-        for (let i = 0; i < queue.length; i++) {
-          const item = queue[i];
-          if (state.submittingId && state.submittingId === item.record.id) continue;   // đang gửi tay phiếu này
-          try {
-            const res = await api("submit", { record: item.record, ownerToken: item.ownerToken });
-            updateMyById(item.record.id, function (e) {
-              // chỉ đánh dấu đã gửi nếu phiếu chưa bị sửa/gửi lại trong lúc chờ
-              if (e.record.submittedAt === item.record.submittedAt) {
-                e.sync = "synced";
-                e.record.receivedAt = res.receivedAt || e.record.receivedAt;
-              }
-            });
-            ok++;
-          } catch (e) { lastFlushError = e; /* giữ trạng thái pending để thử lại */ }
-        }
-      } finally {
-        flushing = false;
-        updateHomePending();
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].sync !== "pending") continue;
+        try {
+          const res = await api("submit", { record: list[i].record, ownerToken: list[i].ownerToken });
+          list[i].sync = "synced";
+          list[i].record.receivedAt = res.receivedAt || list[i].record.receivedAt;
+          ok++;
+        } catch (e) { /* giữ trạng thái pending để thử lại */ }
       }
+      saveMy(list);
+      updateHomePending();
       return ok;
     }
 
     /* ============================ BẢNG CHẤM ĐIỂM ============================ */
     function showHomeError(msg) { setBox("home-error-box", msg); }
+
+    function decorateCriteriaRow(tr) {
+      const c = tr.children;
+      if (c.length === 5) {
+        c[1].classList.add("col-text");
+        c[2].setAttribute("data-label", "Tối đa");
+        c[3].setAttribute("data-label", "Tự chấm");
+        c[4].setAttribute("data-label", "CQ, ĐV đề nghị");
+      } else if (c.length === 4) {
+        c[0].classList.add("col-text");
+        c[1].setAttribute("data-label", "Tối đa");
+        c[2].setAttribute("data-label", "Tự chấm");
+        c[3].setAttribute("data-label", "CQ, ĐV đề nghị");
+      }
+    }
 
     function renderCriteriaTable(items) {
       const tbody = $("criteria-tbody");
@@ -1514,6 +1422,7 @@
             '</td><td class="col-input">' + stepper("score-input", item, idx, "Điểm tự chấm") +
             '</td><td class="col-unit-input">' + stepper("unit-score-input", item, idx, "Điểm cơ quan, đơn vị đề nghị") + '</td>';
         }
+        decorateCriteriaRow(tr);
         tbody.appendChild(tr);
       });
 
@@ -1521,13 +1430,8 @@
       totalTr.className = "total-row";
       totalTr.innerHTML = '<td colspan="2" style="text-align:right;">TỔNG ĐIỂM = Điểm nhóm I + Điểm nhóm II</td><td class="col-max">100</td>' +
         '<td class="col-input" id="table-grand-total">100</td><td class="col-unit-input" id="unit-table-grand-total">100</td>';
+      decorateCriteriaRow(totalTr);
       tbody.appendChild(totalTr);
-
-      // Nhãn cột cho dạng thẻ trên điện thoại
-      Array.from(tbody.rows).forEach(function (row) {
-        const labels = row.classList.contains("total-row") ? [null, "Tối đa", "Tự chấm", "CQ, ĐV đề nghị"] : [null, null, "Tối đa", "Tự chấm", "CQ, ĐV đề nghị"];
-        Array.from(row.cells).forEach(function (cell, i) { if (labels[i]) cell.setAttribute("data-label", labels[i]); });
-      });
 
       const selfInputs = tbody.querySelectorAll(".score-input");
       const unitInputs = tbody.querySelectorAll(".unit-score-input");
@@ -1573,13 +1477,6 @@
         inp.addEventListener("focus", function () { try { this.select(); } catch (e) {} });
         inp.addEventListener("input", function () { state.unitManual = true; liveClamp(this); state.dirty = true; recalculate(); });
         inp.addEventListener("change", function () { state.unitManual = true; finalClamp(this); state.dirty = true; recalculate(); });
-      });
-
-      // Bàn phím máy tính: ↑ / ↓ tăng giảm 0,5 điểm
-      tbody.querySelectorAll("input.score-input, input.unit-score-input").forEach(function (inp) {
-        inp.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); stepScoreInput(this, e.key === "ArrowUp" ? 0.5 : -0.5); }
-        });
       });
     }
 
@@ -1636,10 +1533,19 @@
       setText("group-subtotal-1", s.g1); setText("group-subtotal-2", s.g2); setText("table-grand-total", s.total);
       setText("unit-group-subtotal-1", u.g1); setText("unit-group-subtotal-2", u.g2); setText("unit-table-grand-total", u.total);
 
-      const selfRank = getRank(s.total, $("overachieveCheck").checked);
-      const unitRank = getRank(u.total, $("unitOverachieveCheck").checked);
+      $("overachieveCheck").checked = true; $("unitOverachieveCheck").checked = true;
+      const selfRank = getRank(s.total, true);
+      const unitRank = getRank(u.total, true);
+      document.querySelectorAll("#rank-tiles .rank-tile").forEach(function (t) {
+        const k = t.getAttribute("data-rk");
+        t.classList.toggle("on", k === selfRank.key);
+        t.classList.toggle("on-unit", k === unitRank.key);
+        t.setAttribute("aria-checked", k === selfRank.key ? "true" : "false");
+      });
       currentSelfRank = RANKS[selfRank.key];
       currentUnitRank = RANKS[unitRank.key];
+      currentSelfRank.key = selfRank.key;
+      currentUnitRank.key = unitRank.key;
 
       const rankEl = $("rank-display");
       rankEl.textContent = currentSelfRank.text + " (" + s.total + " điểm)";
@@ -1650,7 +1556,7 @@
     }
 
     /* ============================ MỞ BẢNG CHẤM ĐIỂM ============================ */
-    async function openScoring(rec) {
+    function openScoring(rec) {
       showHomeError("");
       setBox("scoring-error-box", "");
       const isAdminEdit = Boolean(rec);
@@ -1676,7 +1582,7 @@
 
       if (isAdminEdit) {
         const okSelf = Array.isArray(rec.selfScores) && rec.selfScores.length === nItems;
-        if (!okSelf && !(await askConfirm("Phiếu này không có điểm chi tiết từng tiêu chí (hoặc số tiêu chí không khớp mẫu hiện tại). Bảng sẽ hiện điểm tối đa ở mọi mục; nếu lưu, điểm cũ sẽ bị thay thế. Tiếp tục sửa?"))) return;
+        if (!okSelf && !window.confirm("Phiếu này không có điểm chi tiết từng tiêu chí (hoặc số tiêu chí không khớp mẫu hiện tại). Bảng sẽ hiện điểm tối đa ở mọi mục; nếu lưu, điểm cũ sẽ bị thay thế. Tiếp tục sửa?")) return;
       }
 
       $("fullName").value = fullName;
@@ -1688,13 +1594,8 @@
       $("display-cell").textContent = formatPartyCellDisplay(partyCellCore);
       $("display-role-label").textContent = config.label;
 
-      // Giữ nguyên điểm đã chấm khi người dùng chỉ "quay lại trang chủ rồi tiếp tục" (cùng một biểu mẫu)
-      const rebuilt = isAdminEdit || renderedRole !== state.role || $("criteria-tbody").rows.length === 0;
-      if (rebuilt) {
-        state.unitManual = false;
-        renderCriteriaTable(config.items);
-        renderedRole = state.role;
-      }
+      state.unitManual = false;
+      renderCriteriaTable(config.items);
 
       if (isAdminEdit) {
         const selfInputs = document.querySelectorAll(".score-input");
@@ -1713,18 +1614,6 @@
       updateAdminEditingUI();
       show("scoring");
       recalculate();
-      if (rebuilt) state.dirty = false;
-    }
-
-    // Sau khi Admin sửa phiếu của người khác: xóa trắng biểu mẫu để không tồn dư tên/điểm của người đó
-    function resetForm() {
-      ["fullName", "partyCell", "positionDetail", "innovationNote"].forEach(function (id) { $(id).value = ""; });
-      $("overachieveCheck").checked = false;
-      $("unitOverachieveCheck").checked = false;
-      selectRole("member");
-      updateBannerOrgName("");
-      renderedRole = null;
-      state.unitManual = false;
       state.dirty = false;
     }
 
@@ -1813,8 +1702,8 @@
       const nowIso = new Date().toISOString();
       const s = computeTotals(".score-input");
       const u = computeTotals(".unit-score-input");
-      const selfRank = getRank(s.total, $("overachieveCheck").checked);
-      const unitRank = getRank(u.total, $("unitOverachieveCheck").checked);
+      const selfRank = getRank(s.total, true);
+      const unitRank = getRank(u.total, true);
       const positionDetail = formatProperNounsInText($("positionDetail").value);
 
       return {
@@ -1828,8 +1717,8 @@
         rankKey: selfRank.key, rank: RANKS[selfRank.key].text,
         unitRankKey: unitRank.key, unitRank: RANKS[unitRank.key].text,
         innovation: formatProperNounsInText($("innovationNote").value),
-        overachieve: $("overachieveCheck").checked,
-        unitOverachieve: $("unitOverachieveCheck").checked,
+        overachieve: s.total >= RANK_RULES.excellent,
+        unitOverachieve: u.total >= RANK_RULES.excellent,
         selfScores: Array.from(document.querySelectorAll(".score-input")).map(function (i) { const v = parseScore(i.value); return isNaN(v) ? 0 : v; }),
         unitScores: Array.from(document.querySelectorAll(".unit-score-input")).map(function (i) { const v = parseScore(i.value); return isNaN(v) ? 0 : v; }),
         // Admin sửa phiếu: giữ nguyên ngày nộp gốc
@@ -1861,8 +1750,7 @@
       if (state.busy) return;
       if (state.adminEditing) { await saveAdminEdit(); return; }
 
-      if (allScoresAtMax() && !(await askConfirm("Bạn đang chấm ĐIỂM TỐI ĐA ở tất cả các tiêu chí. Bạn đã rà soát kỹ và xác nhận đúng thực tế?", { okText: "Đúng, gửi phiếu" }))) return;
-      if (state.busy) return;
+      if (allScoresAtMax() && !window.confirm("Bạn đang chấm ĐIỂM TỐI ĐA ở tất cả các tiêu chí. Bạn đã rà soát kỹ và xác nhận đúng thực tế?")) return;
 
       const rec = buildCurrentRecord();
       const my = getMy();
@@ -1891,25 +1779,24 @@
       }
 
       state.busy = true;
-      state.submittingId = rec.id;
       btns.forEach(function (b) { b.disabled = true; });
       setSentBanner("info", "⏳ Đang gửi phiếu lên hệ thống Google Sheets của Chi bộ...");
       try {
         const res = await api("submit", { record: rec, ownerToken: entry.ownerToken });
-        updateMyById(rec.id, function (e) {
-          if (e.record.submittedAt === rec.submittedAt) { e.sync = "synced"; e.record.receivedAt = res.receivedAt || ""; }
-        });
+        entry.sync = "synced";
+        entry.record.receivedAt = res.receivedAt || "";
+        saveMy(my);
         state.dirty = false;
         let extra = "";
         if (Number(res.total) !== Number(rec.total) || Number(res.unitTotal) !== Number(rec.unitTotal)) {
           extra = " <br><em>Lưu ý: máy chủ tính lại tổng điểm là " + escapeHtml(res.total) + " / " + escapeHtml(res.unitTotal) + " — vui lòng báo Chi ủy kiểm tra.</em>";
         }
-        setSentBanner("ok", "✅ <strong>Máy chủ đã xác nhận</strong> đã nhận phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + escapeHtml(res.total) + "/100</strong> | CQ, ĐV đề nghị: <strong>" + escapeHtml(res.unitTotal) + "/100</strong>) về <strong>" + cell + "</strong>." + extra);
+        setSentBanner("ok", "✅ <strong>Máy chủ đã xác nhận</strong> đã nhận phiếu của đồng chí <strong>" + name + "</strong> (Tự chấm: <strong>" + res.total + "/100</strong> | CQ, ĐV đề nghị: <strong>" + res.unitTotal + "/100</strong>) về <strong>" + cell + "</strong>." + extra);
       } catch (e) {
+        saveMy(my);
         setSentBanner("warn", "⚠️ <strong>Phiếu CHƯA được gửi lên hệ thống</strong> (" + escapeHtml(friendlyError(e)) + "). Phiếu đã được giữ trên thiết bị này; hãy kiểm tra mạng rồi bấm <strong>Gửi lại</strong>. Bạn cũng nên bấm <strong>Lưu PDF / In phiếu</strong> để có bản dự phòng.");
       } finally {
         state.busy = false;
-        state.submittingId = null;
         btns.forEach(function (b) { b.disabled = false; });
         updateHomePending();
       }
@@ -1922,7 +1809,7 @@
       const rec = buildCurrentRecord();
       const base = state.adminEditing;
       state.busy = true;
-      const btns = [$("btn-admin-save-return"), $("btn-admin-save-sticky"), $("btn-submit-top"), $("btn-submit-bottom")];
+      const btns = [$("btn-admin-save-return"), $("btn-admin-save-sticky"), $("btn-admin-save-bottom"), $("btn-submit-top"), $("btn-submit-bottom")];
       btns.forEach(function (b) { b.disabled = true; });
       try {
         if (hasCloud()) {
@@ -1934,7 +1821,6 @@
         }
         state.dirty = false;
         state.adminEditing = null;
-        resetForm();
         updateAdminEditingUI();
         await openAdminDashboard();
       } catch (e) {
@@ -1948,10 +1834,9 @@
     }
 
     async function leaveAdminEdit() {
-      if (state.dirty && !(await askConfirm("Bạn có thay đổi CHƯA LƯU. Thoát về bảng tổng hợp và bỏ các thay đổi này?", { danger: true, okText: "Bỏ thay đổi" }))) return;
+      if (state.dirty && !window.confirm("Bạn có thay đổi CHƯA LƯU. Thoát về bảng tổng hợp và bỏ các thay đổi này?")) return;
       state.dirty = false;
       state.adminEditing = null;
-      resetForm();
       updateAdminEditingUI();
       await openAdminDashboard();
     }
@@ -2109,16 +1994,16 @@
     }
 
     function openMemberPageForAdminEdit(id) {
-      if (state.adminStale) { askAlert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi sửa."); return; }
+      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi sửa."); return; }
       const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
       if (rec) openScoring(rec);
     }
 
     async function deleteSubmissionRecord(id) {
-      if (state.adminStale) { await askAlert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi xóa."); return; }
+      if (state.adminStale) { window.alert("Đang hiện dữ liệu lưu tạm có thể đã cũ. Hãy bấm 'Tải mới' thành công trước khi xóa."); return; }
       const rec = state.adminRecords.find(function (r) { return r.id === String(id); });
       const nameLabel = rec ? rec.fullName : "đảng viên này";
-      if (!(await askConfirm("Xác nhận XÓA VĨNH VIỄN phiếu đánh giá của đồng chí " + nameLabel + "?", { danger: true, okText: "Xóa vĩnh viễn" }))) return;
+      if (!window.confirm("Xác nhận XÓA VĨNH VIỄN phiếu đánh giá của đồng chí " + nameLabel + "?")) return;
 
       setBox("admin-msg-box", "");
       try {
@@ -2144,22 +2029,29 @@
       const filtered = getFilteredAdminRecords();
       const dateStr = formatDocDate(new Date());
 
-      $("adm-pdf-cell-heading").textContent = filterVal === "ALL" ? "BAN THƯỜNG VỤ ĐẢNG ỦY XÃ" : formatPartyCellHeading(filterVal);
+      const cellSet = Array.from(new Set(filtered.map(function (r) { return r.partyCell; }).filter(Boolean)));
+      const headCell = filterVal !== "ALL" ? filterVal : (cellSet.length === 1 ? cellSet[0] : "");
+      const headCore = formatPartyCellCore(headCell);
+      $("adm-pdf-cell-heading").textContent = "CHI BỘ " + (headCore ? headCore.toLocaleUpperCase("vi") : "................");
       $("adm-pdf-date-top").textContent = dateStr;
       $("adm-pdf-date-sig").textContent = dateStr;
       $("adm-pdf-subtitle").textContent = filterVal === "ALL"
-        ? "Tổng hợp toàn Đảng bộ xã Đạ Huoai (Theo Quy định số 366-QĐ/TW)"
+        ? "Tổng hợp toàn chi bộ (Theo Quy định số 366-QĐ/TW)"
         : "Đơn vị: " + filterVal + " (Theo Quy định số 366-QĐ/TW)";
 
       const basis = $("adm-stat-basis").value;
       const c = countRanks(filtered, basis);
+      const pct = function (n) {
+        if (!filtered.length) return "";
+        return " (" + (Math.round(n * 1000 / filtered.length) / 10).toString().replace(".", ",") + "%)";
+      };
       $("adm-pdf-stats-line").innerHTML =
         "<strong>Tổng số đảng viên:</strong> " + filtered.length + " đồng chí &nbsp;|&nbsp; " +
         "<em>(Thống kê theo " + (basis === "unit" ? "xếp loại CQ, ĐV đề nghị" : "xếp loại tự chấm") + ")</em> &nbsp;|&nbsp; " +
-        "<strong>Hoàn thành xuất sắc:</strong> " + c.XS + " &nbsp;|&nbsp; " +
-        "<strong>Hoàn thành tốt:</strong> " + c.T + " &nbsp;|&nbsp; " +
-        "<strong>Hoàn thành nhiệm vụ:</strong> " + c.HT + " &nbsp;|&nbsp; " +
-        "<strong>Không hoàn thành:</strong> " + c.KHT;
+        "<strong>Hoàn thành xuất sắc:</strong> " + c.XS + pct(c.XS) + " &nbsp;|&nbsp; " +
+        "<strong>Hoàn thành tốt:</strong> " + c.T + pct(c.T) + " &nbsp;|&nbsp; " +
+        "<strong>Hoàn thành nhiệm vụ:</strong> " + c.HT + pct(c.HT) + " &nbsp;|&nbsp; " +
+        "<strong>Không hoàn thành:</strong> " + c.KHT + pct(c.KHT);
 
       const tbody = $("adm-pdf-tbody");
       tbody.innerHTML = "";
@@ -2251,6 +2143,7 @@
 
       $("btn-start-scoring").addEventListener("click", function () { openScoring(null); });
       $("btn-back-home").addEventListener("click", backToHome);
+      $("btn-back-home-bottom").addEventListener("click", backToHome);
       $("btn-sync-unit-scores").addEventListener("click", syncUnitScoresFromSelf);
       $("overachieveCheck").addEventListener("change", function () { state.dirty = true; recalculate(); });
       $("unitOverachieveCheck").addEventListener("change", function () { state.dirty = true; recalculate(); });
@@ -2259,13 +2152,21 @@
         this.disabled = true;
         const n = await flushPending();
         this.disabled = false;
-        if (n === 0) showHomeError("Chưa gửi được" + (lastFlushError ? " (" + friendlyError(lastFlushError) + ")" : "") + ". Hãy kiểm tra kết nối mạng rồi thử lại."); else showHomeError("");
+        if (n === 0) showHomeError("Chưa gửi được. Hãy kiểm tra kết nối mạng rồi thử lại."); else showHomeError("");
       });
 
       $("btn-admin-login").addEventListener("click", verifyAndOpenAdmin);
       $("admin-pas-input").addEventListener("keydown", function (e) { if (e.key === "Enter") verifyAndOpenAdmin(); });
+      $("btn-pw-toggle").addEventListener("click", function () { setPwVisible($("admin-pas-input").type === "password"); $("admin-pas-input").focus(); });
       $("btn-admin-logout").addEventListener("click", function () { logoutAdmin(); backToHome(); });
       $("btn-admin-exit").addEventListener("click", backToHome);
+      $("btn-admin-exit-bottom").addEventListener("click", backToHome);
+      $("btn-admin-logout-bottom").addEventListener("click", function () { logoutAdmin(); backToHome(); });
+      $("btn-adm-refresh-bottom").addEventListener("click", loadAdminData);
+      $("btn-close-adm-preview-bottom").addEventListener("click", closeAdminLandscapePreview);
+      $("btn-print-adm-a4-bottom").addEventListener("click", function () { setPrintPageOrientation("landscape"); window.print(); });
+      $("btn-admin-cancel-bottom").addEventListener("click", leaveAdminEdit);
+      $("btn-admin-save-bottom").addEventListener("click", saveAdminEdit);
       $("adm-cell-filter").addEventListener("change", renderAdminTable);
       $("adm-stat-basis").addEventListener("change", renderAdminTable);
       $("btn-adm-refresh").addEventListener("click", loadAdminData);
@@ -2294,21 +2195,6 @@
       });
       window.addEventListener("online", function () { flushPending(); });
       window.addEventListener("orientationchange", function () { setTimeout(function () { if (window.scrollX !== 0) window.scrollTo(0, window.scrollY); }, 120); });
-
-      // Trình duyệt nhúng trong ứng dụng (Zalo, Facebook...): cảnh báo vì In/PDF/Excel thường không chạy
-      if (/Zalo|FBAN|FBAV|FB_IAB|Instagram|MicroMessenger|; wv\)|Line\//i.test(navigator.userAgent || "")) $("inapp-notice").style.display = "block";
-
-      // Điện thoại/máy tính bảng: ẩn thanh điểm cố định khi bàn phím ảo mở
-      const typingSel = "input[type=text],input[type=password],textarea,select";
-      if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) {
-        document.addEventListener("focusin", function (e) { if (e.target && e.target.matches && e.target.matches(typingSel)) document.body.classList.add("kb-open"); });
-        document.addEventListener("focusout", function () {
-          setTimeout(function () { const a = document.activeElement; if (!(a && a.matches && a.matches(typingSel))) document.body.classList.remove("kb-open"); }, 80);
-        });
-      }
-
-      // Tải lại trang khi lịch sử còn "chốt" cũ: bỏ dấu để Back hoạt động bình thường
-      try { if (history.state && history.state.pqcGuard) history.replaceState(null, ""); } catch (e) {}
 
       if (hasCloud()) flushPending();
     });
